@@ -54,10 +54,10 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
 | `Game Boy Color` |  Reflective | 🕙 WIP | ? | |
-| `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `Game Boy Advance` |  Reflective | 🕙 WIP | ? | | 
 | `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕙 WIP | ? | |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? | - unknown manufacturer |
+| `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Phat` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Lite` |  Emissive | 🟡 | (2) Hitachi, Sharp | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
