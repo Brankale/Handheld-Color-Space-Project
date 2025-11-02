@@ -439,27 +439,122 @@ $`
 > Using only the greyscale gamma curve is not enough to get accurate results. To make things clear, think the greyscale gamma as the mean between the red gamma (γR), the green gamma (γG) and the blue gamma (γB) (this is an oversemplification, this is not actually a mean). You can have a greyscale gamma of 2.2 which seems great but this can be the results of both (γR = 2.2, γG = 2.2, γB = 2.2) and (γR = 2.9, γG = 2.2, γB = 1.5) which leads to completely different colors.
 
 In emissive displays you can sum XYZ coordinates of the primaries.
-e.g.  X_{red} + X_{green} + X_{blue} = X_{white} \\
+
+e.g.
+$`
+\begin{equation}
+    \begin{bmatrix}
+      X_{red} \\
+      Y_{red} \\
+      Z_{red} \\
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      X_{green} \\
+      Y_{green} \\
+      Z_{green} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      X_{yellow} \\
+      Y_{yellow} \\
+      Z_{yellow} \\
+    \end{bmatrix}
+\end{equation}
+`$
+
+e.g.
+$`
+\begin{equation}
+    \begin{bmatrix}
+      X_{red} \\
+      Y_{red} \\
+      Z_{red} \\
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      X_{green} \\
+      Y_{green} \\
+      Z_{green} \\
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+      X_{blue} \\
+      Y_{blue} \\
+      Z_{blue} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      X_{white} \\
+      Y_{white} \\
+      Z_{white} \\
+    \end{bmatrix}
+\end{equation}
+`$
 
 XYZ coordinates of the primaries, XYZ coordinates of a grey color at position x in [0.0, 1.0] where 0.0 is black and 1.0 is white:
 
-Solve the system of three equations:
+Solve the system of three equations to find the scaling factors ($S_{r}$, $S_{g}$, $S_{b}$):
 
 $`
 \begin{equation}
     \begin{cases}
-      a \cdot X_{r} + b \cdot X_{g} + c \cdot X_{b} = X_{greyscale}(x) \\
-      a \cdot Y_{r} + b \cdot Y_{g} + c \cdot Y_{b} = Y_{greyscale}(x) \\
-      a \cdot Z_{r} + b \cdot Z_{g} + c \cdot Z_{b} = Z_{greyscale}(x) \\
+      S_{r} X_{r} + S_{g} X_{g} + S_{b} X_{b} = X_{grey}(x) \\
+      S_{r} Y_{r} + S_{g} Y_{g} + S_{b} Y_{b} = Y_{grey}(x) \\
+      S_{r} Z_{r} + S_{g} Z_{g} + S_{b} Z_{b} = Z_{grey}(x) \\
     \end{cases}
+\end{equation}
+`$
+
+We can rewrite the system of equations using matrices:
+
+$`
+\begin{equation}
+    \begin{bmatrix}
+      X_{r} & X_{g} & X_{b} \\
+      Y_{r} & Y_{g} & Y_{b} \\
+      Z_{r} & Z_{g} & Z_{b} \\
+    \end{bmatrix}
+    \begin{bmatrix}
+      S_{r} \\
+      S_{g} \\
+      S_{b} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        X_{grey}(x) \\
+        Y_{grey}(x) \\
+        Z_{grey}(x) \\
+    \end{bmatrix}
+\end{equation}
+`$
+
+$`
+\begin{equation}
+    \begin{bmatrix}
+      S_{r} \\
+      S_{g} \\
+      S_{b} \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      X_{r} & X_{g} & X_{b} \\
+      Y_{r} & Y_{g} & Y_{b} \\
+      Z_{r} & Z_{g} & Z_{b} \\
+    \end{bmatrix}^{-1}
+    \begin{bmatrix}
+        X_{grey}(x) \\
+        Y_{grey}(x) \\
+        Z_{grey}(x) \\
+    \end{bmatrix}
 \end{equation}
 `$
 
 $`
 \begin{align}
-    & \gamma_{r} = \log_{x}(a) &
-    & \gamma_{g} = \log_{x}(b) &
-    & \gamma_{b} = \log_{x}(c) &
+    & \gamma_{r}(x) = \log_{x}(S_{r}) &
+    & \gamma_{g}(x) = \log_{x}(S_{g}) &
+    & \gamma_{b}(x) = \log_{x}(S_{b}) &
 \end{align}
 `$
 
