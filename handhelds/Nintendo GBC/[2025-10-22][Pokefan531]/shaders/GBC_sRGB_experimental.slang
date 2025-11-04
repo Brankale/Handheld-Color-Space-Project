@@ -13,7 +13,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
 };
 
 //#pragma parameter BitDepth "Screen bit depth" 5.0 1.0 12.0 1.0
-#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
+#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = ON)" 0.0 0.0 1.0 1.0
 #pragma parameter ImproveContrast "Improve Contrast (1 = ON, 0 = OFF)" 1.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
@@ -80,8 +80,8 @@ vec3 handheld_eotf(vec3 color)
 
    // gamma fitting for x in [0.05, 0.8]
    float gr = 0.75 * pow(color.x, -0.36);                            // R^2 = 0.886
-   float gg = 1.03 * (color.x * color.x) - 1.78 * color.x + 1.25;    // R^2 = 0.967
-   float gb = 0.87 * pow(color.x, -0.31);                            // R^2 = 0.883
+   float gg = 1.03 * (color.y * color.y) - 1.78 * color.y + 1.25;    // R^2 = 0.967
+   float gb = 0.87 * pow(color.z, -0.31);                            // R^2 = 0.883
 
    return pow(color, vec3(gr, gg, gb));
 }
