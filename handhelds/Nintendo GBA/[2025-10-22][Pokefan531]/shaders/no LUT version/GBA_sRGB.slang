@@ -74,9 +74,15 @@ float get_handheld_gamma_for_color(float normalized_color, float gamma[GAMMA_SAM
 
 vec3 handheld_eotf(vec3 color)
 {
-   float gr = get_handheld_gamma_for_color(color.x, GAMMA_RED);
-   float gg = get_handheld_gamma_for_color(color.y, GAMMA_GREEN);
-   float gb = get_handheld_gamma_for_color(color.z, GAMMA_BLUE);
+   //float gr = get_handheld_gamma_for_color(color.x, GAMMA_RED);
+   //float gg = get_handheld_gamma_for_color(color.y, GAMMA_GREEN);
+   //float gb = get_handheld_gamma_for_color(color.z, GAMMA_BLUE);
+
+   // gamma fitting for x in [0.05, 0.8]
+   float gr = 7.5825 * (color.x * color.x * color.x) - 8.1241 * (color.x * color.x) + 4.7556 * color.x + 1.5203;        // R² = 0.9913
+   float gg = 0.7103 * (color.y * color.y * color.y) + 4.1803 * (color.y * color.y) - 1.9739 * color.y + 2.5991;        // R² = 0.9666
+   float gb = 13.8330 *(color.z * color.z * color.z) - 19.3738 * (color.z * color.z) + 10.1671 * color.z + 0.9957;      // R² = 0.9712
+
    return pow(color, vec3(gr, gg, gb));
 }
 
