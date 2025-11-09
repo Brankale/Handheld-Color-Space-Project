@@ -48,7 +48,7 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 > [!NOTE]
 > The table is not exhaustive.
 
-| Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
+| Nintendo Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
@@ -59,7 +59,7 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Phat` |  Emissive | 🔵 | ? | - unknown manufacturer |
-| `NDS Lite` |  Emissive | 🟡 | (2) Hitachi, Sharp | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
+| `NDS Lite` |  Emissive | 🟡 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
 | `3DS` |  Emissive | 🔵 | ? | - unknown manufacturer |
@@ -75,11 +75,19 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 | `Switch OLED` |  Emissive | 🔴 <br>[info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) | ? | |
 | `Switch 2` |  Emissive | 🔴 | ? | |
 
+| Sony Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
+| ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
+| `PSP-1000 (Phat)` |  Emissive | 🟡 | ? | - missing manufacturer<br>- missing exact model number |
+| `PSP-2000 (Slim)` | ? | 🔴 | ? | |
+| `PSP-3000 (Brite)` | ? | 🔴 | ? | |
+| `PSP-N1000 (Go)` | ? | 🔴 | ? | |
+| `PSP-E1000 (Street)` | ? | 🔴 | ? | |
+
 Legend:
 - 🔴: No data available or not yet analyzed
 - 🟡: Partial data available; some information missing  
 - 🔵: Data available
-- 🟢: Data available and verified by two or more screen reports
+- 🟢: Data available and verified by two or more screen reports from different consoles
 
 # Do the measurements
 
@@ -614,7 +622,7 @@ Enable this option to highlight in red the colors that cannot be represented in 
 
 # External links
 1. https://www.audioholics.com/news/nintendo-ds-price-fixing
-2. https://www.wired.com/2008/02/sharp-hitachi-s
+2. -
 3. https://www.youtube.com/@hdtvtest channel
 4. CIELUV: https://en.wikipedia.org/wiki/CIELUV
 5. LMS colorspace and chromatic adaptation matrices (i.e. Bradford, CIECAT02, CIECAT16):
