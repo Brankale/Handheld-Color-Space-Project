@@ -4,6 +4,12 @@
 > [!WARNING]
 > I'm not a color scientist or expert. This guide may contain inaccuracies or misleading information. Please take it with a grain of salt. If you notice any issues, feel free to open an issue.
 
+# Handheld Color Space Project
+
+This project collects handheld screen measurements to accurately reproduce their colors on modern displays.
+
+Each measurement is accompanied by a **RetroArch shader** based on colorimetry theory and high-precision floating-point math to ensure maximum accuracy.
+
 # Index
 
 - [Displays types](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#displays-types)
