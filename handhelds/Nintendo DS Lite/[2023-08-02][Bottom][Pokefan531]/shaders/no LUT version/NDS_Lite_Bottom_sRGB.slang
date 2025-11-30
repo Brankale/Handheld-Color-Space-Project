@@ -10,7 +10,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
    float BlueScale;
 };
 
-#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
+#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = D65)" 0.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
