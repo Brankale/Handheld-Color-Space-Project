@@ -3,16 +3,16 @@
 layout(set = 0, binding = 0, std140) uniform UBO
 {
    mat4 MVP;
-   //float BitDepth;
    float ChromaticAdaptation;
+   float ImproveContrast;
    float DebugOutOfGamut;
    float RedScale;
    float GreenScale;
    float BlueScale;
 };
 
-//#pragma parameter BitDepth "Screen bit depth" 5.0 1.0 12.0 1.0
-#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
+#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = D65)" 0.0 0.0 1.0 1.0
+#pragma parameter ImproveContrast "Remove backlight distortion (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
@@ -37,45 +37,59 @@ layout(binding = 1) uniform sampler2D Source;
 
 const int GAMMA_SAMPLES = 11;
 
-const float GAMMA_RED[GAMMA_SAMPLES] = float[](
-   1.722, 1.721, 1.764, 1.791, 1.854, 1.857, 1.869, 1.918, 1.954, 2.065, 2.113
+const float GAMMA_R[GAMMA_SAMPLES] = float[](
+   1.748,
+   1.748, 1.762, 1.775, 1.826, 1.817, 1.843, 1.881, 1.905, 1.999,
+   1.999
 );
 
-const float GAMMA_GREEN[GAMMA_SAMPLES] = float[](
-   1.709, 1.635, 1.645, 1.648, 1.666, 1.661, 1.630, 1.626, 1.605, 1.604, 1.568
+const float GAMMA_G[GAMMA_SAMPLES] = float[](
+   1.651,
+   1.651, 1.653, 1.657, 1.674, 1.673, 1.666, 1.667, 1.653, 1.662,
+   1.662
 );
 
-const float GAMMA_BLUE[GAMMA_SAMPLES]  = float[](
-   1.491, 1.508, 1.421, 1.329, 1.243, 1.111, 0.946, 0.758, 0.490, 0.099, -0.258
+const float GAMMA_B[GAMMA_SAMPLES]  = float[](
+   1.520,
+   1.520, 1.424, 1.329, 1.242, 1.109, 0.957, 0.768, 0.499, 0.108,
+   0.108
 );
-
-float get_handheld_gamma_for_color(float normalized_color, float gamma[GAMMA_SAMPLES])
-{
-   float denormalized_color = normalized_color * float(GAMMA_SAMPLES - 1);
-   int idx_low = int(floor(denormalized_color));
-   int idx_high = int(ceil(denormalized_color));
-   float weight = fract(denormalized_color);
-   return mix(gamma[idx_low], gamma[idx_high], weight);
-}
 
 vec3 handheld_eotf(vec3 color)
 {
-   float gr = get_handheld_gamma_for_color(color.x, GAMMA_RED);
-   float gg = get_handheld_gamma_for_color(color.y, GAMMA_GREEN);
-   float gb = get_handheld_gamma_for_color(color.z, GAMMA_BLUE);
+   vec3 denormalized_color = color * float(GAMMA_SAMPLES - 1);
+   ivec3 idx_low = ivec3(floor(denormalized_color));
+   ivec3 idx_high = ivec3(ceil(denormalized_color));
+   vec3 weight = fract(denormalized_color);
+
+   float gr = mix(GAMMA_R[idx_low.x], GAMMA_R[idx_high.x], weight.x);
+   float gg = mix(GAMMA_G[idx_low.y], GAMMA_G[idx_high.y], weight.y);
+   float gb = mix(GAMMA_B[idx_low.z], GAMMA_B[idx_high.z], weight.z);
+
    return pow(color, vec3(gr, gg, gb));
 }
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
-   0.40936621, 0.33046670, 0.27832250,
-   0.24147141, 0.62689214, 0.13163645,
-   0.04989195, 0.06797996, 1.49505474
+   0.410403863969, 0.329996762156, 0.277848049237,
+   0.24169937625, 0.627352282939, 0.130948340811,
+   0.0484878290334, 0.0664880325272, 1.49818201669
 );
 
 const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB = mat3(
-    1.02445216,  0.00262204, -0.05903407,
-   -0.00269891,  1.03191584, -0.01808385,
-   -0.01365292,  0.02412309,  0.66886827
+    1.02441287034, 0.00259371113528, -0.0590424741502,
+   -0.00274352020898, 1.03196605319, -0.0180840745735,
+   -0.0136581433726, 0.0241340772987, 0.668769668737
+);
+
+
+const float WHITE_Y = 80.222755;
+const vec3 BLACK_XYZ = vec3(0.103295, 0.091021, 0.139281);
+const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
+
+const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
+    1.02313053552, 0.00252469090377, -0.0589461018234,
+   -0.00283886813921, 1.03087102985, -0.0180492454857,
+   -0.0136432455608, 0.024111742481, 0.668048223908
 );
 
 
@@ -115,8 +129,6 @@ vec3 compute_out_of_gamut(vec3 color)
 
 // end (Pre-Processing & Post-Processing)
 
-const int BIT_DEPTH = 5;
-
 void main()
 {
    vec4 handheld_rgba = texture(Source, vTexCoord);
@@ -131,34 +143,27 @@ void main()
       );
    }
 
-   // pre processing: quantization (very imprecise DON'T USE IT)
-   //handheld_rgba = floor(handheld_rgba * float(1 << BIT_DEPTH)) / float(1 << BIT_DEPTH);
-
    // 1. handheld colorspace EOTF
    vec3 handheld_linearized_rgb = handheld_eotf(handheld_rgba.rgb);
 
    // 2. handheld linearized RGB -> handheld XYZ
-   vec3 handheld_xyz = vec3(
-      (HANDHELD_RGB_LIN_TO_XYZ[0][0] * handheld_linearized_rgb.r) + (HANDHELD_RGB_LIN_TO_XYZ[0][1] * handheld_linearized_rgb.g) + (HANDHELD_RGB_LIN_TO_XYZ[0][2] * handheld_linearized_rgb.b),
-      (HANDHELD_RGB_LIN_TO_XYZ[1][0] * handheld_linearized_rgb.r) + (HANDHELD_RGB_LIN_TO_XYZ[1][1] * handheld_linearized_rgb.g) + (HANDHELD_RGB_LIN_TO_XYZ[1][2] * handheld_linearized_rgb.b),
-      (HANDHELD_RGB_LIN_TO_XYZ[2][0] * handheld_linearized_rgb.r) + (HANDHELD_RGB_LIN_TO_XYZ[2][1] * handheld_linearized_rgb.g) + (HANDHELD_RGB_LIN_TO_XYZ[2][2] * handheld_linearized_rgb.b)
-   );
+   vec3 handheld_xyz = transpose(HANDHELD_RGB_LIN_TO_XYZ) * handheld_linearized_rgb;
+
+   if (ImproveContrast == 0.0)
+      handheld_xyz += BLACK_XYZ_NORMALIZED;
 
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
    vec3 target_xyz = handheld_xyz;
    if (ChromaticAdaptation == 1.0)
-      target_xyz = vec3(
-         (CAT_BRADFORD_HANDHELD_TO_SRGB[0][0] * handheld_xyz.r) + (CAT_BRADFORD_HANDHELD_TO_SRGB[0][1] * handheld_xyz.g) + (CAT_BRADFORD_HANDHELD_TO_SRGB[0][2] * handheld_xyz.b),
-         (CAT_BRADFORD_HANDHELD_TO_SRGB[1][0] * handheld_xyz.r) + (CAT_BRADFORD_HANDHELD_TO_SRGB[1][1] * handheld_xyz.g) + (CAT_BRADFORD_HANDHELD_TO_SRGB[1][2] * handheld_xyz.b),
-         (CAT_BRADFORD_HANDHELD_TO_SRGB[2][0] * handheld_xyz.r) + (CAT_BRADFORD_HANDHELD_TO_SRGB[2][1] * handheld_xyz.g) + (CAT_BRADFORD_HANDHELD_TO_SRGB[2][2] * handheld_xyz.b)
-      ); 
+      if (ImproveContrast == 0.0) {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK) * handheld_xyz;
+      } else {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB) * handheld_xyz;
+      }
+      
 
    // 4. target XYZ -> target linearized RGB
-   vec3 target_linearized_rgb = vec3(
-      (SRGB_XYZ_TO_RGB_LIN_MTX[0][0] * target_xyz.r) + (SRGB_XYZ_TO_RGB_LIN_MTX[0][1] * target_xyz.g) + (SRGB_XYZ_TO_RGB_LIN_MTX[0][2] * target_xyz.b),
-      (SRGB_XYZ_TO_RGB_LIN_MTX[1][0] * target_xyz.r) + (SRGB_XYZ_TO_RGB_LIN_MTX[1][1] * target_xyz.g) + (SRGB_XYZ_TO_RGB_LIN_MTX[1][2] * target_xyz.b),
-      (SRGB_XYZ_TO_RGB_LIN_MTX[2][0] * target_xyz.r) + (SRGB_XYZ_TO_RGB_LIN_MTX[2][1] * target_xyz.g) + (SRGB_XYZ_TO_RGB_LIN_MTX[2][2] * target_xyz.b)
-   );   
+   vec3 target_linearized_rgb = transpose(SRGB_XYZ_TO_RGB_LIN_MTX) * target_xyz;
 
    // 5. target colorspace OETF
    vec3 target_rgb = srgb_oetf(target_linearized_rgb);
