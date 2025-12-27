@@ -6,9 +6,21 @@
 
 # Handheld Color Space Project
 
-This project collects handheld screen measurements to accurately reproduce their colors on modern displays.
+This project aims to collect handheld screen measurements to accurately reproduce their colors on modern displays.
 
-Each measurement is accompanied by a **RetroArch shader** based on colorimetry theory and high-precision floating-point math to ensure maximum accuracy.
+Each measurement is accompanied by a **RetroArch shader**, carefully constructed using colorimetry theory, high-precision mathematical calculations, and rigorous validation processes to ensure the highest accuracy.
+
+# Showcase
+
+| Preview  | Preview | Preview |
+| :-------------: | :-------------: | :-------------: |
+|  <br>`GBA no shader`<br><img width="352" height="300" alt="raw" src="https://github.com/user-attachments/assets/66f2a88a-c17d-41d7-ac27-20a93116e2ab" /> |  <br>`GBA` (WIP)<br><img width="352" height="300" alt="gba" src="https://github.com/user-attachments/assets/655e5971-c81c-485d-b573-ba82eb75af8e" /> |  <br>`GBA SP AGS-001` (WIP)<br><img width="352" height="300" alt="gba_sp_ags001" src="https://github.com/user-attachments/assets/558aaee1-58d4-4cb4-882b-cc775cd24294" /> |  |
+|  <br>`GBA SP AGS-101`<br><img width="352" height="300" alt="gba_sp_ags101" src="https://github.com/user-attachments/assets/00e9f902-a233-49b4-a86f-e9be5884bf22" /> |  <br>`GB Micro`<br><img width="352" height="300" alt="gb_micro" src="https://github.com/user-attachments/assets/eaa651cc-6994-4c78-ad3c-5c71d9a24e81" /> |  |
+
+
+
+
+
 
 # Index
 
@@ -59,9 +71,9 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🔵 (⚠️ WIP) | ? | |
-| `Game Boy Advance` |  Reflective | 🔵 (⚠️ WIP) | ? | | 
-| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔵 (⚠️ WIP) | ? | |
+| `Game Boy Color` |  Reflective | 🕐 WIP | ? | |
+| `Game Boy Advance` |  Reflective | 🕐 WIP | ? | | 
+| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕐 WIP | ? | |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Phat` |  Emissive | 🔵 | ? | - unknown manufacturer |
