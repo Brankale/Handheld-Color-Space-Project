@@ -17,54 +17,7 @@ Each measurement is accompanied by a **RetroArch shader**, carefully constructed
 |  <br>`GBA no shader`<br><img width="352" height="300" alt="raw" src="https://github.com/user-attachments/assets/66f2a88a-c17d-41d7-ac27-20a93116e2ab" /> |  <br>`GBA` (WIP - not definitive)<br><img width="352" height="300" alt="gba" src="https://github.com/user-attachments/assets/655e5971-c81c-485d-b573-ba82eb75af8e" /> |  <br>`GBA SP AGS-001` (WIP - not definitive)<br><img width="352" height="300" alt="gba_sp_ags001" src="https://github.com/user-attachments/assets/558aaee1-58d4-4cb4-882b-cc775cd24294" /> |  |
 |  <br>`GBA SP AGS-101`<br><img width="352" height="300" alt="gba_sp_ags101" src="https://github.com/user-attachments/assets/00e9f902-a233-49b4-a86f-e9be5884bf22" /> |  <br>`GB Micro`<br><img width="352" height="300" alt="gb_micro" src="https://github.com/user-attachments/assets/eaa651cc-6994-4c78-ad3c-5c71d9a24e81" /> |  |
 
-
-
-
-
-
-# Index
-
-- [Displays types](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#displays-types)
-   - [Measurements tools](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#measurements-tools) 
-- [Handhelds status report](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#handhelds-status-report)
-- [Do the measurements](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#do-the-measurements)
-   - [Introduction](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#introduction)
-   - [Measurements guide for emissive displays](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-guide-for-emissive-displays)
-   - [Measurements report (template)](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-report-template)
-   - [Measurements Validation](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-validation)
-- [Retroarch Shaders](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#retroarch-shaders)
-   -  [Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#shader-parameters)
-      - [Chromatic Adaptation](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#chromatic-adaptation)
-   -  [Debug Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#debug-shader-parameters)
-      - [Show out of Gamut colors](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#show-out-of-gamut-colours) 
-- [Colorspace conversion Math](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#colorspace-conversion-math)
-   - [Calculate RGB => CIE XYZ conversion matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-rgb--cie-xyz-conversion-matrix)
-   - [Calculate the Chromatic Adaptation Transform (CAT) Matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-the-chromatic-adaptation-transform-cat-matrix)
-
-# Displays types
-
-- `Emissive`: the display **emits its own light** (no external illumination needed).
-- `Reflective`: the display **does not emit light**; it reflects ambient light. Pixels modulate reflection, rather than emitting light.
-- `Transflective`: **hybrid** of emissive and reflective. A backlight is present, but the display can also use ambient light (via a partially reflective layer).
-
-## Measurements tools
-
-Depending on the display type, you must use the appropriate meter to ensure accurate measurements. Here is a summary table:
-
-| Meter  | Emissive | Reflective | Transflective |
-| ------------- | :-------------: | :-------------: | :-------------: | 
-| Colorimeter        | ✅ good accuracy | ⚠️ not recommended (2) | ❓ |
-| Spectroradiometer  | ✅ highest accuracy | ⚠️ not recommended (2) | ❓ |
-| Spectrophotometer  | ⚠️ not recommended (1) | ✅ | ❓ |
-
-(1) [AI provided info] A spectrophotometer primarily measures reflected light from surfaces. Some models have an “emissive mode,” but they’re generally slower, less sensitive at low light, and not ideal for bright HDR peaks or very dark near-black, common in emissive displays.
-
-(2) [AI provided info]
-
 # Handhelds status report
-
-> [!NOTE]
-> The table is not exhaustive.
 
 | Nintendo Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
@@ -106,6 +59,47 @@ Legend:
 - 🟡: Partial data available; some information missing  
 - 🔵: Data available
 - 🟢: Data available and verified by two or more screen reports from different consoles
+
+
+
+
+# Index
+
+- [Displays types](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#displays-types)
+   - [Measurements tools](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#measurements-tools) 
+- [Do the measurements](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#do-the-measurements)
+   - [Introduction](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#introduction)
+   - [Measurements guide for emissive displays](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-guide-for-emissive-displays)
+   - [Measurements report (template)](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-report-template)
+   - [Measurements Validation](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-validation)
+- [Retroarch Shaders](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#retroarch-shaders)
+   -  [Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#shader-parameters)
+      - [Chromatic Adaptation](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#chromatic-adaptation)
+   -  [Debug Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#debug-shader-parameters)
+      - [Show out of Gamut colors](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#show-out-of-gamut-colours) 
+- [Colorspace conversion Math](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#colorspace-conversion-math)
+   - [Calculate RGB => CIE XYZ conversion matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-rgb--cie-xyz-conversion-matrix)
+   - [Calculate the Chromatic Adaptation Transform (CAT) Matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-the-chromatic-adaptation-transform-cat-matrix)
+
+# Displays types
+
+- `Emissive`: the display **emits its own light** (no external illumination needed).
+- `Reflective`: the display **does not emit light**; it reflects ambient light. Pixels modulate reflection, rather than emitting light.
+- `Transflective`: **hybrid** of emissive and reflective. A backlight is present, but the display can also use ambient light (via a partially reflective layer).
+
+## Measurements tools
+
+Depending on the display type, you must use the appropriate meter to ensure accurate measurements. Here is a summary table:
+
+| Meter  | Emissive | Reflective | Transflective |
+| ------------- | :-------------: | :-------------: | :-------------: | 
+| Colorimeter        | ✅ good accuracy | ⚠️ not recommended (2) | ❓ |
+| Spectroradiometer  | ✅ highest accuracy | ⚠️ not recommended (2) | ❓ |
+| Spectrophotometer  | ⚠️ not recommended (1) | ✅ | ❓ |
+
+(1) [AI provided info] A spectrophotometer primarily measures reflected light from surfaces. Some models have an “emissive mode,” but they’re generally slower, less sensitive at low light, and not ideal for bright HDR peaks or very dark near-black, common in emissive displays.
+
+(2) [AI provided info]
 
 # Do the measurements
 
