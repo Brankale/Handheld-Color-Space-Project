@@ -24,26 +24,26 @@ Each measurement is accompanied by a **RetroArch shader**, carefully constructed
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🕐 WIP | ? | |
-| `Game Boy Advance` |  Reflective | 🕐 WIP | ? | | 
-| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕐 WIP | ? | |
+| `Game Boy Color` |  Reflective | 🔵 / 🕐 WIP | ? | |
+| `Game Boy Advance` |  Reflective | 🔵 / 🕐 WIP | ? | | 
+| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔵 / 🕐 WIP | ? | |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Phat` |  Emissive | 🔵 | ? | - unknown manufacturer |
 | `NDS Lite` |  Emissive | 🟡 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
-| `3DS` |  Emissive | 🔵 | ? | - unknown manufacturer |
+| `3DS` |  Emissive | 🔵 / 🕐 WIP | ? | - unknown manufacturer |
 | `3DS XL` |  Emissive | 🔴 | ? |  |
-| `2DS` |  Emissive | 🔴 | ? |  |
 | `New 3DS` |  Emissive | 🔴 | ? | |
 | `New 3DS XL` |  Emissive | 🟡 <br>[other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) | ? | - only IPS top screen analyzed<br>- screen lottery<br>- unknown manufacturer |
+| `2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS XL` |  Emissive | 🔴 | ? | |
 | `Wii U` |  Emissive | 🔴 | ? | |
-| `Switch` |  Emissive | 🔴 <br>[info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) | ? | |
+| `Switch` |  Emissive | 🔵 / 🕐 WIP <br>[other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) | Innolux | |
 | `Switch Mini` |  Emissive | 🔴 | ? | |
-| `Switch OLED` |  Emissive | 🔴 <br>[info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) | ? | |
+| `Switch OLED` |  Emissive | 🔴 <br>[other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) | ? | |
 | `Switch 2` |  Emissive | 🔴 | ? | |
 
 | Sony Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
