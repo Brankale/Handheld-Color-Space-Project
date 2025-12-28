@@ -6,9 +6,12 @@
 
 # Handheld Color Space Project
 
-This project aims to collect handheld screen measurements to accurately reproduce their colors on modern displays.
+This project aims to **accurately reproduce the original color output of handheld console screens** on modern displays.
 
-Each measurement is accompanied by a **RetroArch shader**, carefully constructed using colorimetry theory, high-precision mathematical calculations, and rigorous validation processes to ensure the highest accuracy.
+All data is **based on instrumented colorimetric measurements of real hardware**. Subjective, visual, or “by eye” adjustments are explicitly excluded.
+
+Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles, high-precision mathematical modeling, and validated against the original hardware to ensure faithful color reproduction as it appeared on the real device.
+
 
 # Showcase
 
@@ -24,41 +27,42 @@ Each measurement is accompanied by a **RetroArch shader**, carefully constructed
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🔵 / 🕐 WIP | ? | |
-| `Game Boy Advance` |  Reflective | 🔵 / 🕐 WIP | ? | | 
-| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔵 / 🕐 WIP | ? | |
-| `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? | - unknown manufacturer |
-| `Game Boy Micro` |  Emissive | 🔵 | ? | - unknown manufacturer |
-| `NDS Phat` |  Emissive | 🔵 | ? | - unknown manufacturer |
-| `NDS Lite` |  Emissive | 🟡 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
+| `Game Boy Color` |  Reflective | 🕐 | ? | |
+| `Game Boy Advance` |  Reflective | 🕐 | ? | | 
+| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕐 | ? | |
+| `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
+| `Game Boy Micro` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
+| `NDS Phat` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
+| `NDS Lite` |  Emissive | 🔵⚠️ | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
-| `3DS` |  Emissive | 🔵 / 🕐 WIP | ? | - unknown manufacturer |
+| `3DS` |  Emissive | 🔵⚠️ / 🕐 | ? | - unknown manufacturer |
 | `3DS XL` |  Emissive | 🔴 | ? |  |
 | `New 3DS` |  Emissive | 🔴 | ? | |
-| `New 3DS XL` |  Emissive | 🟡 <br>[other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) | ? | - only IPS top screen analyzed<br>- screen lottery<br>- unknown manufacturer |
+| `New 3DS XL` |  Emissive | 🔵⚠️ | ? | - only IPS top screen analyzed<br>- screen lottery<br>- unknown manufacturer<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
 | `2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS XL` |  Emissive | 🔴 | ? | |
 | `Wii U` |  Emissive | 🔴 | ? | |
-| `Switch` |  Emissive | 🔵 / 🕐 WIP <br>[other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) | Innolux | |
+| `Switch` |  Emissive | 🕐 | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
 | `Switch Mini` |  Emissive | 🔴 | ? | |
-| `Switch OLED` |  Emissive | 🔴 <br>[other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) | ? | |
+| `Switch OLED` |  Emissive | 🔴 | ? | - [other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) |
 | `Switch 2` |  Emissive | 🔴 | ? | |
 
 | Sony Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
-| `PSP-1000 (Phat)` |  Emissive | 🟡 | ? | - missing manufacturer<br>- missing exact model number |
+| `PSP-1000 (Phat)` |  Emissive | 🔵⚠️ | ? | - missing manufacturer<br>- missing exact model number |
 | `PSP-2000 (Slim)` | ? | 🔴 | ? | |
 | `PSP-3000 (Brite)` | ? | 🔴 | ? | |
 | `PSP-N1000 (Go)` | ? | 🔴 | ? | |
 | `PSP-E1000 (Street)` | ? | 🔴 | ? | |
 
-Legend:
+**Legend**:
 - 🔴: No data available or not yet analyzed
-- 🟡: Partial data available; some information missing  
 - 🔵: Data available
 - 🟢: Data available and verified by two or more screen reports from different consoles
+- ⚠️: Some information is missing (e.g., manufacturer, measurement tools, etc.)
+- 🕐: Measurement data validation in progress
 
 
 
