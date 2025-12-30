@@ -1,6 +1,6 @@
 # Index
 
-- [Displays types](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#displays-types)
+- [Displays types](#displays-types)
    - [Measurements tools](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#measurements-tools) 
 - [Do the measurements](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#do-the-measurements)
    - [Introduction](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#introduction)
