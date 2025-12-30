@@ -1,12 +1,12 @@
 # Index
 
 - [Displays types](#displays-types)
-   - [Measurements tools](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#measurements-tools) 
-- [Do the measurements](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#do-the-measurements)
-   - [Introduction](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#introduction)
-   - [Measurements guide for emissive displays](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-guide-for-emissive-displays)
-   - [Measurements report (template)](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-report-template)
-- [Measurements Validation](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#measurements-validation)
+   - [Measurements tools](#measurements-tools) 
+- [Do the measurements](#do-the-measurements)
+   - [Introduction](#introduction)
+   - [Measurements guide for emissive displays](#measurements-guide-for-emissive-displays)
+   - [Measurements report (template)](#measurements-report-template)
+- [Measurements Validation](#measurements-validation)
 
 
 # Displays types
