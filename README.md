@@ -177,25 +177,7 @@ Greyscale chromaticity coordinates (expressed as CIE xyY coordinates in this exa
 
 ## Measurements report (template)
 
-- `author`: the author name of the measurements.
-- `date`: the date of the measurement. This is important because screen colors degrade over time and with use. Recording the measurement date helps track screen aging and maintain accuracy.
-- `handheld`: the measured handheld.
-- **screen**
-    - `type`: emissive / reflective / transflective
-    - `position`: top / bottom (only if multiple screens are present).
-    - `quantization`: the bit depth per color channel (e.g. NDS Lite has 6 bits per channel = 262.144 colors)
-    - `manufacturer`: the manufacturer name of the measured screen.
-- **meters**
-    - `name`: name of the meter used.
-    - `type`: colorimeter / spectroradiometer / spectrophotometer
-- **measurements**
-   - `software name`: the software name used to make the measurements (e.g., HCFR).
-   - `software version`: the version of the software used to make the measurements.
-   - `screen warm-up`: yes / no
-   - `no external light sources`: yes / no
-   - `charger`: yes / no
-   - `no screen protector / touchscreen`: yes / no
-- `notes`: any relevant info about the screen, the measurements etc.
+You can find the report template in the [REPORT_TEMPLATE.md](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/REPORT_TEMPLATE.md) file
 
 > [!IMPORTANT]
 > Always share your full measurement data in a readable format, along with the raw files (e.g., `.chc` files if you use HCFR). This ensures that others can review and verify your work.
