@@ -84,7 +84,7 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
 > Currently, only the sRGB color space is supported. I haven’t found a way to instruct RetroArch or the operating system (at least on macOS) to interpret the shader’s output framebuffer as a non‑sRGB color space (such as Display P3, Rec. 2020, etc.). Given this limitation, there’s little benefit in supporting other color spaces, since you wouldn’t get the expected colors. If you know of any way (even a partial workaround) to overcome this limitation, I’d appreciate your support.
 
 > [!NOTE]
-> Some consoles has two shader variants: with and without a CLUT (Color Look-Up Table). Currently, both variants are identical, but I plan to improve the CLUT version by computing out-of-gamut colors to match the closest perceptually equivalent color in the target color space, rather than simply hard-clipping the RGB values.
+> Some consoles have two shader variants: one with a **CLUT (Color Look-Up Table)** and one without. The CLUT variant was designed to provide better color accuracy, but this comes at the cost of fewer configuration options compared to the other variant. At the moment, this version is **NOT RECOMMENDED**, as the LUT does not actually improve color accuracy and out-of-gamut colors are simply clipped.
 
 
 ## Shader parameters
