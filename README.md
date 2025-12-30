@@ -28,7 +28,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
 | `Game Boy Color` |  Reflective | 🕐 | ? | |
-| `Game Boy Advance` |  Reflective | 🕐 | ? | | 
+| `Game Boy Advance AGB-001` |  Reflective | 🕐 | ? | | 
 | `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕐 | ? | |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
