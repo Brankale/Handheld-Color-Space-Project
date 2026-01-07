@@ -3,6 +3,84 @@
 - [Colorspace conversion Math](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#colorspace-conversion-math)
    - [Calculate RGB => CIE XYZ conversion matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-rgb--cie-xyz-conversion-matrix)
    - [Calculate the Chromatic Adaptation Transform (CAT) Matrix](https://github.com/Brankale/Handheld-Color-Space-Project/blob/main/README.md#calculate-the-chromatic-adaptation-transform-cat-matrix)
+ 
+
+# Spectral Power Distribution (SPD)
+
+## Definition
+
+A **Spectral Power Distribution (SPD)** describes the amount of optical power present at each wavelength in the visible spectrum (≈ 380–780 nm).
+It is a wavelength-resolved description of light and represents the most complete physical characterization of a color stimulus.
+
+## From SPD to CIE XYZ
+
+Human color perception is commonly modeled using the **CIE 1931 color matching functions** $`\overline{x}(\lambda),\overline{y}(\lambda),\overline{z}(\lambda)`$.
+
+Given an SPD $`S(\lambda)`$, the corresponding **CIE XYZ tristimulus values** are obtained by:
+
+$`X = k \displaystyle\int_{\lambda_{\min}}^{\lambda_{\max}} S(\lambda)\,\overline{x}(\lambda)\,d\lambda`$
+
+$`Y = k \displaystyle\int_{\lambda_{\min}}^{\lambda_{\max}} S(\lambda)\,\overline{y}(\lambda)\,d\lambda`$
+
+$`Z = k \displaystyle\int_{\lambda_{\min}}^{\lambda_{\max}} S(\lambda)\,\overline{z}(\lambda)\,d\lambda`$
+
+where:
+
+- $`S(\lambda)`$ is the spectral power distribution
+- $`k`$ is a normalization constant (often chosen so that $`Y=1`$ or $`Y=100`$)
+
+These XYZ values are the basis for all subsequent colorimetric operations (e.g. chromaticity, RGB conversion, gamut mapping).
+
+## Emissive Displays
+
+Modern displays are emissive: each pixel emits light with its own SPD.
+
+For emissive systems:
+
+- The SPD is fixed by the display hardware
+- The emitted light directly reaches the observer
+- Once the SPD is integrated into XYZ, no further spectral information is required
+
+For this reason, **CIE XYZ coordinates are generally sufficient to model emissive displays** for color reproduction purposes.
+
+## Reflective Displays
+
+Old handheld consoles commonly used reflective or transflective LCDs.
+These displays do not emit light: they modulate and reflect the incident illumination.
+The resulting SPD is:
+
+$`S_{out}(\lambda) = S_{illuminant}(\lambda) \cdot R_{display}(\lambda)`$
+
+where:
+
+- $`S_{illuminant}(\lambda)`$ is the SPD of the ambient light
+- $`R_{display}(\lambda)`$ is the spectral reflectance of the display
+
+In this case:
+
+- The illuminant is an essential part of the color formation
+- **Different illuminants produce different XYZ values from the same display**
+- **A single set of XYZ coordinates cannot fully describe the system**
+
+To accurately model a reflective display, the full SPD (or spectral reflectance) must be retained until the final observer-dependent integration step.
+
+## Relevance to This Project
+
+This project reproduces the colors of emissive/reflective handheld displays on modern emissive screens.
+
+This requires:
+
+- Modeling the original color generation in the spectral domain
+- Converting a reflective, illuminant-dependent SPD into an emitted SPD
+- Only then reducing the result to XYZ for rendering on modern hardware
+
+Using XYZ alone is sufficient for emissive displays, but insufficient to accurately model reflective displays without prior spectral reconstruction.
+
+## Key Takeaway
+
+- SPD → XYZ is the fundamental bridge between physics and colorimetry
+- XYZ is enough for emissive displays
+- **Reflective displays require spectral modeling before XYZ conversion**
 
 
 
