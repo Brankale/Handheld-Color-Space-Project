@@ -28,6 +28,7 @@ $`Z = k \displaystyle\int_{\lambda_{\min}}^{\lambda_{\max}} S(\lambda)\,\overlin
 
 where:
 
+- $`\lambda`$ is the wavelength
 - $`S(\lambda)`$ is the spectral power distribution
 - $`k`$ is a normalization constant (often chosen so that $`Y=1`$ or $`Y=100`$)
 
@@ -73,7 +74,7 @@ where:
 
 In this case:
 
-- The illuminant is an essential part of the color formation
+- The **illuminant is an essential part** of the color formation
 - **Different illuminants produce different XYZ values from the same display**
 - **A single set of XYZ coordinates cannot fully describe the system**
 
