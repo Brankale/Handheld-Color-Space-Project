@@ -12,6 +12,8 @@
 A **Spectral Power Distribution (SPD)** describes the amount of optical power present at each wavelength in the visible spectrum (≈ 380–780 nm).
 It is a wavelength-resolved description of light and represents the most complete physical characterization of a color stimulus.
 
+<img width="1552" height="534" alt="spd_w" src="https://github.com/user-attachments/assets/458ee8e3-ed55-4de7-9ba7-39d455856d8e" />
+
 ## From SPD to CIE XYZ
 
 Human color perception is commonly modeled using the **CIE 1931 color matching functions** $`\overline{x}(\lambda),\overline{y}(\lambda),\overline{z}(\lambda)`$.
@@ -34,6 +36,19 @@ These XYZ values are the basis for all subsequent colorimetric operations (e.g. 
 ## Emissive Displays
 
 Modern displays are emissive: each pixel emits light with its own SPD.
+
+Example of SPD taken from measurements of the Game Boy Micro:
+
+<table>
+  <tr>
+    <td><img width="1553" height="536" alt="red SPD" src="https://github.com/user-attachments/assets/894a46dc-437d-4877-b76b-76234644d839" /> $SPD_{red}$ </td>
+    <td><img width="1555" height="534" alt="green SPD" src="https://github.com/user-attachments/assets/b68a4d60-5537-4b9a-a881-f05da41ba176" /> $SPD_{green}$ </td>
+  </tr>
+  <tr>
+    <td><img width="1553" height="535" alt="blue SPD" src="https://github.com/user-attachments/assets/f9c97410-367e-4953-9bd9-4051a968f3e8" /> $SPD_{blue}$ </td>
+    <td><img width="1552" height="534" alt="white SPD" src="https://github.com/user-attachments/assets/458ee8e3-ed55-4de7-9ba7-39d455856d8e" /> $SPD_{white} = SPD_{red} + SPD_{green} + SPD_{blue}$ </td>
+  </tr>
+</table>
 
 For emissive systems:
 
