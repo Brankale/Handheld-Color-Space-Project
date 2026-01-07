@@ -72,6 +72,11 @@ where:
 - $`S_{illuminant}(\lambda)`$ is the SPD of the ambient light
 - $`R_{display}(\lambda)`$ is the spectral reflectance of the display
 
+> The following GIF [7] shows a 560 nm-normalized SPD of a CIE D illuminant (blue area) as a function of color temperature (red curve).
+> The same principle applies to reflective displays: the effective SPD of the display changes with the SPD of the incident illuminant. In other words, a reflective display does not have a fixed SPD — it is spectrally shaped by the light that illuminates it.
+> ![CIE_illuminants_D_and_blackbody_small](https://github.com/user-attachments/assets/6392a2c4-a622-4f3f-b212-2d53c0d1ed18)
+
+
 In this case:
 
 - The **illuminant is an essential part** of the color formation
@@ -478,3 +483,4 @@ $`
     - https://en.wikipedia.org/wiki/LMS_color_space
     - https://en.wikipedia.org/wiki/CIECAM02
 6. Colorspace conversions: http://brucelindbloom.com/index.html
+7. https://en.wikipedia.org/wiki/Standard_illuminant
