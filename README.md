@@ -91,17 +91,50 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
 
 > [!NOTE]
 > Only available in the non‑LUT shader version.
-
+ 
 ### Chromatic Adaptation
 
-Every shader includes a `Chromatic Adaptation` option. Depending on how you set it, you will get different results:
+---
 
-- **OFF**: Enables “**absolute color accuracy**”, meaning colors match the console’s screen exactly (except for out-of-gamut colors). Use this setting for side-by-side comparisons between your display and the console’s screen.
+#### **OFF — Original Color Reproduction (Default)**
 
-- **ON**: Enables “**perceptual color accuracy**”, which models the eye’s chromatic adaptation (the brain’s way of interpreting the same colors under different illuminants). This is the default option because it:
-   - Removes screen tinting by using the D65 illuminant, helping mitigate the “screen lottery” where different panels have slight color variations.
-   - Reduces out-of-gamut colors, lowering Delta E.
+No chromatic adaptation is applied (i.e. **absolute color accuracy**)
 
+- **Pros**
+   - Most accurate representation of the original display behavior.
+   - Preserves differences between screens of the same console model (often referred to as *“screen lottery”*).
+
+- **Cons**
+   - Does not model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some viewing conditions.
+
+- **Use case**
+   - **Currently recommended for general use**.
+   - This option must be used if you want to make side by side comparisons with the original console.
+   - Best choice for consoles with unusual or very warm/cool white points.
+
+---
+
+#### **ON — White Point Normalization (Bradford, D65)**
+
+Applies **full chromatic adaptation** to map colors to a common D65 white point (i.e. **perceptual color accuracy**).
+
+- **Pros**
+   - Mitigates *screen lottery* by enforcing a shared white reference across displays.
+   - Can slightly reduce out-of-gamut colors as a side effect.
+
+- **Cons**
+   - Colors are *reinterpreted* rather than reproduced exactly.
+   - Can noticeably alter color balance on consoles with unusual or very warm/cool white points.
+   - Overall visual accuracy is currently lower than **OFF** for many supported systems due to the current implementation.
+
+> [!WARNING]
+> This option aims to model the human visual adaptation system for **perceptual accuracy**.
+>
+> **Perceptual accuracy** is generally preferable to **absolute color accuracy** because it takes into account how the brain actually interprets colors. However, the current implementation relies on **full chromatic adaptation** via the Bradford transform, which—unlike CIECAM02 or CIECAM16—assumes complete adaptation and **does not model partial adaptation**, luminance, or surround effects as the human visual system does.  
+>
+> When the original console white point is far from D65 (e.g., **some Game Boy family systems with very warm displays**), full chromatic adaptation can significantly distort colors compared to a partial adaptation model.
+
+---
 
 #### Example
 
