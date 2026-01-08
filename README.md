@@ -114,25 +114,24 @@ No chromatic adaptation is applied (i.e. **absolute color accuracy**)
 
 ---
 
-#### **ON — White Point Normalization (Bradford, D65)**
+#### **ON — White Point Normalization**
 
-Applies **full chromatic adaptation** to map colors to a common D65 white point (i.e. **perceptual color accuracy**).
+Applies D65 white point **full chromatic adaptation** (i.e. **perceptual color accuracy**).
 
 - **Pros**
    - Mitigates *screen lottery* by enforcing a shared white reference across displays.
    - Can slightly reduce out-of-gamut colors as a side effect.
 
 - **Cons**
-   - Colors are *reinterpreted* rather than reproduced exactly.
    - Can noticeably alter color balance on consoles with unusual or very warm/cool white points.
-   - Overall visual accuracy is currently lower than **OFF** for many supported systems due to the current implementation.
+   - Overall perceptual color accuracy is currently lower than **OFF** due to the limits of the current implementation.
 
 > [!WARNING]
 > This option aims to model the human visual adaptation system for **perceptual accuracy**.
 >
-> **Perceptual accuracy** is generally preferable to **absolute color accuracy** because it takes into account how the brain actually interprets colors. However, the current implementation relies on **full chromatic adaptation** via the Bradford transform, which—unlike CIECAM02 or CIECAM16—assumes complete adaptation and **does not model partial adaptation**, luminance, or surround effects as the human visual system does.  
+> **Perceptual accuracy** is generally preferable to **absolute color accuracy** because it takes into account how the brain actually interprets colors under different illuminants. However, the current implementation relies on **full chromatic adaptation** via the Bradford transform, which—unlike CIECAM02 or CIECAM16—assumes complete adaptation and **does not model partial adaptation**, luminance, or surround effects as the human visual system does.  
 >
-> When the original console white point is far from D65 (e.g., **some Game Boy family systems with very warm displays**), full chromatic adaptation can significantly distort colors compared to a partial adaptation model.
+> When the original console white point is far from D65 (e.g., **some Game Boy family systems with very warm displays**), full chromatic adaptation can significantly distort colors compared to a partial adaptation model. At the moment, consider to leave this option turned OFF for these cases.
 
 ---
 
