@@ -7,7 +7,7 @@
 
 ## Screen
 - `type`: emissive
-- `screen location`: top
+- `screen location`: bottom
 - `bit depth`: 8
 - `manufacturer`: n.d.
 
@@ -36,7 +36,7 @@
 # Notes
 
 > [!WARNING]
-> Max luminance has been manually set to 80cd/m2.
+> Max luminance has been manually set to 80 cd/m2.
 
 - original post link: https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540/269
 - original files link: https://www.dropbox.com/scl/fi/o6dryycdkjlo3rgbow72q/3DS_LCD_measurements.7z?rlkey=a4vfz3ueel8e5nhu5r7x7i99b&st=ovuoter1&dl=1

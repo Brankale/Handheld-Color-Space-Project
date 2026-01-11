@@ -3,7 +3,7 @@
 - `template version`: 1
 - `author`: pica200
 - `date`: 2024/12/21
-- `handheld`: Nintendo 3DS
+- `handheld`: Nintendo New 3DS XL
 
 ## Screen
 - `type`: emissive
@@ -34,6 +34,8 @@
 - `estimated console hours of usage`: n.d.
 
 # Notes
+
+The screen is an IPS panel.
 
 > [!WARNING]
 > Max luminance has been manually set to 80cd/m2.
