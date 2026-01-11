@@ -2,11 +2,11 @@
 
 - `template version`: 1
 - `author`: Pokéfan531
-- `date`: 2025/10/19
-- `handheld`: GBC
+- `date`: 2025/10/22
+- `handheld`: GBA SP AGS-001
 
 ## Screen
-  - `type`: reflective
+  - `type`: transflective
   - `screen location`: n.a.
   - `bit depth`: 5
   - `manufacturer`: n.d.
@@ -33,7 +33,7 @@
 - `screen warm-up`: n.d.
 - `brightness level`: n.a.
 - `charger connected`: n.d.
-- `screen protector / touchscreen overlay`: yes
+- `screen protector / touchscreen overlay`: case and layers of glass removed
 - `console purchase year`: n.d.
 - `second-hand`: n.d.
 - `panel artifacts`: n.d.
@@ -41,5 +41,4 @@
 
 # Notes
 
-> [!NOTE]
-> These measurements are deprecated by Pokéfan531's measurements on October 22, 2025.
+copy-pasted Spotread CIE XYZ values from the terminal to a note and then on HCFR to save as CHC file.

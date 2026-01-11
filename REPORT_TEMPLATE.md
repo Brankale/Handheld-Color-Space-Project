@@ -35,9 +35,9 @@
 - `screen warm-up`: yes / no / n.d.
   <br>Indicates whether the screen was powered on for a sufficient amount of time before the measurements, allowing brightness and color output to stabilize.
 
-- `brightness level`: max / custom
+- `brightness level`: max / custom / n.a.
   <br>Specifies the brightness setting used during the measurements.
-  Use `max` if the screen was set to its maximum brightness, or `custom` if a specific user-defined level was selected.
+  Use `max` if the screen was set to its maximum brightness, or `custom` if a specific user-defined level was selected. Use `n.a.` for reflective displays.
 
 - `charger connected`: yes / no / n.d.
   <br>Indicates whether the console was connected to a charger during the measurements, as power state may affect screen brightness or stability.
@@ -54,7 +54,7 @@
 - `panel artifacts`: qualitative observations
   <br>Qualitative observations of visible screen artifacts such as spots, discoloration, uneven brightness, vignetting, glow, or other irregularities.
 
-- `estimated console hours of usage`: numeric value / unknown
+- `estimated console hours of usage`: numeric value / n.d.
   <br>Approximate total usage time of the console in hours. This value does not need to be precise and can be a rough estimate.
 
 # Notes
