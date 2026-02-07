@@ -36,7 +36,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `NDS Lite` |  Emissive | 🔵⚠️ | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
-| `3DS` |  Emissive | 🔵⚠️ / 🕐 | ? | - unknown manufacturer |
+| `3DS` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer<br>- equal primaries across measurements (except blue) and similar gamma |
 | `3DS XL` |  Emissive | 🔴 | ? |  |
 | `New 3DS` |  Emissive | 🔴 | ? | |
 | `New 3DS XL` |  Emissive | 🔵⚠️ | ? | - only IPS top screen analyzed<br>- screen lottery<br>- unknown manufacturer<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
