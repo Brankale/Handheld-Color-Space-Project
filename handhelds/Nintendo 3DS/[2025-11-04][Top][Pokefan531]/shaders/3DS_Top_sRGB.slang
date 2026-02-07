@@ -1,0 +1,182 @@
+#version 450
+
+layout(set = 0, binding = 0, std140) uniform UBO
+{
+   mat4 MVP;
+   float ChromaticAdaptation;
+   float ImproveContrast;
+   float DebugOutOfGamut;
+   float RedScale;
+   float GreenScale;
+   float BlueScale;
+};
+
+#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = D65)" 0.0 0.0 1.0 1.0
+#pragma parameter ImproveContrast "Remove backlight distortion (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
+#pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
+#pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
+#pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
+#pragma parameter BlueScale "[Debug] BLUE scale " 0.0 0.0 1.0 1.0
+
+#pragma stage vertex
+layout(location = 0) in vec4 Position;
+layout(location = 1) in vec2 TexCoord;
+layout(location = 0) out vec2 vTexCoord;
+
+void main()
+{
+   gl_Position = MVP * Position;
+   vTexCoord = TexCoord;
+}
+
+#pragma stage fragment
+layout(location = 0) in vec2 vTexCoord;
+layout(location = 0) out vec4 FragColor;
+layout(binding = 1) uniform sampler2D Source;
+
+
+const int GAMMA_SAMPLES = 32;
+
+const float GAMMA_R[GAMMA_SAMPLES] = float[](
+   1.85446195,
+   1.85446195, 1.83707588, 1.82198325, 1.78543387, 1.79003339, 1.80680437, 1.82481156, 1.81263766, 1.80342976, 1.82806044,
+   1.83703909, 1.83163452, 1.86518009, 1.84726132, 1.85901834, 1.86251805, 1.86252208, 1.87063921, 1.87379564, 1.90882464,
+   1.90391131, 1.91153327, 1.90284321, 1.86906147, 1.89191334, 1.92520905, 1.94788616, 1.88930306, 1.90031466, 1.98553783,
+   1.98553783
+);
+
+const float GAMMA_G[GAMMA_SAMPLES] = float[](
+   1.76212231,
+   1.76212231, 1.70967093, 1.67644331, 1.63129957, 1.62859572, 1.63841091, 1.64892803, 1.6324304,  1.61848158, 1.6232985,
+   1.63022521, 1.64445568, 1.63413339, 1.63807968, 1.63941413, 1.6186956,  1.61942184, 1.62163966, 1.62531046, 1.62803805,
+   1.61108615, 1.60851984, 1.57215869, 1.55915528, 1.55285717, 1.55186214, 1.54127884, 1.46223829, 1.46494448, 1.46266728,
+   1.46266728
+);
+
+const float GAMMA_B[GAMMA_SAMPLES] = float[](
+   1.684001,
+   1.684001,   1.62832746, 1.5786383,  1.50646794, 1.4744842,  1.45426226, 1.43584317, 1.3847624,  1.33706323, 1.30938996,
+   1.28071716, 1.24786064, 1.21348736, 1.16735364, 1.12336803, 1.05965001, 1.0113933,  0.9555404,  0.89604008, 0.84168011,
+   0.75718632, 0.67166237, 0.56350482, 0.45205234, 0.33087915, 0.20421048, 0.05391841,-0.15835515,-0.36348335,-0.66827457,
+   -0.66827457
+);
+
+vec3 handheld_eotf(vec3 color)
+{
+   vec3 denormalized_color = color * float(GAMMA_SAMPLES - 1);
+   ivec3 idx_low = ivec3(floor(denormalized_color));
+   ivec3 idx_high = ivec3(ceil(denormalized_color));
+   vec3 weight = fract(denormalized_color);
+
+   float gr = mix(GAMMA_R[idx_low.x], GAMMA_R[idx_high.x], weight.x);
+   float gg = mix(GAMMA_G[idx_low.y], GAMMA_G[idx_high.y], weight.y);
+   float gb = mix(GAMMA_B[idx_low.z], GAMMA_B[idx_high.z], weight.z);
+
+   return pow(color, vec3(gr, gg, gb));
+}
+
+const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
+   0.40874312,  0.35365249,  0.24197777,
+   0.2344528,   0.6440318,   0.12151539,
+   0.04655633,  0.06274027,  1.27962719
+);
+
+const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB = mat3(
+    1.00196039, -0.00486847, -0.03673201,
+   -0.0116947,   1.02663402, -0.01071921,
+   -0.00923709,  0.01672122,  0.77874253
+);
+
+
+const float WHITE_Y = 80.975708;
+const vec3 BLACK_XYZ = vec3(0.105627, 0.100713, 0.194676);
+const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
+
+const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
+    1.00201595, -0.00485178, -0.03680613,
+   -0.01167745,  1.02665766, -0.01074301,
+   -0.0092527,   0.01674797,  0.77835572
+);
+
+
+
+// sRGB
+
+const mat3 SRGB_XYZ_TO_RGB_LIN_MTX = mat3(
+    3.2406255, -1.5372080, -0.4986286,
+   -0.9689307,  1.8757561,  0.0415175,
+    0.0557101, -0.2040211,  1.0569959
+);
+
+vec3 srgb_oetf(vec3 color)
+{
+   vec3 linear = 12.92 * color;
+   vec3 nonlinear = 1.055 * pow(color, vec3(1.0 / 2.4)) - 0.055;
+   bvec3 cond = lessThanEqual(color, vec3(0.0031308));
+   return mix(nonlinear, linear, vec3(cond));
+}
+
+// end (sRGB)
+
+
+
+// Pre-Processing & Post-Processing
+
+vec3 compute_out_of_gamut(vec3 color)
+{
+   float error = 1.0 / (255.0 * 10.0);
+   bool is_out_of_gamut = any(lessThan(color, vec3(0.0 - error))) || any(greaterThan(color, vec3(1.0 + error)));
+   color = clamp(color, 0.0, 1.0);
+   float grey = (color.x + color.y + color.z) / 3.0;
+   vec3 out_of_gamut = vec3(1.0, grey / 2.5, grey / 2.5);
+   vec3 non_out_of_gamut = vec3(grey, grey, grey);
+   return mix(non_out_of_gamut, out_of_gamut, float(is_out_of_gamut));
+}
+
+// end (Pre-Processing & Post-Processing)
+
+void main()
+{
+   vec4 handheld_rgba = texture(Source, vTexCoord);
+
+   // debug: color scales
+   if ((RedScale + GreenScale + BlueScale) > 0.0) {
+      handheld_rgba = vec4(
+         mix(0.0, vTexCoord.x, RedScale), 
+         mix(0.0, vTexCoord.x, GreenScale), 
+         mix(0.0, vTexCoord.x, BlueScale), 
+         1.0
+      );
+   }
+
+   // 1. handheld colorspace EOTF
+   vec3 handheld_linearized_rgb = handheld_eotf(handheld_rgba.rgb);
+
+   // 2. handheld linearized RGB -> handheld XYZ
+   vec3 handheld_xyz = transpose(HANDHELD_RGB_LIN_TO_XYZ) * handheld_linearized_rgb;
+
+   if (ImproveContrast == 0.0)
+      handheld_xyz += BLACK_XYZ_NORMALIZED;
+
+   // 3. chromatic adaptation (handheld XYZ -> target XYZ)
+   vec3 target_xyz = handheld_xyz;
+   if (ChromaticAdaptation == 1.0)
+      if (ImproveContrast == 0.0) {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK) * handheld_xyz;
+      } else {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB) * handheld_xyz;
+      }
+      
+
+   // 4. target XYZ -> target linearized RGB
+   vec3 target_linearized_rgb = transpose(SRGB_XYZ_TO_RGB_LIN_MTX) * target_xyz;
+
+   // 5. target colorspace OETF
+   vec3 target_rgb = srgb_oetf(target_linearized_rgb);
+
+   // post processing: out of gamut
+   if (DebugOutOfGamut == 1.0)
+      target_rgb = compute_out_of_gamut(target_rgb);
+   
+   FragColor = vec4(target_rgb, handheld_rgba.w);
+}
