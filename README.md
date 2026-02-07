@@ -20,6 +20,12 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 |  <br>`GBA no shader`<br><img width="352" height="300" alt="raw" src="https://github.com/user-attachments/assets/66f2a88a-c17d-41d7-ac27-20a93116e2ab" /> |  <br>`GBA` (WIP - not definitive)<br><img width="352" height="300" alt="gba" src="https://github.com/user-attachments/assets/655e5971-c81c-485d-b573-ba82eb75af8e" /> |  <br>`GBA SP AGS-001` (WIP - not definitive)<br><img width="352" height="300" alt="gba_sp_ags001" src="https://github.com/user-attachments/assets/558aaee1-58d4-4cb4-882b-cc775cd24294" /> |  |
 |  <br>`GBA SP AGS-101`<br><img width="352" height="300" alt="gba_sp_ags101" src="https://github.com/user-attachments/assets/00e9f902-a233-49b4-a86f-e9be5884bf22" /> |  <br>`GB Micro`<br><img width="352" height="300" alt="gb_micro" src="https://github.com/user-attachments/assets/eaa651cc-6994-4c78-ad3c-5c71d9a24e81" /> |  |
 
+| Preview  | Preview | Preview |
+| :-------------: | :-------------: | :-------------: |
+|  <br>`DS no shader`<br><br><img width="256" height="192" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> |  <br>`DS Phat`<br><br><img width="256" height="192" alt="ds_phat" src="https://github.com/user-attachments/assets/503444a4-13e0-4f75-a839-59cd8150d3b6" /> |  <br>`DS Lite`<br><br><img width="256" height="192" alt="ds_lite" src="https://github.com/user-attachments/assets/98afdda1-5ec9-4b34-9347-cd5a59aa9cd7" /> |  |
+|  <br>`3DS`<br><br><img width="256" height="192" alt="3ds" src="https://github.com/user-attachments/assets/97e85339-214b-4dac-8d3c-849498e91a60" /> |  <br>`New 3DS XL`<br><br><img width="256" height="192" alt="new_3ds_xl" src="https://github.com/user-attachments/assets/906c5e60-93b1-4a06-bb2a-8a89a5bf30b6" /> |  |
+
+
 # Handhelds status report
 
 | Nintendo Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
