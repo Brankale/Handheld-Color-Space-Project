@@ -83,14 +83,7 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
 > [!NOTE]
 > Currently, only the sRGB color space is supported. I haven’t found a way to instruct RetroArch or the operating system (at least on macOS) to interpret the shader’s output framebuffer as a non‑sRGB color space (such as Display P3, Rec. 2020, etc.). Given this limitation, there’s little benefit in supporting other color spaces, since you wouldn’t get the expected colors. If you know of any way (even a partial workaround) to overcome this limitation, I’d appreciate your support.
 
-> [!NOTE]
-> Some consoles have two shader variants: one with a **CLUT (Color Look-Up Table)** and one without. The CLUT variant was designed to provide better color accuracy, but this comes at the cost of fewer configuration options compared to the other variant. At the moment, this version is **NOT RECOMMENDED**, as the LUT does not actually improve color accuracy and out-of-gamut colors are simply clipped.
-
-
 ## Shader parameters
-
-> [!NOTE]
-> Only available in the non‑LUT shader version.
  
 ### Chromatic Adaptation
 
@@ -142,9 +135,6 @@ Chromatic adaptation on the GameBoy Micro shader (**OFF** = "blue tinted / cool 
 <img width="592" height="500" alt="chromatic adaptation" src="https://github.com/user-attachments/assets/4a452df8-e732-4c4f-9de6-2d2bd965f2a6" />
 
 ## Debug Shader parameters
-
-> [!NOTE]
-> Only available in the non‑LUT shader version.
 
 These parameters are used to analyze the shader's output image.
 
