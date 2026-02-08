@@ -4,6 +4,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
 {
    mat4 MVP;
    float ChromaticAdaptation;
+   float ImproveContrast;
    float DebugOutOfGamut;
    float RedScale;
    float GreenScale;
@@ -11,6 +12,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
 };
 
 #pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = D65)" 0.0 0.0 1.0 1.0
+#pragma parameter ImproveContrast "Remove backlight distortion (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
@@ -36,15 +38,21 @@ layout(binding = 1) uniform sampler2D Source;
 const int GAMMA_SAMPLES = 11;
 
 const float GAMMA_R[GAMMA_SAMPLES] = float[](
-   2.246, 2.246, 2.363, 2.401, 2.447, 2.479, 2.516, 2.567, 2.711, 2.798, 2.798
+   2.35380273,
+   2.35380273, 2.33420408, 2.32206081, 2.33155663, 2.32844651, 2.36231212, 2.373739, 2.46452033, 2.48766981,
+   2.48766981
 );
 
 const float GAMMA_G[GAMMA_SAMPLES] = float[](
-   2.206, 2.206, 2.247, 2.235, 2.230, 2.208, 2.181, 2.147, 2.168, 2.083, 2.083
+   2.34914281,
+   2.34914281, 2.34232279, 2.3372194, 2.34838248, 2.34848992, 2.37987739, 2.38338027, 2.4586178, 2.44491914,
+   2.44491914
 );
 
-const float GAMMA_B[GAMMA_SAMPLES]  = float[](
-   2.032, 2.032, 1.988, 1.891, 1.793, 1.660, 1.503, 1.295, 1.054, 0.583, 0.583
+const float GAMMA_B[GAMMA_SAMPLES] = float[](
+   2.12448283,
+   2.12448283, 2.00342872, 1.88727491, 1.77876113, 1.63720835, 1.49347309, 1.27520341, 1.02185927, 0.52958462,
+   0.52958462
 );
 
 vec3 handheld_eotf(vec3 color)
@@ -62,15 +70,25 @@ vec3 handheld_eotf(vec3 color)
 }
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
-   0.39041618,   0.35928835,   0.19072364,
-   0.22453714,   0.60803475,   0.16742811,
-   0.04486784,   0.11324336,   1.00415997
+   0.39094285,  0.35903706,  0.19034934,
+   0.22428912,  0.60882226,  0.16688862,
+   0.04290951,  0.11149112,  1.00774123
 );
 
 const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB = mat3(
-     1.01848121,  0.00909277, -0.01414925,
-     0.01239532,  0.99418727, -0.00502824,
-    -0.00230608,  0.00355318,  0.93581713
+    1.01854109,  0.00912783, -0.01414275,
+    0.01245008,  0.99413741, -0.00502915,
+   -0.00230054,  0.00354121,  0.93592688
+);
+
+const float WHITE_Y = 137.67691;
+const vec3 BLACK_XYZ = vec3(0.211852, 0.199868, 0.305097);
+const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
+
+const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
+    1.01848109,  0.00908588, -0.01420383,
+    0.01237847,  0.99422275, -0.0050442,
+   -0.00231976,  0.00357793,  0.93548541
 );
 
 
@@ -130,10 +148,17 @@ void main()
    // 2. handheld linearized RGB -> handheld XYZ
    vec3 handheld_xyz = transpose(HANDHELD_RGB_LIN_TO_XYZ) * handheld_linearized_rgb;
 
+   if (ImproveContrast == 0.0)
+      handheld_xyz += BLACK_XYZ_NORMALIZED;
+
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
    vec3 target_xyz = handheld_xyz;
    if (ChromaticAdaptation == 1.0)
-      target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB) * handheld_xyz;
+      if (ImproveContrast == 0.0) {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK) * handheld_xyz;
+      } else {
+         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB) * handheld_xyz;
+      }
 
    // 4. target XYZ -> target linearized RGB
    vec3 target_linearized_rgb = transpose(SRGB_XYZ_TO_RGB_LIN_MTX) * target_xyz;
