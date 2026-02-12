@@ -2,11 +2,11 @@ import numpy as np
 import colour # https://www.colour-science.org/
 
 # insert here measured display absolute XYZ values
-HANDHELD_R_XYZ_RAW = np.array([80.087959, 44.390423, 7.957929])
-HANDHELD_G_XYZ_RAW = np.array([72.80497, 129.96553, 14.341978])
-HANDHELD_B_XYZ_RAW = np.array([46.255764, 26.354113, 232.46139])
-HANDHELD_BLACK_XYZ_RAW = np.array([0.332459, 0.318527, 0.545375])
-HANDHELD_WHITE_XYZ_RAW = np.array([197.222885, 199.22644, 256.539063])
+HANDHELD_R_XYZ_RAW = np.array([54.580544, 31.391911, 6.272552])
+HANDHELD_G_XYZ_RAW = np.array([50.119301, 84.828362, 15.802766])
+HANDHELD_B_XYZ_RAW = np.array([26.314896, 23.08569, 138.498978])
+HANDHELD_BLACK_XYZ_RAW = np.array([0.211852,0.199868,0.305097,])
+HANDHELD_WHITE_XYZ_RAW = np.array([129.485535, 137.67691, 160.072922])
 
 # remove black artifact + normalize to white luminance Y
 Y = HANDHELD_WHITE_XYZ_RAW[1] - HANDHELD_BLACK_XYZ_RAW[1]
