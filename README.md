@@ -155,5 +155,6 @@ Enable this option to highlight in red the colors that cannot be represented in 
    - GitHub: https://github.com/Pokefan531/Handheld-Colorspace-Shaders
    - Tumblr: https://pokefan531.tumblr.com/post/766008194709454848/handheld-lcd-shader-projects
 - **Pica200** for the 3DS and New 3DS consoles’ measurements
+- **Anikom15** for helping me fix some issues with the shader code and and OS/program-specific color space management.
 - **Libretro Forum**
    - forum thread: https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540
