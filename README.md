@@ -97,46 +97,46 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
 
 #### **OFF — Original Color Reproduction (Default)**
 
-No chromatic adaptation is applied (i.e. **absolute color accuracy**)
+No chromatic adaptation is applied
 
 - **Pros**
    - Most accurate representation of the original display behavior.
    - Preserves differences between screens of the same console model (often referred to as *“screen lottery”*).
 
-- **Cons**
-   - Does not model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some viewing conditions.
-
 - **Use case**
    - **Currently recommended for general use**.
    - This option must be used if you want to make side by side comparisons with the original console.
-   - Best choice for consoles with unusual or very warm/cool white points.
+   - Recommended for consoles with unusual or very warm/cool white points to preserve the original look & feel.
+ 
+> [!WARNING]
+> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A full CIECAM02 / CIECAM16 pipeline must be implemented to address this problem.
 
 ---
 
 #### **ON — White Point Normalization**
 
-Applies D65 white point **full chromatic adaptation** (i.e. **perceptual color accuracy**).
+Applies D65 white point (full chromatic adaptation)
 
 - **Pros**
-   - Mitigates *screen lottery* by enforcing a shared white reference across displays.
+   - Can mitigate *screen lottery* by enforcing a shared white reference across displays.
    - Can slightly reduce out-of-gamut colors as a side effect.
 
 - **Cons**
    - Can noticeably alter color balance on consoles with unusual or very warm/cool white points.
-   - Overall perceptual color accuracy is currently lower than **OFF** due to the limits of the current implementation.
+ 
+- **Use case**
+   - You can use this option as a trade-off between the display’s original color reproduction and a neutral white balance tipically found on modern displays.
 
 > [!WARNING]
-> This option aims to model the human visual adaptation system for **perceptual accuracy**.
->
-> **Perceptual accuracy** is generally preferable to **absolute color accuracy** because it takes into account how the brain actually interprets colors under different illuminants. However, the current implementation relies on **full chromatic adaptation** via the Bradford transform, which—unlike CIECAM02 or CIECAM16—assumes complete adaptation and **does not model partial adaptation**, luminance, or surround effects as the human visual system does.  
->
-> When the original console white point is far from D65 (e.g., **some Game Boy family systems with very warm displays**), full chromatic adaptation can significantly distort colors compared to a partial adaptation model. At the moment, consider to leave this option turned OFF for these cases.
+> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A full CIECAM02 / CIECAM16 pipeline must be implemented to address this problem.
 
 ---
 
 #### Example
 
-Chromatic adaptation on the GameBoy Micro shader (**OFF** = "blue tinted / cool temperature greyscale", **ON** = "neutral greyscale")
+Chromatic adaptation on the GameBoy Micro shader:
+- **OFF** (bottom left) = "blue tinted / cool temperature greyscale"
+- **ON** (top right) = "neutral greyscale"
 
 <img width="592" height="500" alt="chromatic adaptation" src="https://github.com/user-attachments/assets/4a452df8-e732-4c4f-9de6-2d2bd965f2a6" />
 
