@@ -138,7 +138,8 @@ Chromatic adaptation on the GameBoy Micro shader:
 - **OFF** (bottom left) = "blue tinted / cool temperature greyscale"
 - **ON** (top right) = "neutral greyscale"
 
-<img width="592" height="500" alt="chromatic adaptation" src="https://github.com/user-attachments/assets/4a452df8-e732-4c4f-9de6-2d2bd965f2a6" />
+<img width="896" height="504" alt="chromatic adaptation example" src="https://github.com/user-attachments/assets/35d7e0e9-a668-494e-89d8-3141af177f23" />
+
 
 ## Debug Shader parameters
 
