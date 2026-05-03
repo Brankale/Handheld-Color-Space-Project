@@ -33,9 +33,9 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🕐 | ? | |
-| `Game Boy Advance AGB-001` |  Reflective | 🕐 | ? | | 
-| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🕐 | ? | |
+| `Game Boy Color` |  Reflective | 🔴 | ? | Currently provided data have issues |
+| `Game Boy Advance AGB-001` |  Reflective | 🔴 | ? | Currently provided data have issues | 
+| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔴 | ? | Currently provided data have issues |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
 | `NDS Phat` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
@@ -64,7 +64,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `PSP-E1000 (Street)` | ? | 🔴 | ? | |
 
 **Legend**:
-- 🔴: No data available or not yet analyzed
+- 🔴: No data available / Invalid data
 - 🔵: Data available
 - 🟢: Data available and verified by two or more screen reports from different consoles
 - ⚠️: Some information is missing (e.g., manufacturer, measurement tools, etc.)
