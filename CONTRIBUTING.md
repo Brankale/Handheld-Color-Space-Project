@@ -21,13 +21,11 @@ Depending on the display type, you must use the appropriate meter to ensure accu
 
 | Meter  | Emissive | Reflective | Transflective |
 | ------------- | :-------------: | :-------------: | :-------------: | 
-| Colorimeter        | ✅ good accuracy | ⚠️ not recommended (2) | ❓ |
-| Spectroradiometer  | ✅ highest accuracy | ⚠️ not recommended (2) | ❓ |
-| Spectrophotometer  | ⚠️ not recommended (1) | ✅ | ❓ |
+| Colorimeter        | ✅ good accuracy | ❌ | ❓ |
+| Spectroradiometer  | ✅ highest accuracy | ❓ | ❓ |
+| Spectrophotometer  | ⚠️ not recommended (1) | ✅ | ✅ (only with backlit turned off) |
 
-(1) [AI provided info] A spectrophotometer primarily measures reflected light from surfaces. Some models have an “emissive mode,” but they’re generally slower, less sensitive at low light, and not ideal for bright HDR peaks or very dark near-black, common in emissive displays.
-
-(2) [AI provided info]
+(1) A spectrophotometer primarily measures reflected light from surfaces. Some models have an “emissive mode,” but they’re generally slower, less sensitive at low light, and not ideal for bright HDR peaks or very dark near-black, common in emissive displays.
 
 # Do the measurements
 
