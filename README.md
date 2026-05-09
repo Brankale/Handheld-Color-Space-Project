@@ -27,7 +27,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | Preview  | Preview | Preview |
 | :-------------: | :-------------: | :-------------: |
 |  <br>`DS no shader`<br><br><img width="256" height="192" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> |  <br>`DS Phat`<br><br><img width="256" height="192" alt="ds_phat" src="https://github.com/user-attachments/assets/503444a4-13e0-4f75-a839-59cd8150d3b6" /> |  <br>`DS Lite`<br><br><img width="256" height="192" alt="ds_lite" src="https://github.com/user-attachments/assets/98afdda1-5ec9-4b34-9347-cd5a59aa9cd7" /> |  |
-|  <br>`3DS`<br><br><img width="256" height="192" alt="3ds" src="https://github.com/user-attachments/assets/97e85339-214b-4dac-8d3c-849498e91a60" /> |  <br>`New 3DS XL`<br><br><img width="256" height="192" alt="new_3ds_xl" src="https://github.com/user-attachments/assets/906c5e60-93b1-4a06-bb2a-8a89a5bf30b6" /> |  |
+|  <br>`3DS`<br><br><img width="256" height="192" alt="3ds" src="https://github.com/user-attachments/assets/97e85339-214b-4dac-8d3c-849498e91a60" /> |  <br>`New 3DS XL (IPS)`<br><br><img width="256" height="192" alt="new_3ds_xl" src="https://github.com/user-attachments/assets/906c5e60-93b1-4a06-bb2a-8a89a5bf30b6" /> |  |
 
 
 # Handhelds status report
