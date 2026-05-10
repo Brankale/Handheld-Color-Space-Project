@@ -122,7 +122,10 @@ The physical orientation of the spectrophotometer against the display is critica
   - If the resulting curve looks **logarithmic**, the instrument's orientation is completely wrong for that display. 
   - If the curve exhibits an **exponential** shape, it is likely correct. You are generally looking for the orientation that yields the most prominent/largest exponential response.
 
-*(Reference photos for correct and incorrect instrument orientation will be added here).*
+| Orientation | Measurements |
+| :-------------: | :-------------: |
+| <img height="300" alt="20260508_223035" src="https://github.com/user-attachments/assets/343f0442-c373-4f5c-b929-e2e6d66c5caf" /> | TODO |
+| <img height="300" alt="20260508_223055" src="https://github.com/user-attachments/assets/d502b5f0-93a0-4b27-afec-a8d1027aa46a" /> | TODO |
 
 ### How to measure
 Once the environment is completely devoid of external light and the instrument is correctly oriented, you can begin capturing data. If you are using `spotread`, the following command structure is typically used:
@@ -146,6 +149,16 @@ It is not physically viable to simply measure the Greyscale and mathematically d
 
 1. **Lack of XYZ Additivity:** In typical emissive panels (like standard TN or TFT LCDs), you can sum the XYZ coordinates of the individual primary color channels (R, G, B) to accurately predict mixed colors (e.g., XYZ_red + XYZ_green = XYZ_yellow). On reflective displays, however, this additive property completely breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the ambient light, meaning mixed colors (Yellow, Cyan, Magenta) behave unpredictably compared to their individual R, G, B components. (e.g., XYZ_red + XYZ_green ≠ XYZ_yellow)
 2. **Gamma Extraction and Low Luminance Noise:** While it is mathematically possible to derive the primary (R, G, B) gamma curves from a grayscale measurement in theory, it is fundamentally flawed in practice. Spectrophotometers struggle to accurately measure dark patches, leading to inherent sensor noise at low luminance levels. Because the math to extrapolate gamma is highly sensitive, even minor measurement errors on dark patches result in massive, cascading deviations in the calculated gamma curve. Remember, that attempting this approach is not phisically accurate and leads to a completely wrong result.
+
+
+
+
+| Gamma graph  | Blue scale | Red scale |
+| ------------- | :-------------: | :-------------: |
+| <img width="1000" alt="linear fit" src="https://github.com/user-attachments/assets/89cc9ab2-1a6b-4192-be2c-f597a5e4c749" /> | <img width="328" height="256" alt="cyan" src="https://github.com/user-attachments/assets/b739748b-0892-4122-896b-79d51e62b4f5" /> | <img width="328" height="256" alt="magenta" src="https://github.com/user-attachments/assets/167fc69c-1e77-4b9b-9d74-12904180a934" /> |
+
+Example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
+
 
 ## Measurements report (template)
 
