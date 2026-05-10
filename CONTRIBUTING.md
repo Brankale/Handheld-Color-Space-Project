@@ -5,6 +5,7 @@
 - [Do the measurements](#do-the-measurements)
    - [Introduction](#introduction)
    - [Measurements guide for emissive displays](#measurements-guide-for-emissive-displays)
+   - [Measurements guide for reflective displays (Work in Progress)](#measurements-guide-for-reflective-displays-work-in-progress)
    - [Measurements report (template)](#measurements-report-template)
 - [Measurements Validation](#measurements-validation)
 
@@ -96,6 +97,55 @@ R, G, B, Y, C, M, Black, White chromaticity coordinates (expressed as CIE xyY co
 
 Greyscale chromaticity coordinates (expressed as CIE xyY coordinates in this example):
 <img width="640" height="360" alt="Screenshot From 2025-09-03 16-44-50" src="https://github.com/user-attachments/assets/1f97ca9c-6f21-4f67-966b-7b58643b0e8f" />
+
+## Measurements guide for reflective displays (Work in Progress)
+
+> [!WARNING]  
+> This section is currently a work in progress and may undergo revisions as calibration methods and measurement techniques are further tested and validated.
+
+### Introduction
+Measuring reflective displays requires a fundamentally different approach compared to emissive screens. Instead of generating their own light, these displays rely exclusively on reflected light. Due to their physical composition (such as liquid crystal alignment and polarizers), the behavior of reflected color and gamma changes significantly based on how the display is illuminated and observed.
+
+### Required Equipment
+- **Spectrophotometer:** A device capable of ambient/reflective measurements (e.g., ColorMunki Photo).
+- **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended, though any software capable of accurately measuring and logging spectral reflectance will work.
+
+### Setup and Environment
+- **Warm-up:** Spectrophotometers require a warm-up period to ensure sensor stability before measuring. This can take up to 30 minutes depending on the model (e.g., ColorMunki Photo). Always refer to your instrument's specific manual.
+- **Lighting:** **all external sources of ambient light must be eliminated**. Take these measurements in a completely dark room to prevent external light from altering the sensor readings.
+- **Calibration (WIP):** The absolute best calibration method for handheld reflective displays is still under investigation. In `spotread`, arguments like `-Y W:fname.sp` (Save instrument white tile ref. spectrum) or `-Y S:fname.cmf` (Save instrument raw & XYZ spectral sensitivities) are available, but standardized best practices are not firmly established yet.
+
+### Instrument Orientation
+The physical orientation of the spectrophotometer against the display is critical. If you measure the screen with different spectrophotometer orientations, the measured reflectance will completely change due to the display's internal polarizers and reflective layers scattering light asymmetrically. NB: This step has great implications on the resulting gamma.
+
+- **How to find the correct orientation:** A recommended validation step is to export the measured luminance (Y) data from your software and plot it in a spreadsheet tool like LibreOffice Calc. 
+  - If the resulting curve looks **logarithmic**, the instrument's orientation is completely wrong for that display. 
+  - If the curve exhibits an **exponential** shape, it is likely correct. You are generally looking for the orientation that yields the most prominent/largest exponential response.
+
+*(Reference photos for correct and incorrect instrument orientation will be added here).*
+
+### How to measure
+Once the environment is completely devoid of external light and the instrument is correctly oriented, you can begin capturing data. If you are using `spotread`, the following command structure is typically used:
+
+```bash
+spotread -s -H -v -V -Y a log.txt
+```
+
+**Flag explanations:**
+- `-s` : Print spectrum for each reading
+- `-H` : Use high resolution spectrum mode (if available)
+- `-v` : Verbose mode
+- `-V` : Show running average and std. devation from ref.
+- `-Y a` : Use averaging measurement mode (if available)
+- `log.txt` : The output text file where the measured values are saved.
+
+### What to measure
+To properly profile a reflective display, you must measure **224 individual color patches** in total: a full 32-patch scale (assuming a standard 5-bit depth) for Red, Green, Blue, Yellow, Cyan, Magenta, and the Greyscale (7 scales × 32 patches). 
+
+It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is absolutely mandatory for the following reasons:
+
+1. **Lack of XYZ Additivity:** In typical emissive panels (like standard TN or TFT LCDs), you can sum the XYZ coordinates of the individual primary color channels (R, G, B) to accurately predict mixed colors (e.g., XYZ_red + XYZ_green = XYZ_yellow). On reflective displays, however, this additive property completely breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the ambient light, meaning mixed colors (Yellow, Cyan, Magenta) behave unpredictably compared to their individual R, G, B components. (e.g., XYZ_red + XYZ_green ≠ XYZ_yellow)
+2. **Gamma Extraction and Low Luminance Noise:** While it is mathematically possible to derive the primary (R, G, B) gamma curves from a grayscale measurement in theory, it is fundamentally flawed in practice. Spectrophotometers struggle to accurately measure dark patches, leading to inherent sensor noise at low luminance levels. Because the math to extrapolate gamma is highly sensitive, even minor measurement errors on dark patches result in massive, cascading deviations in the calculated gamma curve. Remember, that attempting this approach is not phisically accurate and leads to a completely wrong result.
 
 ## Measurements report (template)
 
