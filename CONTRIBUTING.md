@@ -129,7 +129,7 @@ The physical orientation of the spectrophotometer against the display is critica
 
 
 ### How to measure
-Once the environment is completely devoid of external light and the instrument is correctly oriented, you can begin capturing data. If you are using `spotread`, the following command structure is typically used:
+If you are using `spotread`, use the following command to take a measure of the screen:
 
 ```bash
 spotread -s -H -v -V -Y a log.txt
