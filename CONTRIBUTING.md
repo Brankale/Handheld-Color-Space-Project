@@ -107,7 +107,7 @@ Greyscale chromaticity coordinates (expressed as CIE xyY coordinates in this exa
 Measuring reflective displays requires a fundamentally different approach compared to emissive screens. Instead of generating their own light, these displays rely exclusively on reflected light. Due to their physical composition (such as liquid crystal alignment and polarizers), the behavior of reflected color and gamma changes significantly based on how the display is illuminated and observed.
 
 ### Required Equipment
-- **Spectrophotometer:** A device capable of ambient/reflective measurements (e.g., ColorMunki Photo).
+- **Spectrophotometer:** A device capable of reflective measurements (e.g., ColorMunki Photo).
 - **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended, though any software capable of accurately measuring and logging spectral reflectance will work.
 
 ### Setup and Environment
@@ -124,8 +124,9 @@ The physical orientation of the spectrophotometer against the display is critica
 
 | Orientation | Measurements |
 | :-------------: | :-------------: |
-| <img height="300" alt="20260508_223035" src="https://github.com/user-attachments/assets/343f0442-c373-4f5c-b929-e2e6d66c5caf" /> | TODO |
-| <img height="300" alt="20260508_223055" src="https://github.com/user-attachments/assets/d502b5f0-93a0-4b27-afec-a8d1027aa46a" /> | TODO |
+| <img height="300" alt="20260508_223035" src="https://github.com/user-attachments/assets/343f0442-c373-4f5c-b929-e2e6d66c5caf" /> | <img height="300" alt="low gamma" src="https://github.com/user-attachments/assets/6b5fc328-4e2a-4c31-8cbb-2ab6cddb23a2" /> <br>Very low gamma --> washed out image ❌ |
+| <img height="300" alt="20260508_223055" src="https://github.com/user-attachments/assets/d502b5f0-93a0-4b27-afec-a8d1027aa46a" /> | <img height="300" alt="high gamma" src="https://github.com/user-attachments/assets/cacd7768-bc39-4cbd-a7cb-426c178987d7" /> <br>Normal gamma ✔️  |
+
 
 ### How to measure
 Once the environment is completely devoid of external light and the instrument is correctly oriented, you can begin capturing data. If you are using `spotread`, the following command structure is typically used:
