@@ -146,17 +146,22 @@ spotread -s -H -v -V -Y a log.txt
 > [!NOTE]
 > If your spectrophotometer does not support `-Y a`, measure each patch 3 to 5 times. The results will be averaged during post-processing to reduce the measurement's noise.
 
-The output will look like the snippet below. XYZ and Lab coordinates are calculated using D50 by default, unless you set a different illuminant in spotread. The reflectance data is the main information of interest.
+The output will look like the snippet below. XYZ and Lab coordinates are calculated using D50 illuminant by default, unless you set a different one in spotread. The reflectance data is the main information of interest.
 
 ```
 Reading	X	Y	Z	L*	a*	b*	380.000	383.333	386.667	390.000	393.333	396.667	400.000	...
-2	0.183685	0.182168	0.149141	1.645520	0.324562	0.021349 ...
-3	0.185581	0.184557	0.151998	1.667099	0.308123	0.004620 ... 
-4	0.185546	0.185224	0.148670	1.673125	0.280722	0.077836 ...
+1	0.183685	0.182168	0.149141	1.645520	0.324562	0.021349 ...
+2	0.185581	0.184557	0.151998	1.667099	0.308123	0.004620 ... 
+3	0.185546	0.185224	0.148670	1.673125	0.280722	0.077836 ...
 ```
 
 > [!WARNING]
-> XYZ and Lab values depend on the integrity of the spectral data. For instance, the ColorMunki Photo exhibits significant limitations below 440nm, showing a sharp drop-off and a flat baseline (including physically impossible negative values). This is likely a combined effect of the instrument's low LED emission in the violet/UV range, the screen's internal UV filters and polarizers and instrument limitations but currently we don't have any clear evidence of this. At wavelengths above 700nm, the signal becomes unstable due to a low signal-to-noise ratio as the sensor reaches its operational limit. This must taken into consideration in the post processing step when calculating XYZ coordinates.
+> spotread XYZ and Lab reported values depend on the integrity of the spectral data. For instance, the ColorMunki Photo exhibits significant limitations below 440nm, showing a drop-off and a flat baseline (including physically impossible negative values). This is likely a combined effect of the instrument's low LED emission in the violet/UV range, the screen's internal UV filters and polarizers and instrument limitations but currently we don't have any clear evidence of this. At wavelengths above 700nm, the signal becomes unstable probably due to a low signal-to-noise ratio as the sensor reaches its operational limit. This must be taken into consideration in the post-processing step when calculating XYZ coordinates.
+>
+> Here's an example image showing spectral reflectance data of the greyscale taken from a GBC using a Colormunki Photo:
+> <img height="400" alt="greyscale spectral reflectance" src="https://github.com/user-attachments/assets/827b1cf3-a9a2-46bc-a6e9-654a47c9f9ea" />
+
+
 
 ### What to measure
 To properly profile a reflective display, you must measure **224 individual color patches** in total: a full 32-patch scale (assuming a standard 5-bit depth) for Red, Green, Blue, Yellow, Cyan, Magenta, and the Greyscale (7 scales × 32 patches). 
