@@ -113,7 +113,7 @@ Measuring reflective displays requires a fundamentally different approach compar
 ### Setup and Environment
 - **Warm-up:** Spectrophotometers require a warm-up period to ensure sensor stability before measuring. This can take up to 30 minutes depending on the model (e.g., ColorMunki Photo). Always refer to your instrument's specific manual.
 - **Lighting:** **all external sources of ambient light must be eliminated**. Take these measurements in a completely dark room to prevent external light from altering the sensor readings.
-- **Calibration (WIP):** The absolute best calibration method for handheld reflective displays is still under investigation. In `spotread`, arguments like `-Y W:fname.sp` (Save instrument white tile ref. spectrum) or `-Y S:fname.cmf` (Save instrument raw & XYZ spectral sensitivities) are available, but standardized best practices are not firmly established yet.
+- **Calibration (WIP):** This step is probably a critical one howeber it is still under investigation. In `spotread`, arguments like `-Y W:fname.sp` (Save instrument white tile ref. spectrum) or `-Y S:fname.cmf` (Save instrument raw & XYZ spectral sensitivities) are available, but standardized best practices are not firmly established yet.
 
 ### Instrument Orientation
 The physical orientation of the spectrophotometer against the display is critical. If you measure the screen with different spectrophotometer orientations, the measured reflectance will completely change due to the display's internal polarizers and reflective layers scattering light asymmetrically. NB: This step has great implications on the resulting gamma.
@@ -169,16 +169,15 @@ To properly profile a reflective display, you must measure **224 individual colo
 It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is absolutely mandatory for the following reasons:
 
 1. **Lack of XYZ Additivity:** In typical emissive panels (like standard TN or TFT LCDs), you can sum the XYZ coordinates of the individual primary color channels (R, G, B) to accurately predict mixed colors (e.g., XYZ_red + XYZ_green = XYZ_yellow). On reflective displays, however, this additive property completely breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the ambient light, meaning mixed colors (Yellow, Cyan, Magenta) behave unpredictably compared to their individual R, G, B components. (e.g., XYZ_red + XYZ_green ≠ XYZ_yellow)
-2. **Gamma Extraction and Low Luminance Noise:** While it is mathematically possible to derive the primary (R, G, B) gamma curves from a grayscale measurement in theory, it is fundamentally flawed in practice. Spectrophotometers struggle to accurately measure dark patches, leading to inherent sensor noise at low luminance levels. Because the math to extrapolate gamma is highly sensitive, even minor measurement errors on dark patches result in massive, cascading deviations in the calculated gamma curve. Remember, that attempting this approach is not phisically accurate and leads to a completely wrong result.
+2. **Gamma Extraction and Low Luminance Noise:** While it is not phisically accurate, it is mathematically possible to derive the primary (R, G, B) gamma curves from a grayscale measurement but there are some fundamental flaws to keep in mind. Spectrophotometers struggle to accurately measure dark patches, leading to inherent sensor noise at low luminance levels. In addition, because the math to extrapolate gamma is highly sensitive, even minor measurement errors can result in massive, cascading deviations in the calculated gamma curve.
 
-
-
+Here's an example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
 
 | Gamma graph  | Blue scale | Red scale |
 | ------------- | :-------------: | :-------------: |
 | <img width="1000" alt="linear fit" src="https://github.com/user-attachments/assets/89cc9ab2-1a6b-4192-be2c-f597a5e4c749" /> | <img width="328" height="256" alt="cyan" src="https://github.com/user-attachments/assets/b739748b-0892-4122-896b-79d51e62b4f5" /> | <img width="328" height="256" alt="magenta" src="https://github.com/user-attachments/assets/167fc69c-1e77-4b9b-9d74-12904180a934" /> |
 
-Example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
+
 
 
 ## Measurements report (template)
