@@ -144,7 +144,7 @@ spotread -s -H -v -V -Y a log.txt
 - `log.txt` : The output text file where the measured values are saved.
 
 > [!NOTE]
-> If your spectrophotometer does not support `-Y a`, measure each patch 3 to 5 times. The results will be averaged during post-processing to reduce the measurement's noise.
+> If your spectrophotometer does not support `-Y a`, measure each patch 3 to 5 times. This way, the results can be manually averaged during post-processing to reduce the measurement's noise.
 
 The output will look like the snippet below. XYZ and Lab coordinates are calculated using D50 illuminant by default, unless you set a different one in spotread. The reflectance data is the main information of interest.
 
