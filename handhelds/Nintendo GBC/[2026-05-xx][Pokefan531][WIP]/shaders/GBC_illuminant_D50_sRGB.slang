@@ -31,24 +31,45 @@ layout(location = 0) in vec2 vTexCoord;
 layout(location = 0) out vec4 FragColor;
 layout(binding = 1) uniform sampler2D Source;
 
-float trilinearInterpolation(
-   float v000, float v100, float v010, float v110, 
-   float v001, float v101, float v011, float v111, 
-   vec3 t
-) {
-   // x axis interpolation
-   float c00 = mix(v000, v100, t.x);
-   float c01 = mix(v001, v101, t.x);
-   float c10 = mix(v010, v110, t.x);
-   float c11 = mix(v011, v111, t.x);
 
-   // y axis intepolation
-   float c0 = mix(c00, c10, t.y);
-   float c1 = mix(c01, c11, t.y);
+// Calculates a single scalar multiplier for luminance based on the chromatic composition
+// of the color. The resulting float should be multiplied with the XYZ coordinates.
+float calculateLuminanceScale(vec3 rgb, float k_c, float k_m, float k_y, float k_gray)
+{
+   // 1. Find the maximum channel value (Value in HSV)
+   float maxVal = max(rgb.r, max(rgb.g, rgb.b));
 
-   // z axis interpolation
-   return mix(c0, c1, t.z);
+   // If the color is black, avoid division by zero. Black has 0 luminance anyway.
+   if (maxVal <= 0.0)
+      return 1.0;
+
+   // 2. Normalize the color to separate its pure hue/saturation from its lightness.
+   // A dark yellow (0.5, 0.5, 0) becomes pure yellow (1.0, 1.0, 0).
+   vec3 c = rgb / maxVal;
+
+   // 3. Isolate the neutral axis on the normalized color
+   float neutral = min(c.r, min(c.g, c.b));
+
+   // 4. Remove neutral to find the pure hues
+   vec3 p = c - neutral;
+
+   // 5. Calculate the proportions of Yellow, Cyan, and Magenta
+   float yellow  = min(p.r, p.g);
+   float cyan    = min(p.g, p.b);
+   float magenta = min(p.b, p.r);
+
+   // 6. Calculate the final scalar multiplier.
+   // The base multiplier is 1.0 (for pure Red, Green, Blue).
+   // We add the negative deltas introduced by the secondary and neutral components.
+   float scale = 1.0  
+      + yellow  * (k_y - 1.0)
+      + cyan    * (k_c - 1.0)
+      + magenta * (k_m - 1.0)
+      + neutral * (k_gray - 1.0);
+
+   return scale;
 }
+
 
 vec3 handheld_eotf(vec3 color)
 {
@@ -58,13 +79,7 @@ vec3 handheld_eotf(vec3 color)
    float gb = -1.231 * pow(color.b, 3.0) + 2.016 * pow(color.b, 3.0) - 1.820 * color.b + 1.206;
 
    // 1.1 is to simulate a higher gamma for 45° angle. Use only for testing.
-   vec3 XYZ = pow(color, vec3(gr, gg, gb) + vec3(1.1));
-
-   // K, R, G, Y, B, M, C, W luminance scaling factors
-   // These scaling factors are an approximated
-   float scalingFactor = trilinearInterpolation(1.0, 1.0, 1.0, 0.9, 1.0, 0.9, 0.96, 0.92, color);
-
-   return scalingFactor * XYZ;
+   return pow(color, vec3(gr, gg, gb) + vec3(1.05));
 }
 
 // row major matrix
@@ -132,8 +147,12 @@ void main()
    // 2. handheld linearized RGB -> handheld XYZ
    vec3 handheld_xyz = HANDHELD_RGB_LIN_TO_XYZ * handheld_linearized_rgb;
 
+   // C M Y K luminance scaling factors
+   // These scaling factors are an approximation across the entire scale (not just the 255 value)
+   handheld_xyz = calculateLuminanceScale(handheld_linearized_rgb, 0.96, 0.9, 0.9, 0.92) * handheld_xyz;
+
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
-//   vec3 target_xyz = handheld_xyz + BLACK_XYZ;
+   // vec3 target_xyz = handheld_xyz + BLACK_XYZ;
    vec3 target_xyz = handheld_xyz;
 
 
