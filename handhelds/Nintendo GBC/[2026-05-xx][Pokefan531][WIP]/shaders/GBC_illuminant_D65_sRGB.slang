@@ -71,9 +71,9 @@ float calculateLuminanceScale(vec3 rgb, float k_c, float k_m, float k_y, float k
 }
 
 const int DEGREE = 3;
-const float K_R[DEGREE + 1] = float[](1.36979727, -4.14270587, 8.01244043, -5.47643094);
-const float K_G[DEGREE + 1] = float[](1.43777549, -3.52940120, 5.78584678, -3.49844932);
-const float K_B[DEGREE + 1] = float[](1.23189191, -2.20101067, 3.22390865, -2.24645952);
+const float K_R[DEGREE + 1] = float[](1.37484242, -4.21785699, 8.19882019, -5.59582305);
+const float K_G[DEGREE + 1] = float[](1.43677896, -3.53039249, 5.81676924, -3.53003937);
+const float K_B[DEGREE + 1] = float[](1.24275094, -2.31472397, 3.50722302, -2.43782955);
 
 
 vec3 handheld_eotf(vec3 color)
@@ -90,9 +90,9 @@ vec3 handheld_eotf(vec3 color)
 // row major matrix
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
-   0.438125278,   0.384985008,   0.127082453,
-   0.293906497,   0.559309610,   0.195290753,
-   0.152115685,   0.321358983,   0.432852544
+   0.404124460,   0.377494478,   0.146833390,
+   0.273465686,   0.562442035,   0.206531164,
+   0.202098205,   0.402783669,   0.559688377
 );
 
 
@@ -157,10 +157,10 @@ void main()
    // These scaling factors are calculated to minimize the CAM16-UCS delta E between the estimated values and the measured values.
    handheld_xyz = calculateLuminanceScale(
       handheld_linearized_rgb, 
-      0.965647, 
-      0.898962, 
-      0.944302, 
-      0.953737
+      0.969184, 
+      0.897847, 
+      0.946776, 
+      0.959289
    ) * handheld_xyz;
 
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
