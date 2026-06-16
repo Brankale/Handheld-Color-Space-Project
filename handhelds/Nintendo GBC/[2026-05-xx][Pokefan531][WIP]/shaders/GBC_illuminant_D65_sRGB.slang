@@ -4,12 +4,14 @@ layout(set = 0, binding = 0, std140) uniform UBO
 {
    mat4 MVP;
    float Mode;
+   float Simulate45Degrees;
    float DebugOutOfGamut;
    float RedScale;
    float GreenScale;
    float BlueScale;
 };
 
+#pragma parameter Simulate45Degrees "[Test] Simulate light at 45° angle" 0.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
@@ -83,8 +85,11 @@ vec3 handheld_eotf(vec3 color)
    float gg = K_G[3] * pow(color.g, 3.0) + K_G[2] * pow(color.g, 2.0) + K_G[1] * color.g + K_G[0];
    float gb = K_B[3] * pow(color.b, 3.0) + K_B[2] * pow(color.b, 2.0) + K_B[1] * color.b + K_B[0];
 
-   // 1.1 is to simulate a higher gamma for 45° angle. Use only for testing.
-   return pow(color, vec3(gr, gg, gb) + vec3(1.0));
+   if (Simulate45Degrees == 0.0) {
+      return pow(color, vec3(gr, gg, gb));
+   } else {
+      return pow(color, vec3(gr, gg, gb) + vec3(1.05));
+   }
 }
 
 // row major matrix
