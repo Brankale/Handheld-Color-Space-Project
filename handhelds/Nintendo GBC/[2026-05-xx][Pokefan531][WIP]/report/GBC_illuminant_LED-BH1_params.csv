@@ -1,0 +1,33 @@
+# Reflective Display Colorspace Analysis
+illuminant,LED-BH1
+observer,CIE 1931 2 Degree Standard Observer
+
+# Black point XYZ (per file)
+file,X,Y,Z
+red,19.039378,16.793769,6.377935
+green,19.565220,17.337900,6.712384
+blue,20.245147,17.918277,7.007093
+yellow,20.569836,18.136993,7.182668
+cyan,20.239996,17.925365,6.917860
+magenta,20.786662,18.361725,7.140106
+gray,22.034603,19.425785,7.351769
+global_minimum,19.039378,16.793769,6.377935
+
+"# Gamma polynomials (EOTF: gamma-exponent poly, shader use: pow(drive, gamma_poly(drive)))"
+channel,degree,rmse,"coefficients (c0, c1, ...)"
+R,3,0.06460270,1.3340511319,-3.8052599511,7.2595880215,-5.0143647748
+G,3,0.04586602,1.4336852849,-3.5147503305,5.6861157740,-3.4093547388
+B,3,0.15168581,1.1929624523,-1.6984987687,1.8455790847,-1.2513712433
+
+"# RGB linear -> XYZ matrix, normalised (col0=R, col1=G, col2=B)"
+,X,Y,Z
+R,0.578510807,0.361467564,0.072705004
+G,0.426558908,0.538655010,0.127603587
+B,0.097466645,0.153784280,0.191380122
+
+# Secondary luminance scaling coefficients
+secondary,k,mean_delta_e_cam16,std_delta_e_cam16
+yellow,0.942386,1.4226,0.4981
+cyan,0.969503,0.9970,0.2606
+magenta,0.902425,0.7458,0.2165
+gray,0.948850,1.3312,0.4818
