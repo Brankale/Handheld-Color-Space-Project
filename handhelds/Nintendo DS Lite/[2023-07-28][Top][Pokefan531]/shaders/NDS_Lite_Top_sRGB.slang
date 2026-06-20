@@ -1,8 +1,15 @@
 #version 450
 
+#pragma name NDS_Lite_Top_sRGB
+#pragma format R8G8B8A8_UNORM
+
 layout(set = 0, binding = 0, std140) uniform UBO
 {
    mat4 MVP;
+};
+
+layout(push_constant) uniform Push
+{
    float ChromaticAdaptation;
    float ImproveContrast;
    float DebugOutOfGamut;
@@ -63,6 +70,7 @@ const float GAMMA_B[GAMMA_SAMPLES] = float[](
 
 vec3 handheld_eotf(vec3 color)
 {
+   color = clamp(color, 0.0, 1.0);
    vec3 denormalized_color = color * float(GAMMA_SAMPLES - 1);
    ivec3 idx_low = ivec3(floor(denormalized_color));
    ivec3 idx_high = ivec3(ceil(denormalized_color));
@@ -76,15 +84,15 @@ vec3 handheld_eotf(vec3 color)
 }
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
-   0.39223169,  0.36370755,  0.23391794,
-   0.21674235,  0.65064109,  0.13261656,
-   0.0364544,   0.06923906,  1.18130254
+   0.39223169,  0.21674235,  0.0364544,   // column 0 (R -> X, Y, Z)
+   0.36370755,  0.65064109,  0.06923906,  // column 1 (G -> X, Y, Z)
+   0.23391794,  0.13261656,  1.18130254   // column 2 (B -> X, Y, Z)
 );
 
 const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB = mat3(
-    0.99832361, -0.00470464, -0.02567003,
-   -0.01017949,  1.01957983, -0.00738431,
-   -0.00660397,  0.01202846,  0.84193446
+    0.99832361, -0.01017949, -0.00660397,  // column 0
+   -0.00470464,  1.01957983,  0.01202846,  // column 1
+   -0.02567003, -0.00738431,  0.84193446   // column 2
 );
 
 const float WHITE_Y = 199.22644;
@@ -92,9 +100,9 @@ const vec3 BLACK_XYZ = vec3(0.332459, 0.318527, 0.545375);
 const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
 
 const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
-    0.99835555, -0.00470063, -0.02575093,
-   -0.01018255,  1.01962071, -0.00740913,
-   -0.00662264,  0.01206141,  0.84147919
+    0.99835555, -0.01018255, -0.00662264,  // column 0
+   -0.00470063,  1.01962071,  0.01206141,  // column 1
+   -0.02575093, -0.00740913,  0.84147919   // column 2
 );
 
 
@@ -102,15 +110,15 @@ const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
 // sRGB
 
 const mat3 SRGB_XYZ_TO_RGB_LIN_MTX = mat3(
-    3.2406255, -1.5372080, -0.4986286,
-   -0.9689307,  1.8757561,  0.0415175,
-    0.0557101, -0.2040211,  1.0569959
+    3.2406255, -0.9689307,  0.0557101,   // column 0 (X -> R, G, B)
+   -1.5372080,  1.8757561, -0.2040211,   // column 1 (Y -> R, G, B)
+   -0.4986286,  0.0415175,  1.0569959    // column 2 (Z -> R, G, B)
 );
 
 vec3 srgb_oetf(vec3 color)
 {
    vec3 linear = 12.92 * color;
-   vec3 nonlinear = 1.055 * pow(color, vec3(1.0 / 2.4)) - 0.055;
+   vec3 nonlinear = 1.055 * pow(max(color, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055;
    bvec3 cond = lessThanEqual(color, vec3(0.0031308));
    return mix(nonlinear, linear, vec3(cond));
 }
@@ -152,7 +160,7 @@ void main()
    vec3 handheld_linearized_rgb = handheld_eotf(handheld_rgba.rgb);
 
    // 2. handheld linearized RGB -> handheld XYZ
-   vec3 handheld_xyz = transpose(HANDHELD_RGB_LIN_TO_XYZ) * handheld_linearized_rgb;
+   vec3 handheld_xyz = HANDHELD_RGB_LIN_TO_XYZ * handheld_linearized_rgb;
 
    if (ImproveContrast == 0.0)
       handheld_xyz += BLACK_XYZ_NORMALIZED;
@@ -161,13 +169,13 @@ void main()
    vec3 target_xyz = handheld_xyz;
    if (ChromaticAdaptation == 1.0)
       if (ImproveContrast == 0.0) {
-         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK) * handheld_xyz;
+         target_xyz = CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK * handheld_xyz;
       } else {
-         target_xyz = transpose(CAT_BRADFORD_HANDHELD_TO_SRGB) * handheld_xyz;
+         target_xyz = CAT_BRADFORD_HANDHELD_TO_SRGB * handheld_xyz;
       }
 
    // 4. target XYZ -> target linearized RGB
-   vec3 target_linearized_rgb = transpose(SRGB_XYZ_TO_RGB_LIN_MTX) * target_xyz;
+   vec3 target_linearized_rgb = SRGB_XYZ_TO_RGB_LIN_MTX * target_xyz;
 
    // 5. target colorspace OETF
    vec3 target_rgb = srgb_oetf(target_linearized_rgb);
