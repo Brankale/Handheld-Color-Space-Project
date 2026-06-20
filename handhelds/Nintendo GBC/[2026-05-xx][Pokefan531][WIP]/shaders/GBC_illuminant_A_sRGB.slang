@@ -4,6 +4,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
 {
    mat4 MVP;
    float Mode;
+   float ImproveContrast;
    float Simulate45Degrees;
    float DebugOutOfGamut;
    float RedScale;
@@ -11,6 +12,7 @@ layout(set = 0, binding = 0, std140) uniform UBO
    float BlueScale;
 };
 
+#pragma parameter ImproveContrast "Remove backlight distortion (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
 #pragma parameter Simulate45Degrees "[Test] Simulate light at 45° angle" 0.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
@@ -73,17 +75,33 @@ float calculateLuminanceScale(vec3 rgb, float k_c, float k_m, float k_y, float k
 }
 
 const int DEGREE = 3;
-const float K_R[DEGREE + 1] = float[](1.35846652, -3.95626141, 7.54291529, -5.17457940);
-const float K_G[DEGREE + 1] = float[](1.44579331, -3.53489341, 5.69006703, -3.39189181);
-const float K_B[DEGREE + 1] = float[](1.19434280, -1.71082453, 1.95015966, -1.35693450);
+const float G_R[DEGREE + 1] = float[](1.35846652, -3.95626141, 7.54291529, -5.17457940);
+const float G_G[DEGREE + 1] = float[](1.44579331, -3.53489341, 5.69006703, -3.39189181);
+const float G_B[DEGREE + 1] = float[](1.19434280, -1.71082453, 1.95015966, -1.35693450);
 
+const float C_C = 0.964139;
+const float C_M = 0.901829;
+const float C_Y = 0.941472;
+const float C_K = 0.949244;
+
+// row major matrix
+const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
+   0.577297495,   0.425180747,   0.093569485,
+   0.365978641,   0.532064707,   0.155426590,
+   0.064257174,   0.154843023,   0.192697726
+);
+
+const float WHITE_Y = 54.920357;
+const vec3 BLACK_XYZ = vec3(16.5186, 16.7075, 13.3113);
+const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
+const float CONTRAST_SCALING = 1.0 / (1.0 + BLACK_XYZ[1] / WHITE_Y);
 
 vec3 handheld_eotf(vec3 color)
 {
    // gamma functions interpolated
-   float gr = K_R[3] * pow(color.r, 3.0) + K_R[2] * pow(color.r, 2.0) + K_R[1] * color.r + K_R[0];
-   float gg = K_G[3] * pow(color.g, 3.0) + K_G[2] * pow(color.g, 2.0) + K_G[1] * color.g + K_G[0];
-   float gb = K_B[3] * pow(color.b, 3.0) + K_B[2] * pow(color.b, 2.0) + K_B[1] * color.b + K_B[0];
+   float gr = G_R[3] * pow(color.r, 3.0) + G_R[2] * pow(color.r, 2.0) + G_R[1] * color.r + G_R[0];
+   float gg = G_G[3] * pow(color.g, 3.0) + G_G[2] * pow(color.g, 2.0) + G_G[1] * color.g + G_G[0];
+   float gb = G_B[3] * pow(color.b, 3.0) + G_B[2] * pow(color.b, 2.0) + G_B[1] * color.b + G_B[0];
 
    if (Simulate45Degrees == 0.0) {
       return pow(color, vec3(gr, gg, gb));
@@ -91,14 +109,6 @@ vec3 handheld_eotf(vec3 color)
       return pow(color, vec3(gr, gg, gb) + vec3(1.05));
    }
 }
-
-// row major matrix
-
-const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
-   0.577297495,   0.425180747,   0.093569485,
-   0.365978641,   0.532064707,   0.155426590,
-   0.064257174,   0.154843023,   0.192697726
-);
 
 
 // sRGB
@@ -108,8 +118,6 @@ const mat3 SRGB_XYZ_TO_RGB_LIN_MTX = mat3(
    -0.9689307,  1.8757561,  0.0415175,
     0.0557101, -0.2040211,  1.0569959
 );
-
-const vec3 BLACK_XYZ = vec3(0.165186, 0.167075, 0.133113); 
 
 vec3 srgb_oetf(vec3 color)
 {
@@ -160,17 +168,13 @@ void main()
 
    // C M Y K luminance scaling factors
    // These scaling factors are calculated to minimize the CAM16-UCS delta E between the estimated values and the measured values.
-   handheld_xyz = calculateLuminanceScale(
-      handheld_linearized_rgb, 
-      0.964139, 
-      0.901829, 
-      0.941472, 
-      0.949244
-   ) * handheld_xyz;
+   handheld_xyz = calculateLuminanceScale(handheld_linearized_rgb, C_C, C_M, C_Y, C_K) * handheld_xyz;
+
+   if (ImproveContrast == 0.0)
+         handheld_xyz = (handheld_xyz + BLACK_XYZ_NORMALIZED) * CONTRAST_SCALING;
 
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
    vec3 target_xyz = handheld_xyz;
-
 
    // 4. target XYZ -> target linearized RGB
    vec3 target_linearized_rgb = transpose(SRGB_XYZ_TO_RGB_LIN_MTX) * target_xyz;
