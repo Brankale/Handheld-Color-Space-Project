@@ -1,5 +1,10 @@
-shaders = 1
+shaders = 2
 
-shader0 = NDS_Lite_Top_sRGB.slang
+shader0 = NDS_Lite_Luminance_Prepass.slang
 filter_linear0 = false
 scale_type0 = source
+
+shader1 = NDS_Lite_Top_sRGB.slang
+filter_linear1 = true
+scale_type1 = source
+mipmap_input1 = true

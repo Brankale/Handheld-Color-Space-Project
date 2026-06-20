@@ -16,14 +16,16 @@ layout(push_constant) uniform Push
    float RedScale;
    float GreenScale;
    float BlueScale;
+   float DebugSplitScreen;
 };
 
-#pragma parameter ChromaticAdaptation "Chromatic Adaptation (0 = OFF, 1 = D65)" 0.0 0.0 1.0 1.0
+#pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF, 1=CIECAT16, 2=CIECAM16)" 0.0 0.0 2.0 1.0
 #pragma parameter ImproveContrast "Remove backlight distortion (0 = OFF, 1 = ON)" 1.0 0.0 1.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] Show `out of Gamut` colours" 0.0 0.0 1.0 1.0
 #pragma parameter RedScale "[Debug] RED scale " 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale " 0.0 0.0 1.0 1.0
 #pragma parameter BlueScale "[Debug] BLUE scale " 0.0 0.0 1.0 1.0
+#pragma parameter DebugSplitScreen "[Debug] Average luminance" 0.0 0.0 1.0 1.0
 
 #pragma stage vertex
 layout(location = 0) in vec4 Position;
@@ -89,22 +91,9 @@ const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
    0.23391794,  0.13261656,  1.18130254   // column 2 (B -> X, Y, Z)
 );
 
-const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB = mat3(
-    0.99832361, -0.01017949, -0.00660397,  // column 0
-   -0.00470464,  1.01957983,  0.01202846,  // column 1
-   -0.02567003, -0.00738431,  0.84193446   // column 2
-);
-
 const float WHITE_Y = 199.22644;
 const vec3 BLACK_XYZ = vec3(0.332459, 0.318527, 0.545375);
 const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
-
-const mat3 CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK = mat3(
-    0.99835555, -0.01018255, -0.00662264,  // column 0
-   -0.00470063,  1.01962071,  0.01206141,  // column 1
-   -0.02575093, -0.00740913,  0.84147919   // column 2
-);
-
 
 
 // sRGB
@@ -114,6 +103,67 @@ const mat3 SRGB_XYZ_TO_RGB_LIN_MTX = mat3(
    -1.5372080,  1.8757561, -0.2040211,   // column 1 (Y -> R, G, B)
    -0.4986286,  0.0415175,  1.0569959    // column 2 (Z -> R, G, B)
 );
+
+// end (sRGB)
+
+
+
+// CIECAT16 (CAT16, CIE 248:2022) Chromatic Adaptation
+
+// column-major
+const mat3 M_CAT16 = mat3(
+    0.401288, -0.250268, -0.002079,  // column 0 (X -> L, M, S)
+    0.650173,  1.204414,  0.048952,  // column 1 (Y -> L, M, S)
+   -0.051461,  0.045854,  0.953127   // column 2 (Z -> L, M, S)
+);
+
+const mat3 M_CAT16_INV = mat3(
+    1.862068,  0.387527, -0.015841,  // column 0 (L -> X, Y, Z)
+   -1.011255,  0.621447, -0.034123,  // column 1 (M -> X, Y, Z)
+    0.149187, -0.008974,  1.049964   // column 2 (S -> X, Y, Z)
+);
+
+// NDS Lite white point: column sums of HANDHELD_RGB_LIN_TO_XYZ
+const vec3 W_SRC = vec3(0.98985718, 1.0, 1.28699600);
+
+// sRGB D65 white point
+const vec3 W_REF = vec3(0.95045593, 1.0, 1.08905775);
+
+
+const vec3 LMS_W_SRC = M_CAT16 * W_SRC;
+const vec3 LMS_W_REF = M_CAT16 * W_REF;
+
+// Per-channel scale for full adaptation (D=1): LMS_W_REF / LMS_W_SRC
+const vec3 CIECAT16_FULL_SCALE = LMS_W_REF / LMS_W_SRC;
+
+// CIECAT16 full chromatic adaptation (D=1, complete adaptation)
+vec3 ciecat16(vec3 xyz)
+{
+   return M_CAT16_INV * (CIECAT16_FULL_SCALE * (M_CAT16 * xyz));
+}
+
+const float F = 0.8; // dark environment
+
+float get_degree_of_adaptation(float L_A)
+{
+   float D = F * (1.0 - (1.0 / 3.6) * exp(-(L_A + 42.0) / 92.0));
+   return clamp(D, 0.0, 1.0);
+}
+
+// CIECAM16 partial chromatic adaptation
+vec3 ciecam16(vec3 xyz, float D)
+{
+   vec3 lms = M_CAT16 * xyz;
+   vec3 d_src = D / LMS_W_SRC + (1.0 - D);
+   vec3 d_dst = D / LMS_W_REF + (1.0 - D);
+   return M_CAT16_INV * ((d_src / d_dst) * lms);
+}
+
+// end (CIECAT16)
+
+
+
+// sRGB
 
 vec3 srgb_oetf(vec3 color)
 {
@@ -144,6 +194,15 @@ vec3 compute_out_of_gamut(vec3 color)
 
 void main()
 {
+   // L_A: frame-average absolute luminance - mipmap LOD 100 clamps to the 1x1 level
+   // (true linear average because pass 0 stored linear Y in the A channel)
+   float Y_avg = textureLod(Source, vec2(0.5, 0.5), 100.0).a;
+   float L_A = Y_avg * WHITE_Y;
+
+   // use 20% gray world assumption because Y_avg seems to have issues
+   L_A = 0.2 * WHITE_Y;
+
+   // Original NDS pixel from pass 0 RGB channels
    vec4 handheld_rgba = texture(Source, vTexCoord);
 
    // debug: color scales
@@ -167,12 +226,12 @@ void main()
 
    // 3. chromatic adaptation (handheld XYZ -> target XYZ)
    vec3 target_xyz = handheld_xyz;
-   if (ChromaticAdaptation == 1.0)
-      if (ImproveContrast == 0.0) {
-         target_xyz = CAT_BRADFORD_HANDHELD_TO_SRGB_WITH_BLACK * handheld_xyz;
-      } else {
-         target_xyz = CAT_BRADFORD_HANDHELD_TO_SRGB * handheld_xyz;
-      }
+
+   if (ChromaticAdaptation == 1.0) {
+      target_xyz = ciecat16_full(handheld_xyz);
+   } else if (ChromaticAdaptation == 2.0) {
+      target_xyz = ciecat16_partial(handheld_xyz, get_degree_of_adaptation(L_A));
+   }
 
    // 4. target XYZ -> target linearized RGB
    vec3 target_linearized_rgb = SRGB_XYZ_TO_RGB_LIN_MTX * target_xyz;
@@ -183,6 +242,12 @@ void main()
    // post processing: out of gamut
    if (DebugOutOfGamut == 1.0)
       target_rgb = compute_out_of_gamut(target_rgb);
-   
+
+   if (DebugSplitScreen == 1.0) {
+      if (vTexCoord.x < 0.2 && vTexCoord.y < 0.2) {
+         target_rgb = vec3(Y_avg);
+      }
+   }
+
    FragColor = vec4(target_rgb, handheld_rgba.w);
 }
