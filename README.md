@@ -15,10 +15,21 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 # Showcase
 
+## Reflective displays
+
+> [!NOTE]
+> Physically accurate simulation of ambient illuminant effects through measured screen reflectance data, enabling the modeling of the display's reflective behavior instead of relying on chromatic adaptation.
+
+> [!WARNING]
+> The GBC shaders are based on "-45°" screen reflectance measurements (45°/0° geometry + 180° orientation), which produce a washed-out image due to the reflective properties of the original display. The screenshots shown here were generated using the "45° Simulation" parameter (45°/0° geometry + 0° orientation), a rough approximation that better represents the display's intended appearance.
 
 
+| Preview  | Preview | Preview |  Preview |
+| :-------------: | :-------------: | :-------------: |  :-------------: |
+|  <br>`GBC no shader`<br><br><img width="200" height="180" alt="gbc_raw" src="https://github.com/user-attachments/assets/778f5ae6-6d22-4c2b-b449-9bd27065621c" /> |  <br>`GBC Illuminant A (WIP)`<br><br><img width="200" height="180" alt="gbc_a" src="https://github.com/user-attachments/assets/8b752141-7f34-42dd-a2f0-6a61b34b5db3" /> |  <br>`GBC Illuminant D50 (WIP)`<br><br><img width="200" height="180" alt="gbc_d50" src="https://github.com/user-attachments/assets/1a407db6-5b6f-4a1a-9e33-b8a9d0d9353f" /> | <br>`GBC Illuminant D65 (WIP)`<br><br><img width="200" height="180" alt="gbc_d65" src="https://github.com/user-attachments/assets/a34409f7-a662-48c0-854f-71bf35c11b6e" /> |
 
 
+## Emissive displays
 
 | Preview  | Preview | Preview |
 | :-------------: | :-------------: | :-------------: |
@@ -37,7 +48,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `Game Boy` |  Reflective | 🔴 | ? | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🔴 | ? | Currently provided data have issues |
+| `Game Boy Color` |  Reflective | 🕐 | ? | Currently provided data have issues |
 | `Game Boy Advance AGB-001` |  Reflective | 🔴 | ? | Currently provided data have issues | 
 | `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔴 | ? | Currently provided data have issues |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
