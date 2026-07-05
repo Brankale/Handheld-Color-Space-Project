@@ -42,6 +42,12 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | 3DS no shader | 3DS | New 3DS XL (IPS) |
 | :-------------: | :-------------: | :-------------: |
 | <img width="256" height="192" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> | <img width="256" height="192" alt="3ds" src="https://github.com/user-attachments/assets/97e85339-214b-4dac-8d3c-849498e91a60" /> | <img width="256" height="192" alt="new_3ds_xl" src="https://github.com/user-attachments/assets/906c5e60-93b1-4a06-bb2a-8a89a5bf30b6" /> |
+| <img width="800" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | <img width="800" alt="3ds" src="https://github.com/user-attachments/assets/8b71e3e3-a9a7-41e7-ad1c-c8da47cfca3d" /> | <img width="800" alt="3ds_xl_ips" src="https://github.com/user-attachments/assets/e49c8c67-f320-4a7c-9b38-672e0a8515c5" /> |
+|  `no shader - already D65`<br><br><img width="800" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | `D65 chromatic adaptation`<br><br><img width="800" alt="3ds_d65" src="https://github.com/user-attachments/assets/d0b764d3-b378-4e1a-a714-add092b10224" /> | `D65 chromatic adaptation`<br><br><img width="800" alt="3ds_xl_ips_d65" src="https://github.com/user-attachments/assets/460b54cc-5f74-40af-b41f-6552b2645932" /> |
+
+
+
+
 
 
 # Handhelds status report
