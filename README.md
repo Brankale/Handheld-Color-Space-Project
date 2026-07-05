@@ -54,7 +54,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 | Nintendo Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
-| `Game Boy` |  Reflective | 🔴 | ? | |
+| `Game Boy` |  Reflective | 🔴 | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | |
 | `Game Boy Pocket` |  Reflective | 🔴 | ? | |
 | `Game Boy Light` |  Emissive | 🔴 | ? | |
 | `Game Boy Color` |  Reflective | 🕐 | ? | Currently provided data have issues |
