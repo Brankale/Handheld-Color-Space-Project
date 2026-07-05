@@ -62,7 +62,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔴 | ? | Currently provided data have issues |
 | `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
 | `Game Boy Micro` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
-| `NDS Phat` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
+| `NDS Phat` |  Transflective<br>(backlit on),<br>Reflective<br>(backlit off) [link](https://www.youtube.com/shorts/QxCrDdIadwU)  | 🔵⚠️ | ? | - unknown manufacturer<br>- only emissive mode has been measured |
 | `NDS Lite` |  Emissive | 🔵⚠️ | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
