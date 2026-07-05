@@ -7,3 +7,4 @@ scale_type0 = source
 shader1 = NDS_Lite_Top_sRGB.slang
 filter_linear1 = false
 scale_type1 = source
+mipmap_input1 = true
