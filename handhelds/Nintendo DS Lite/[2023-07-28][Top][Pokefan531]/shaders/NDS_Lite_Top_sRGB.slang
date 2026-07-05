@@ -228,9 +228,9 @@ void main()
    vec3 target_xyz = handheld_xyz;
 
    if (ChromaticAdaptation == 1.0) {
-      target_xyz = ciecat16_full(handheld_xyz);
+      target_xyz = ciecat16(handheld_xyz);
    } else if (ChromaticAdaptation == 2.0) {
-      target_xyz = ciecat16_partial(handheld_xyz, get_degree_of_adaptation(L_A));
+      target_xyz = ciecam16(handheld_xyz, get_degree_of_adaptation(L_A));
    }
 
    // 4. target XYZ -> target linearized RGB
