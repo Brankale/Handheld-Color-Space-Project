@@ -10,7 +10,7 @@ This project aims to **accurately reproduce the original color output of handhel
 
 All data is **based on instrumented colorimetric measurements of real hardware**. Subjective, visual, or “by eye” adjustments are explicitly excluded.
 
-Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles, high-precision mathematical modeling, and validated against the original hardware to ensure faithful color reproduction as it appeared on the real device.
+Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles, high-precision mathematical modeling.
 
 
 # Showcase
@@ -60,16 +60,16 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `Game Boy Color` |  Reflective | 🕐 | ? | Currently provided data have issues |
 | `Game Boy Advance AGB-001` |  Reflective | 🔴 | ? | Currently provided data have issues | 
 | `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔴 | ? | Currently provided data have issues |
-| `Game Boy Advance SP AGS-101` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
-| `Game Boy Micro` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer |
-| `NDS Phat` |  Transflective<br>(backlit on),<br>Reflective<br>(backlit off) [link](https://www.youtube.com/shorts/QxCrDdIadwU)  | 🔵⚠️ | ? | - unknown manufacturer<br>- only emissive mode has been measured |
-| `NDS Lite` |  Emissive | 🔵⚠️ | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - unknown manufacturer<br>- greyscale gamma differs between reports (different manufacturers?) |
+| `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? |  |
+| `Game Boy Micro` |  Emissive | 🔵 | ? |  |
+| `NDS Phat` |  Transflective<br>(backlit on),<br>Reflective<br>(backlit off) [link](https://www.youtube.com/shorts/QxCrDdIadwU)  | 🔵 | ? | - only emissive mode has been measured |
+| `NDS Lite` |  Emissive | 🔵 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` |  Emissive | 🔴 | ? | |
 | `NDSi XL` |  Emissive | 🔴 | ? |  |
-| `3DS` |  Emissive | 🔵⚠️ | ? | - unknown manufacturer<br>- equal primaries across measurements (except blue) and similar gamma |
+| `3DS` |  Emissive | 🔵 | ? | - equal primaries across measurements (except blue) and similar gamma |
 | `3DS XL` |  Emissive | 🔴 | ? |  |
 | `New 3DS` |  Emissive | 🔴 | ? | |
-| `New 3DS XL` |  Emissive | 🔵⚠️ | ? | - only IPS top screen analyzed<br>- screen lottery<br>- unknown manufacturer<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
+| `New 3DS XL` |  Emissive | 🔵 | ? | - only IPS top screen analyzed<br>- screen lottery<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
 | `2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS` |  Emissive | 🔴 | ? |  |
 | `New 2DS XL` |  Emissive | 🔴 | ? | |
@@ -81,7 +81,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 | Sony Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
-| `PSP-1000 (Phat)` |  Emissive | 🔵⚠️ | ? | - missing manufacturer<br>- missing exact model number |
+| `PSP-1000 (Phat)` |  Emissive | 🔵 | ? | - missing exact model number |
 | `PSP-2000 (Slim)` | ? | 🔴 | ? | |
 | `PSP-3000 (Brite)` | ? | 🔴 | ? | |
 | `PSP-N1000 (Go)` | ? | 🔴 | ? | |
@@ -91,7 +91,6 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 - 🔴: No data available / Invalid data
 - 🔵: Data available
 - 🟢: Data available and verified by two or more screen reports from different consoles
-- ⚠️: Some information is missing (e.g., manufacturer, measurement tools, etc.)
 - 🕐: Measurement data validation in progress
 
 
