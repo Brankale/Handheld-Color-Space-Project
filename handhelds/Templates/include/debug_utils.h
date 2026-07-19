@@ -67,7 +67,7 @@ vec3 turbo_colormap(float t)
 
 // OKLab deltaE heatmap visualisation.
 // Uses GAMUT_DE_THRESHOLD for the in/out-gamut boundary (same as clip mode).
-// In-gamut -> neutral grey, out-of-gamut -> Turbo(deltaE / dE_max).
+// In-gamut -> neutral grey, out-of-gamut -> Turbo(dE00 / dE_max).
 vec3 compute_out_of_gamut_deltaE(vec3 linear_rgb, vec3 encoded_rgb, float dE_max)
 {
     vec3 clamped = clamp(linear_rgb, 0.0, 1.0);

@@ -28,7 +28,6 @@ layout(push_constant) uniform Push
     float RedScale;
     float GreenScale;
     float BlueScale;
-    float DebugSplitScreen;
 };
 
 #pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF,1=CIECAT16,2=CIECAM16)" 0.0 0.0 2.0 1.0
@@ -41,7 +40,6 @@ layout(push_constant) uniform Push
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale" 0.0 0.0 1.0 1.0
 #pragma parameter BlueScale "[Debug] BLUE scale" 0.0 0.0 1.0 1.0
-#pragma parameter DebugSplitScreen "[Debug] Average luminance" 0.0 0.0 1.0 1.0
 
 #pragma stage vertex
 layout(location = 0) in vec4 Position;
@@ -60,13 +58,11 @@ layout(location = 0) out vec4 FragColor;
 layout(binding = 1) uniform sampler2D Source;
 
 // ============================================================
-// TODO: Replace the following with values measured from the
-//       target handheld device and screen. Refer to an existing
-//       device shader (e.g. NDS_Lite_Top_sRGB.slang) for the
-//       expected format and scale of each constant.
+// Device-specific data — Nintendo DS Lite Top [2023-07-28][Pokefan531]
+// Replace ALL values in this section when targeting a different device.
 // ============================================================
 
-const int GAMMA_SAMPLES = 32; // TODO
+const int GAMMA_SAMPLES = 32;
 
 const float GAMMA_R[GAMMA_SAMPLES] = float[](
     2.0767131,
@@ -98,13 +94,13 @@ const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
     0.23391794,  0.13261656,  1.18130254   // column 2 (B -> X, Y, Z)
 );
 
-const float WHITE_Y = 199.22644; // TODO
-const vec3 BLACK_XYZ = vec3(0.332459, 0.318527, 0.545375); // TODO
+const float WHITE_Y = 199.22644;
+const vec3 BLACK_XYZ = vec3(0.332459, 0.318527, 0.545375);
 const vec3 BLACK_XYZ_NORMALIZED = BLACK_XYZ / WHITE_Y;
-const vec3 W_SRC = vec3(0.98985718, 1.0, 1.28699600); // TODO
+const vec3 W_SRC = vec3(0.98985718, 1.0, 1.28699600);
 
 // ============================================================
-// end TODO
+// end device-specific data
 // ============================================================
 
 vec3 handheld_eotf(vec3 color)
@@ -307,15 +303,16 @@ vec3 compute_out_of_gamut_deltaE(vec3 linear_rgb, vec3 encoded_rgb, float dE_max
 
 void main()
 {
+    // Ambient adapting luminance: 20% gray world assumption (single-pass, no prepass).
     float L_A = 0.2 * WHITE_Y;
 
     vec4 handheld_rgba = texture(Source, vTexCoord);
 
     if ((RedScale + GreenScale + BlueScale) > 0.0) {
         handheld_rgba = vec4(
-            mix(0.0, vTexCoord.x, RedScale),
-            mix(0.0, vTexCoord.x, GreenScale),
-            mix(0.0, vTexCoord.x, BlueScale),
+            vTexCoord.x * RedScale,
+            vTexCoord.x * GreenScale,
+            vTexCoord.x * BlueScale,
             1.0
         );
     }
@@ -348,11 +345,6 @@ void main()
 
     if      (DebugOutOfGamut == 1.0) target_rgb = compute_out_of_gamut(target_linear_rgb, target_rgb);
     else if (DebugOutOfGamut == 2.0) target_rgb = compute_out_of_gamut_deltaE(target_linear_rgb, target_rgb, DebugDeltaEMax);
-
-    if (DebugSplitScreen == 1.0) {
-        if (vTexCoord.x < 0.2 && vTexCoord.y < 0.2)
-            target_rgb = vec3(0.2);
-    }
 
     FragColor = vec4(target_rgb, handheld_rgba.w);
 }
