@@ -1,14 +1,15 @@
 #version 450
 
-// Portable (standalone) variant of TEMPLATE_HDR.slang.
+// Portable (standalone) variant of TEMPLATE_scRGB.slang.
 // All shared code is inlined — no external #include dependencies.
 // Copy this single file anywhere and it will work as-is.
 //
-// NOTE: HDR output (PQ / HLG) requires RetroArch with HDR pipeline enabled
-//       and an HDR-capable display. Set OutputTransfer = 3 for PQ (HDR10)
-//       or 4 for HLG, and configure PeakLuminance to match your display.
+// scRGB output (R16G16B16A16_SFLOAT, linear Rec.709, extended range).
+// Requires RetroArch with HDR enabled (Windows D3D11/D3D12 backend).
+// PaperWhiteNits sets the nit level that maps to scRGB 1.0.
+// (doc: "R16G16B16A16_SFLOAT — Linear values can be written directly")
 
-#pragma name TEMPLATE_HDR_portable
+#pragma name TEMPLATE_scRGB_portable
 #pragma format R16G16B16A16_SFLOAT
 
 layout(set = 0, binding = 0, std140) uniform UBO
@@ -20,9 +21,7 @@ layout(push_constant) uniform Push
 {
     float ChromaticAdaptation;
     float ImproveContrast;
-    float OutputColorSpace;
-    float OutputTransfer;
-    float PeakLuminance;
+    float PaperWhiteNits;
     float DebugOutOfGamut;
     float DebugDeltaEMax;
     float RedScale;
@@ -32,9 +31,7 @@ layout(push_constant) uniform Push
 
 #pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF,1=CIECAT16,2=CIECAM16)" 0.0 0.0 2.0 1.0
 #pragma parameter ImproveContrast "Remove backlight distortion (0=OFF,1=ON)" 1.0 0.0 1.0 1.0
-#pragma parameter OutputColorSpace "Gamut (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
-#pragma parameter OutputTransfer "OETF (0=sRGB,1=G2.2,2=G2.4,3=PQ,4=HLG)" 0.0 0.0 4.0 1.0
-#pragma parameter PeakLuminance "HDR peak luminance nits (for PQ/HLG)" 1000.0 100.0 10000.0 100.0
+#pragma parameter PaperWhiteNits "scRGB paper white nits (SDR ref white)" 203.0 80.0 400.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] 0=OFF 1=clip 2=deltaE heat" 0.0 0.0 2.0 1.0
 #pragma parameter DebugDeltaEMax "[Debug] deltaE00 = full red in heatmap" 3.0 1.0 50.0 1.0
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
@@ -329,22 +326,11 @@ void main()
     else if (ChromaticAdaptation == 2.0)
         adapted_xyz = ciecam16(handheld_xyz, get_degree_of_adaptation(L_A));
 
-    mat3 xyz_to_rgb;
-    if      (OutputColorSpace == 1.0) xyz_to_rgb = DISPLAY_P3_XYZ_TO_RGB_LIN_MTX;
-    else if (OutputColorSpace == 2.0) xyz_to_rgb = ADOBE_RGB_XYZ_TO_RGB_LIN_MTX;
-    else if (OutputColorSpace == 3.0) xyz_to_rgb = REC2020_XYZ_TO_RGB_LIN_MTX;
-    else                              xyz_to_rgb = SRGB_XYZ_TO_RGB_LIN_MTX;
-    vec3 target_linear_rgb = xyz_to_rgb * adapted_xyz;
+    vec3 target_linear_rgb = SRGB_XYZ_TO_RGB_LIN_MTX * adapted_xyz;
 
-    vec3 target_rgb;
-    if      (OutputTransfer == 1.0) target_rgb = gamma_oetf(target_linear_rgb, 2.2);
-    else if (OutputTransfer == 2.0) target_rgb = gamma_oetf(target_linear_rgb, 2.4);
-    else if (OutputTransfer == 3.0) target_rgb = pq_oetf(target_linear_rgb, WHITE_Y, PeakLuminance);
-    else if (OutputTransfer == 4.0) target_rgb = hlg_oetf(target_linear_rgb, WHITE_Y, PeakLuminance);
-    else                            target_rgb = srgb_oetf(target_linear_rgb);
+    vec3 display_rgb = target_linear_rgb;
+    if      (DebugOutOfGamut == 1.0) display_rgb = compute_out_of_gamut(target_linear_rgb, target_linear_rgb);
+    else if (DebugOutOfGamut == 2.0) display_rgb = compute_out_of_gamut_deltaE(target_linear_rgb, target_linear_rgb, DebugDeltaEMax);
 
-    if      (DebugOutOfGamut == 1.0) target_rgb = compute_out_of_gamut(target_linear_rgb, target_rgb);
-    else if (DebugOutOfGamut == 2.0) target_rgb = compute_out_of_gamut_deltaE(target_linear_rgb, target_rgb, DebugDeltaEMax);
-
-    FragColor = vec4(target_rgb, handheld_rgba.w);
+    FragColor = vec4(display_rgb * (WHITE_Y / PaperWhiteNits), handheld_rgba.w);
 }

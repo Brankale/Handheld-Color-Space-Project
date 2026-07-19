@@ -1,5 +1,5 @@
 shaders = 1
 
-shader0 = TEMPLATE_HDR_portable.slang
+shader0 = TEMPLATE_HDR10_portable.slang
 filter_linear0 = false
 scale_type0 = source

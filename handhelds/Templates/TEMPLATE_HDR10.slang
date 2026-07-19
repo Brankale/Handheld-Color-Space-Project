@@ -1,11 +1,14 @@
 #version 450
 
-// NOTE: HDR output (PQ / HLG) requires RetroArch with HDR pipeline enabled
-//       and an HDR-capable display. Set OutputTransfer = 3 for PQ (HDR10)
-//       or 4 for HLG, and configure PeakLuminance to match your display.
+// HDR10 output (A2B10G10R10_UNORM_PACK32, PQ/ST 2084, Rec. 2020).
+// Requires RetroArch with an HDR10-capable display (Windows D3D11/D3D12).
+// (doc: "A2B10G10R10_UNORM_PACK32 — HDR10-encoded (PQ) values can be
+//        written directly. Linear values must be converted to PQ before output.")
+// Debug gamut tools are excluded: in PQ space, SDR values (0–1) map to
+// near-black; the red OOG indicator (1.0) would equal 10 000 nits.
 
-#pragma name TEMPLATE_HDR
-#pragma format R16G16B16A16_SFLOAT
+#pragma name TEMPLATE_HDR10
+#pragma format A2B10G10R10_UNORM_PACK32
 
 layout(set = 0, binding = 0, std140) uniform UBO
 {
@@ -16,11 +19,7 @@ layout(push_constant) uniform Push
 {
     float ChromaticAdaptation;
     float ImproveContrast;
-    float OutputColorSpace;
-    float OutputTransfer;
     float PeakLuminance;
-    float DebugOutOfGamut;
-    float DebugDeltaEMax;
     float RedScale;
     float GreenScale;
     float BlueScale;
@@ -28,11 +27,7 @@ layout(push_constant) uniform Push
 
 #pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF,1=CIECAT16,2=CIECAM16)" 0.0 0.0 2.0 1.0
 #pragma parameter ImproveContrast "Remove backlight distortion (0=OFF,1=ON)" 1.0 0.0 1.0 1.0
-#pragma parameter OutputColorSpace "Gamut (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
-#pragma parameter OutputTransfer "OETF (0=sRGB,1=G2.2,2=G2.4,3=PQ,4=HLG)" 0.0 0.0 4.0 1.0
-#pragma parameter PeakLuminance "HDR peak luminance nits (for PQ/HLG)" 1000.0 100.0 10000.0 100.0
-#pragma parameter DebugOutOfGamut "[Debug] 0=OFF 1=clip 2=deltaE heat" 0.0 0.0 2.0 1.0
-#pragma parameter DebugDeltaEMax "[Debug] deltaE00 = full red in heatmap" 3.0 1.0 50.0 1.0
+#pragma parameter PeakLuminance "HDR10 peak luminance nits" 1000.0 100.0 10000.0 100.0
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale" 0.0 0.0 1.0 1.0
 #pragma parameter BlueScale "[Debug] BLUE scale" 0.0 0.0 1.0 1.0
@@ -134,7 +129,6 @@ vec3 handheld_eotf(vec3 color)
 #include "include/color_matrices.h"
 #include "include/chromatic_adaptation.h"
 #include "include/transfer_functions.h"
-#include "include/debug_utils.h"
 
 void main()
 {
@@ -171,25 +165,11 @@ void main()
     else if (ChromaticAdaptation == 2.0)
         adapted_xyz = ciecam16(handheld_xyz, get_degree_of_adaptation(L_A));
 
-    // 5. XYZ -> output-space linear RGB
-    mat3 xyz_to_rgb;
-    if      (OutputColorSpace == 1.0) xyz_to_rgb = DISPLAY_P3_XYZ_TO_RGB_LIN_MTX;
-    else if (OutputColorSpace == 2.0) xyz_to_rgb = ADOBE_RGB_XYZ_TO_RGB_LIN_MTX;
-    else if (OutputColorSpace == 3.0) xyz_to_rgb = REC2020_XYZ_TO_RGB_LIN_MTX;
-    else                              xyz_to_rgb = SRGB_XYZ_TO_RGB_LIN_MTX;
-    vec3 target_linear_rgb = xyz_to_rgb * adapted_xyz;
+    // 5. XYZ -> Rec.2020 linear (HDR10 always uses Rec.2020)
+    // (doc: "A2B10G10R10_UNORM_PACK32 — 10-bit, Rec. 2020, PQ (ST 2084)")
+    vec3 target_linear_rgb = REC2020_XYZ_TO_RGB_LIN_MTX * adapted_xyz;
 
-    // 6. Output OETF
-    vec3 target_rgb;
-    if      (OutputTransfer == 1.0) target_rgb = gamma_oetf(target_linear_rgb, 2.2);
-    else if (OutputTransfer == 2.0) target_rgb = gamma_oetf(target_linear_rgb, 2.4);
-    else if (OutputTransfer == 3.0) target_rgb = pq_oetf(target_linear_rgb, WHITE_Y, PeakLuminance);
-    else if (OutputTransfer == 4.0) target_rgb = hlg_oetf(target_linear_rgb, WHITE_Y, PeakLuminance);
-    else                            target_rgb = srgb_oetf(target_linear_rgb);
-
-    // 7. Debug: gamut visualisation (linear for check, encoded for display)
-    if      (DebugOutOfGamut == 1.0) target_rgb = compute_out_of_gamut(target_linear_rgb, target_rgb);
-    else if (DebugOutOfGamut == 2.0) target_rgb = compute_out_of_gamut_deltaE(target_linear_rgb, target_rgb, DebugDeltaEMax);
-
-    FragColor = vec4(target_rgb, handheld_rgba.w);
+    // 6. HDR10 output: PQ encode (absolute nits via WHITE_Y)
+    // (doc: "Linear values must be converted to PQ before output")
+    FragColor = vec4(pq_oetf(target_linear_rgb, WHITE_Y, PeakLuminance), handheld_rgba.w);
 }
