@@ -13,7 +13,7 @@ layout(push_constant) uniform Push
     float ChromaticAdaptation;
     float ImproveContrast;
     float OutputColorSpace;
-    float OutputTransfer;
+    float OutputTransferOverride;
     float DebugOutOfGamut;
     float DebugDeltaEMax;
     float RedScale;
@@ -23,8 +23,8 @@ layout(push_constant) uniform Push
 
 #pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF,1=CIECAT16,2=CIECAM16)" 0.0 0.0 2.0 1.0
 #pragma parameter ImproveContrast "Remove backlight distortion (0=OFF,1=ON)" 1.0 0.0 1.0 1.0
-#pragma parameter OutputColorSpace "Gamut (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
-#pragma parameter OutputTransfer "OETF (0=sRGB,1=G2.2,2=G2.4)" 0.0 0.0 2.0 1.0
+#pragma parameter OutputColorSpace "ColorSpace (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
+#pragma parameter OutputTransferOverride "Override OETF (0=Auto 1=sRGB 2=2.2 3=2.4)" 0.0 0.0 3.0 1.0
 #pragma parameter DebugOutOfGamut "[Debug] 0=OFF 1=clip 2=deltaE heat" 0.0 0.0 2.0 1.0
 #pragma parameter DebugDeltaEMax "[Debug] deltaE00 = full red in heatmap" 3.0 1.0 50.0 1.0
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
@@ -173,11 +173,18 @@ void main()
     else                              xyz_to_rgb = SRGB_XYZ_TO_RGB_LIN_MTX;
     vec3 target_linear_rgb = xyz_to_rgb * adapted_xyz;
 
-    // 6. Output OETF
+    // 6. Output OETF (canonical per colorspace, overridable)
+    // Index: 1=sRGB  2=G2.2  3=G2.4
+    // cs:    sRGB=1  P3=1    AdobeRGB=2  Rec.2020=3
+    const int CANONICAL_OETF[4] = int[4](1, 1, 2, 3);
+    int cs_idx   = int(OutputColorSpace);
+    int oetf_idx = int(OutputTransferOverride);
+    if (oetf_idx == 0)
+        oetf_idx = CANONICAL_OETF[cs_idx];
     vec3 target_rgb;
-    if      (OutputTransfer == 1.0) target_rgb = gamma_oetf(target_linear_rgb, 2.2);
-    else if (OutputTransfer == 2.0) target_rgb = gamma_oetf(target_linear_rgb, 2.4);
-    else                            target_rgb = srgb_oetf(target_linear_rgb);
+    if      (oetf_idx == 2) target_rgb = gamma_oetf(target_linear_rgb, 2.2);
+    else if (oetf_idx == 3) target_rgb = gamma_oetf(target_linear_rgb, 2.4);
+    else                    target_rgb = srgb_oetf(target_linear_rgb);
 
     // 7. Debug: gamut visualisation (linear for check, encoded for display)
     if      (DebugOutOfGamut == 1.0) target_rgb = compute_out_of_gamut(target_linear_rgb, target_rgb);
