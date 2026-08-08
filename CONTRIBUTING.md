@@ -13,12 +13,13 @@
 # Displays types
 
 - `Emissive`: the display **emits its own light** (no external illumination needed).
+- `Transmissive`: the display uses a separate backlight and modulates the light passing through the panel. A backlit LCD is therefore transmissive, whereas an OLED is emissive. Although the physical principles differ, both are measured from the viewing side using an instrument's emissive/display measurement mode.
 - `Reflective`: the display **does not emit light**; it reflects ambient light. Pixels modulate reflection, rather than emitting light.
-- `Transflective`: **hybrid** of emissive and reflective. A backlight is present, but the display can also use ambient light (via a partially reflective layer).
+- `Transflective`: **hybrid** of transmissive and reflective. A backlight is present, but the display can also use ambient light (via a partially reflective layer).
 
 ## Measurements tools
 
-Depending on the display type, you must use the appropriate meter to ensure accurate measurements. Here is a summary table:
+Depending on the display type, you must use an instrument that supports the required measurement mode. Here is a summary table:
 
 | Meter  | Emissive | Reflective | Transflective |
 | ------------- | :-------------: | :-------------: | :-------------: | 
@@ -66,26 +67,27 @@ To achieve reproducible and accurate measurements, you must:
   * For multiple screens (e.g., NDS family), cover the screens not being measured to prevent light leakage.
 * **Plug in the charger for certain handhelds**:
   * Some devices (e.g., PSP-1000) require charging to reach maximum screen luminance.
-* **Use full-screen color patches**:
-  * Requires homebrew software on modded handhelds, hardware modifications, or special cartridges.
-* **Optionally remove screen protectors or digitizers**:
-  * Extra layers (e.g., touchscreen or protective films) can alter measurements, so removing them improves accuracy.
+* **Use appropriate color-patch sizes**:
+  * Full-screen patches are appropriate for LCD handhelds without automatic brightness limiting (ABL). This requires homebrew software on modded handhelds, hardware modifications, or special cartridges.
+  * For emissive displays affected by Automatic Brightness Limiting (ABL), such as the Nintendo Switch OLED, use window patches covering no more than 10% of the screen area and document the chosen size. This reduces the likelihood that ABL alters the measurements.
+* **Remove protective layers and touch digitizers when practical**:
+  * screen protectors and touch digitizers can deteriorate or yellow over time, altering the measured color independently of the display panel. Removing them is therefore recommended when the goal is to characterize the panel itself.
+  * Removal is especially recommended for reflective displays, where thick plastic layers can substantially attenuate the limited reflected light and reduce measurement reliability.
+  * Removal is not always necessary. If a protective layer is clear, undamaged and does not significantly attenuate or alter the measured light, it can remain in place. For example, removing the cover from the top screen of a Nintendo DS may provide little practical benefit.
+  * Because removing these layers requires disassembling the console and may not be practical or desirable, measurements of a fully assembled console are also accepted. Always document which protective layers and digitizers were present or removed so that the measurement conditions can be interpreted and reproduced.
 * **Colorimeter usage**:
   * **With screen protector**: Place the sensor in contact with the protector to keep it perpendicular, reduce light leakage, and minimize external light influence.
   * **Without screen protector**: Place the sensor directly on the screen but avoid pressing too hard to prevent distortion or Newton rings. Alternatively, position the meter very close to the screen, ensuring perpendicular alignment—small viewing angle changes can significantly affect color and brightness on TN panels.
 
 ### What to Measure
 
-To accurately characterize a handheld screen’s colorspace, you should record the following data:
-* Chromaticity coordinates of:
-   * Red, Green, Blue
-   * Yellow, Cyan, Magenta
-   * Black, White
-* Chromaticity coordinates of the greyscale:
-   * Measure the entire grayscale range from black to white.
-   * The number of color patches to measure must be a power of two (e.g., 32 patches, 64 patches, 128 patches, etc.) to facilitate integration with shaders.
-   * The maximum number of patches to measure depends on the screen’s bit depth (e.g., the GBC has a 5-bit depth, so the number of patches to measure is 2^5 = 32).
-   * As a general recommendation, measure at least 32 grayscale patches to ensure sufficient accuracy.
+To reproduce the display's color space, use one of the following presets according to the desired compromise between fidelity and measurement time:
+
+| Level | Measurements | Result and limitations |
+| ------------- | ------------- | ------------- |
+| **Complete** | CIE XYZ coordinates for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With 32 levels per ramp, this is 224 patches. | Provides direct measurements of all primary, secondary and greyscale response curves. |
+| **Recommended** | CIE XYZ coordinates for the full Red, Green and Blue ramps, plus Black, White, Yellow, Cyan and Magenta. | Produces results that are practically equivalent to the Complete preset for emissive and transmissive displays, with substantially fewer measurements. |
+| **Bare minimum** | CIE XYZ coordinates for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | The primary gamma curves must be calculated rather than measured directly and may be slightly less accurate because measurement errors can be amplified by the mathematical extraction steps. |
 
 > [!NOTE]
 > If the handheld has multiple screens (e.g., Nintendo DS family), **measure both top and bottom panels**.
@@ -118,9 +120,8 @@ Measuring reflective displays requires a fundamentally different approach compar
 ### Instrument Orientation
 The physical orientation of the spectrophotometer against the display is critical. If you measure the screen with different spectrophotometer orientations, the measured reflectance will completely change due to the display's internal polarizers and reflective layers scattering light asymmetrically. NB: This step has great implications on the resulting gamma.
 
-- **How to find the correct orientation:** A recommended validation step is to export the measured luminance (Y) data (taken from XYZ coordinates) from your software and plot it in a spreadsheet tool like LibreOffice Calc / Excel / Google Sheets. 
-  - If the resulting curve looks **logarithmic**, the instrument's orientation is completely wrong for that display. 
-  - If the curve exhibits an **exponential** shape, it is likely correct. You are generally looking for the orientation that yields the most prominent/largest exponential response.
+- **How to find the representative orientation:** Align the instrument with the direction from which the console is normally viewed, and document the display and instrument rotation so that the setup can be reproduced. As a validation step, export the measured luminance (Y) data from the XYZ coordinates and plot it in a spreadsheet tool such as LibreOffice Calc, Excel or Google Sheets.
+  - For the consoles tested so far, the normal viewing orientation produces an exponential response. A logarithmic-looking or unusually flat response indicates that the instrument is probably rotated relative to the intended viewing direction.
 
 | Orientation | Measurements | Output |
 | :-------------: | :-------------: | :-------------: |
@@ -140,11 +141,11 @@ spotread -s -H -v -V -Y a log.txt
 ```
 
 **Flag explanations:**
-- `-s` : Print spectrum for each reading
-- `-H` : Use high resolution spectrum mode (if available)
-- `-v` : Verbose mode
+- `-s` : Print spectrum for each reading. **This flag is essential**.
+- `-H` : Use high resolution spectrum mode (if available).
+- `-v` : Verbose mode.
 - `-V` : Show running average and std. devation from ref.
-- `-Y a` : Use averaging measurement mode (if available)
+- `-Y a` : Use averaging measurement mode (if available).
 - `log.txt` : The output text file where the measured values are saved.
 
 > [!NOTE]
@@ -160,7 +161,7 @@ Reading	X	Y	Z	L*	a*	b*	380.000	383.333	386.667	390.000	393.333	396.667	400.000	.
 ```
 
 > [!WARNING]
-> spotread XYZ and Lab reported values depend on the integrity of the spectral data. For instance, the ColorMunki Photo exhibits significant limitations below 440nm, showing a drop-off and a flat baseline (including physically impossible negative values). This is likely a combined effect of the instrument's low LED emission in the violet/UV range, the screen's internal UV filters and polarizers and instrument limitations but currently we don't have any clear evidence of this. At wavelengths above 700nm, the signal becomes unstable probably due to a low signal-to-noise ratio as the sensor reaches its operational limit. This must be taken into consideration in the post-processing step when calculating XYZ coordinates.
+> spotread XYZ and Lab reported values depend on the integrity of the spectral data. Measurements made with the ColorMunki Photo show an evident instrumental limitation below 440 nm, where the response drops to a flat baseline and includes physically impossible negative values. Above 700 nm, the measured signal also becomes unstable near the instrument's operational limit. Inaccurate spectral readings in these regions propagate into the calculated XYZ values, with an impact that depends on the selected illuminant spectrum and standard-observer functions. These regions must therefore be inspected and treated cautiously during post-processing and when recalculating XYZ coordinates.
 >
 > Here's an example image showing spectral reflectance data of the greyscale taken from a GBC using a Colormunki Photo:
 > <img height="400" alt="greyscale spectral reflectance" src="https://github.com/user-attachments/assets/827b1cf3-a9a2-46bc-a6e9-654a47c9f9ea" />
@@ -168,12 +169,23 @@ Reading	X	Y	Z	L*	a*	b*	380.000	383.333	386.667	390.000	393.333	396.667	400.000	.
 
 
 ### What to measure
-To properly profile a reflective display, you must measure **224 individual color patches** in total: a full 32-patch scale (assuming a standard 5-bit depth) for Red, Green, Blue, Yellow, Cyan, Magenta, and the Greyscale (7 scales × 32 patches). Tests must be performed to ensure this is the lowest number of patches to measure to get a good trade-off between accuracy and time spent measuring.
+To reproduce the color space of a reflective display, use one of the following presets according to the desired compromise between fidelity and measurement time.
+
+> [!WARNING]
+> Saving the spectral reflectance data for every patch is essential (with `spotread`, the `-s` flag automatically includes all sampled wavelengths in each patch reading). Do not rely only on the XYZ values reported by the software: reflective XYZ values are calculated from the spectrum using a specific illuminant and standard observer, so they represent only those selected viewing conditions. Keeping the spectrum allows XYZ to be recalculated for other illuminants and unreliable wavelength regions to be inspected or handled during post-processing.
+
+| Level | Measurements | Result and limitations |
+| ------------- | ------------- | ------------- |
+| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. |
+| **Bare minimum** | Spectral reflectance for the full Red, Green and Blue ramps, followed by the pairs Black → White, Black → Yellow, Black → Cyan and Black → Magenta. Do not omit the intervening Black readings (*). | Measures the primary gamma curves directly and captures the peak secondary colors, but does not provide secondary ramps for validation. |
+| **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | Accurate primary gamma curves are practically impossible to extract because the reflective displays do not satisfy the required XYZ additivity assumptions and the calculation is highly sensitive to measurement error. |
+
+(*) In the reflective workflow tested for this project, a measurement offset accumulates during the session. Measuring Black immediately before White and before each secondary color provides the corresponding offset reference for post-processing. Preserve this exact order in the raw data. This is an empirical correction for the tested instrument and setup, not a substitute for the instrument's calibration procedure.
 
 It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is absolutely mandatory for the following reasons:
 
-1. **Lack of XYZ Additivity:** In typical emissive panels (like standard TN or TFT LCDs), you can sum the XYZ coordinates of the individual primary color channels (R, G, B) to accurately predict mixed colors (e.g., $`XYZ_{red} + XYZ_{green} ≃ XYZ_{yellow}`$ or in other words $`SPD_{red} + SPD_{green} ≃ SPD_{yellow}`$). On reflective displays, however, this additive property completely breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the ambient light, meaning mixed colors (Yellow, Cyan, Magenta) behave unpredictably compared to their individual R, G, B components. (e.g., $`XYZ_{red} + XYZ_{green} > XYZ_{yellow}`$ or in other words $`SPD_{red} + SPD_{green} > SPD_{yellow}`$)
-2. **Gamma Extraction and Low Luminance Noise:** While it is not phisically accurate, it is mathematically possible to derive the primary (R, G, B) gamma curves from a grayscale measurement but there are some fundamental flaws to keep in mind. Spectrophotometers struggle to accurately measure dark patches, leading to inherent sensor noise at low luminance levels. In addition, because the math to extrapolate gamma is highly sensitive, even minor measurement errors can result in massive, cascading deviations in the calculated gamma curve.
+1. **Lack of XYZ Additivity and Gamma Extraction:** In typical emissive or transmissive panels (such as standard TN or TFT LCDs), mixed colors can be predicted from the black-corrected primary measurements. For example, $`(XYZ_W - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K) + (XYZ_B - XYZ_K)`$ and $`(XYZ_Y - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K)`$; the same relations can be tested using spectral power distributions. This additivity makes it mathematically possible to estimate the primary (R, G, B) gamma curves from grayscale measurements together with measurements of the primaries. On all reflective consoles tested so far, however, this additive model breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the illumination, meaning mixed colors (Yellow, Cyan, Magenta) and the individual gamma curves cannot be accurately predicted from the grayscale and primary measurements alone.
+2. **Low Luminance Noise:** Spectrophotometers can struggle to measure dark patches accurately, leading to sensor noise at low signal levels. Because gamma extraction is highly sensitive to these errors, even minor measurement deviations can produce large distortions in the calculated curves.
 
 Here's an example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
 
@@ -200,7 +212,7 @@ To validate the results of a colorspace conversion:
    * Ensure your display supports the target gamut.
    * Use a hardware colorimeter or spectroradiometer to calibrate your display to the target colorspace (e.g., sRGB, DisplayP3 (sRGB EOTF), P3-D65 (PQ EOTF), Rec. 2020). Ensure you use a colorimeter or spectroradiometer capable of accurately measuring wide-gamut colorspaces, as not all devices support them correctly.
    * If hardware calibration is not possible, use a high-quality display with verified calibration, but note that results may have small deviations.
-3. **Disable all display enhancements**
+2. **Disable all display enhancements**
    * Turn off dynamic contrast, local dimming, HDR, blue-light filters, ABL (automatic brightness limiter) or any post-processing features that can alter color or gamma.
   
 > [!WARNING]
