@@ -94,7 +94,7 @@ To reproduce the display's color space, use one of the following presets accordi
 | **Bare minimum** | CIE XYZ coordinates for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | $N + 6 = 38$ | The primary gamma curves must be calculated rather than measured directly and may be slightly less accurate because measurement errors can be amplified by the mathematical extraction steps. |
 
 > [!NOTE]
-> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. For emissive and transmissive displays, is not necessary to measure more than 32 patches per ramp even if the native signal depth is higher because the intermediate values can be interpolated without loss of accuracy.
+> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. For a bit depth $b$, use $N = 2^b$. For emissive and transmissive displays, is not necessary to measure more than 32 patches per ramp even if the native signal depth is higher because the intermediate values can be interpolated without loss of accuracy. 
 
 > [!NOTE]
 > If the handheld has multiple screens (e.g., Nintendo DS family), **measure both top and bottom panels**.
@@ -185,7 +185,7 @@ To reproduce the color space of a reflective display, use one of the following p
 | **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | $N + 6 = 38$ | Accurate primary gamma curves are practically impossible to extract. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
 
 > [!NOTE]
-> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. They count individual readings; the $+8$ in the Bare minimum preset is the four Black → color pairs. For a bit depth $b$, use $N = 2^b$.
+> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. For a bit depth $b$, use $N = 2^b$.
 
 (*) In the reflective workflow tested for this project, a measurement offset accumulates during the session. Measuring Black immediately before White and before each secondary color provides the corresponding offset reference for post-processing. Preserve this exact order in the raw data. This is an empirical correction for the tested instrument and setup, not a substitute for the instrument's calibration procedure.
 
