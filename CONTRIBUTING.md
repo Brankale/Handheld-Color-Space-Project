@@ -177,7 +177,7 @@ To reproduce the color space of a reflective display, use one of the following p
 
 | Level | Measurements | Result and limitations |
 | ------------- | ------------- | ------------- |
-| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
+| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. |
 | **Bare minimum** | Spectral reflectance for the full Red, Green and Blue ramps, followed by the pairs Black → White, Black → Yellow, Black → Cyan and Black → Magenta. Do not omit the intervening Black readings (*). | Measures the primary gamma curves directly and captures the peak secondary colors, but does not provide secondary ramps for validation. |
 | **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | Accurate primary gamma curves are practically impossible to extract. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
 
