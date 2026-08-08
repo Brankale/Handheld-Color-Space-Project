@@ -8,6 +8,10 @@
    - [Measurements guide for reflective displays (Work in Progress)](#measurements-guide-for-reflective-displays-work-in-progress)
    - [Measurements report (template)](#measurements-report-template)
 - [Measurements Validation](#measurements-validation)
+- [Technical notes for reflective displays](#technical-notes-for-reflective-displays)
+  - [Spectral reflectance and XYZ calculation](#spectral-reflectance-and-xyz-calculation)
+  - [Instrumental spectral limitations](#instrumental-spectral-limitations)
+  - [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction)
 
 
 # Displays types
@@ -42,7 +46,7 @@ Handheld LCD screens present several challenges:
 The goal is to **measure the best possible scenario**, removing all the factors which can degrade image quality.
 
 > [!IMPORTANT]
-> Measurements of mods (e.g., IPS and OLED panel replacements) is allowed but only if clearly documented.
+> Measurements of mods (e.g., IPS and OLED panel replacements) are allowed, but only if clearly documented.
 
 ### Examples of "screen lottery"
 
@@ -71,7 +75,7 @@ To achieve reproducible and accurate measurements, you must:
   * Full-screen patches are appropriate for LCD handhelds without automatic brightness limiting (ABL). This requires homebrew software on modded handhelds, hardware modifications, or special cartridges.
   * For emissive displays affected by Automatic Brightness Limiting (ABL), such as the Nintendo Switch OLED, use window patches covering no more than 10% of the screen area and document the chosen size. This reduces the likelihood that ABL alters the measurements.
 * **Remove protective layers and touch digitizers when practical**:
-  * screen protectors and touch digitizers can deteriorate or yellow over time, altering the measured color independently of the display panel. Removing them is therefore recommended when the goal is to characterize the panel itself.
+  * Screen protectors and touch digitizers can deteriorate or yellow over time, altering the measured color independently of the display panel. Removing them is therefore recommended when the goal is to characterize the panel itself.
   * Removal is especially recommended for reflective displays, where thick plastic layers can substantially attenuate the limited reflected light and reduce measurement reliability.
   * Removal is not always necessary. If a protective layer is clear, undamaged and does not significantly attenuate or alter the measured light, it can remain in place. For example, removing the cover from the top screen of a Nintendo DS may provide little practical benefit.
   * Because removing these layers requires disassembling the console and may not be practical or desirable, measurements of a fully assembled console are also accepted. Always document which protective layers and digitizers were present or removed so that the measurement conditions can be interpreted and reproduced.
@@ -141,15 +145,15 @@ spotread -s -H -v -V -Y a log.txt
 ```
 
 **Flag explanations:**
-- `-s` : Print spectrum for each reading. **This flag is essential**.
+- `-s` : Print spectrum for each reading.
 - `-H` : Use high resolution spectrum mode (if available).
 - `-v` : Verbose mode.
-- `-V` : Show running average and std. devation from ref.
+- `-V` : Show the running average and standard deviation from the reference.
 - `-Y a` : Use averaging measurement mode (if available).
 - `log.txt` : The output text file where the measured values are saved.
 
 > [!NOTE]
-> If your spectrophotometer does not support `-Y a`, measure each patch 3 to 5 times. This way, the results can be manually averaged during post-processing to reduce the measurement's noise.
+> If your spectrophotometer does not support `-Y a`, you can measure each patch at least 3 times. This way, the results can be manually averaged during post-processing to reduce the measurement's noise.
 
 The output will look like the snippet below. XYZ and Lab coordinates are calculated using D50 illuminant by default, unless you set a different one in spotread. The reflectance data is the main information of interest.
 
@@ -161,10 +165,7 @@ Reading	X	Y	Z	L*	a*	b*	380.000	383.333	386.667	390.000	393.333	396.667	400.000	.
 ```
 
 > [!WARNING]
-> spotread XYZ and Lab reported values depend on the integrity of the spectral data. Measurements made with the ColorMunki Photo show an evident instrumental limitation below 440 nm, where the response drops to a flat baseline and includes physically impossible negative values. Above 700 nm, the measured signal also becomes unstable near the instrument's operational limit. Inaccurate spectral readings in these regions propagate into the calculated XYZ values, with an impact that depends on the selected illuminant spectrum and standard-observer functions. These regions must therefore be inspected and treated cautiously during post-processing and when recalculating XYZ coordinates.
->
-> Here's an example image showing spectral reflectance data of the greyscale taken from a GBC using a Colormunki Photo:
-> <img height="400" alt="greyscale spectral reflectance" src="https://github.com/user-attachments/assets/827b1cf3-a9a2-46bc-a6e9-654a47c9f9ea" />
+> Some instruments have known wavelength-range limitations. See [Instrumental spectral limitations](#instrumental-spectral-limitations) before post-processing data from that instrument.
 
 
 
@@ -172,26 +173,15 @@ Reading	X	Y	Z	L*	a*	b*	380.000	383.333	386.667	390.000	393.333	396.667	400.000	.
 To reproduce the color space of a reflective display, use one of the following presets according to the desired compromise between fidelity and measurement time.
 
 > [!WARNING]
-> Saving the spectral reflectance data for every patch is essential (with `spotread`, the `-s` flag automatically includes all sampled wavelengths in each patch reading). Do not rely only on the XYZ values reported by the software: reflective XYZ values are calculated from the spectrum using a specific illuminant and standard observer, so they represent only those selected viewing conditions. Keeping the spectrum allows XYZ to be recalculated for other illuminants and unreliable wavelength regions to be inspected or handled during post-processing.
+> Saving the spectral reflectance data for every patch is essential (with `spotread`, the `-s` flag automatically includes all sampled wavelengths in each patch reading). Do not rely only on the XYZ values reported by the software. See [Spectral reflectance and XYZ calculation](#spectral-reflectance-and-xyz-calculation) for the reason.
 
 | Level | Measurements | Result and limitations |
 | ------------- | ------------- | ------------- |
-| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. |
+| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
 | **Bare minimum** | Spectral reflectance for the full Red, Green and Blue ramps, followed by the pairs Black → White, Black → Yellow, Black → Cyan and Black → Magenta. Do not omit the intervening Black readings (*). | Measures the primary gamma curves directly and captures the peak secondary colors, but does not provide secondary ramps for validation. |
-| **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | Accurate primary gamma curves are practically impossible to extract because the reflective displays do not satisfy the required XYZ additivity assumptions and the calculation is highly sensitive to measurement error. |
+| **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | Accurate primary gamma curves are practically impossible to extract. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
 
 (*) In the reflective workflow tested for this project, a measurement offset accumulates during the session. Measuring Black immediately before White and before each secondary color provides the corresponding offset reference for post-processing. Preserve this exact order in the raw data. This is an empirical correction for the tested instrument and setup, not a substitute for the instrument's calibration procedure.
-
-It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is absolutely mandatory for the following reasons:
-
-1. **Lack of XYZ Additivity and Gamma Extraction:** In typical emissive or transmissive panels (such as standard TN or TFT LCDs), mixed colors can be predicted from the black-corrected primary measurements. For example, $`(XYZ_W - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K) + (XYZ_B - XYZ_K)`$ and $`(XYZ_Y - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K)`$; the same relations can be tested using spectral power distributions. This additivity makes it mathematically possible to estimate the primary (R, G, B) gamma curves from grayscale measurements together with measurements of the primaries. On all reflective consoles tested so far, however, this additive model breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the illumination, meaning mixed colors (Yellow, Cyan, Magenta) and the individual gamma curves cannot be accurately predicted from the grayscale and primary measurements alone.
-2. **Low Luminance Noise:** Spectrophotometers can struggle to measure dark patches accurately, leading to sensor noise at low signal levels. Because gamma extraction is highly sensitive to these errors, even minor measurement deviations can produce large distortions in the calculated curves.
-
-Here's an example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
-
-| Gamma graph  | Blue scale | Red scale |
-| ------------- | :-------------: | :-------------: |
-| <img width="1000" alt="linear fit" src="https://github.com/user-attachments/assets/89cc9ab2-1a6b-4192-be2c-f597a5e4c749" /> | <img width="328" height="256" alt="cyan" src="https://github.com/user-attachments/assets/b739748b-0892-4122-896b-79d51e62b4f5" /> | <img width="328" height="256" alt="magenta" src="https://github.com/user-attachments/assets/167fc69c-1e77-4b9b-9d74-12904180a934" /> |
 
 
 
@@ -217,3 +207,34 @@ To validate the results of a colorspace conversion:
   
 > [!WARNING]
 > If you can't meet these requirements, please avoid performing this validation since you cannot reliably validate the results. If you still wish to provide opinions on the results, be sure to provide full context to avoid misleading conclusions.
+
+# Technical notes for reflective displays
+
+## Spectral reflectance and XYZ calculation
+
+While an emissive display produces its own light, a reflective display works differently: it modifies the light falling onto it. Its visible color and brightness therefore change with the ambient illumination (illuminant).
+
+For this reason, the primary result of a reflective-display measurement is its spectral reflectance: the fraction of light at each wavelength that the display reflects. Capturing this behavior is essential to reproduce how the screen responds under different illuminants.
+
+By default, the XYZ values displayed by the software are calculated from the reflectance spectrum using a selected illuminant and standard observer (usually D50 with the 2° observer). They therefore describe the display only under those selected viewing conditions. Retaining the spectrum makes it possible to recalculate XYZ values for another illuminant and to inspect or handle unreliable wavelength regions during post-processing.
+
+## Instrumental spectral limitations
+
+`spotread` XYZ and Lab values depend on the integrity of the spectral data. Measurements made with the ColorMunki Photo show an evident instrumental limitation below 440 nm, where the response drops to a flat baseline and includes physically impossible negative values. Above 700 nm, the measured signal also becomes unstable near the instrument's operational limit. Inaccurate spectral readings in these regions propagate into the calculated XYZ values, with an impact that depends on the selected illuminant spectrum and standard-observer functions. These regions must therefore be inspected and treated cautiously during post-processing and when recalculating XYZ coordinates.
+
+Here is an example of spectral reflectance data for a GBC greyscale measured with a ColorMunki Photo:
+
+<img height="400" alt="greyscale spectral reflectance" src="https://github.com/user-attachments/assets/827b1cf3-a9a2-46bc-a6e9-654a47c9f9ea" />
+
+## XYZ additivity and gamma extraction
+
+It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is required for the following reasons:
+
+1. **Lack of XYZ Additivity:** In typical emissive or transmissive panels (such as standard TN or TFT LCDs), mixed colors can be predicted from the black-corrected primary measurements. For example, $`(XYZ_W - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K) + (XYZ_B - XYZ_K)`$ and $`(XYZ_Y - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K)`$; the same relations can be tested using spectral power distributions. This additivity makes it mathematically possible to estimate the primary (R, G, B) gamma curves from grayscale measurements together with measurements of the primaries. On all reflective consoles tested so far, however, this additive model breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the illumination, meaning mixed colors (Yellow, Cyan, Magenta) and the individual gamma curves cannot be accurately predicted from the grayscale and primary measurements alone.
+2. **Low Luminance Noise:** Spectrophotometers can struggle to measure dark patches accurately, leading to sensor noise at low signal levels. Because gamma extraction is highly sensitive to these errors, even minor measurement deviations can produce large distortions in the calculated curves.
+
+Here is an example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
+
+| Gamma graph  | Blue scale | Red scale |
+| ------------- | :-------------: | :-------------: |
+| <img width="1000" alt="linear fit" src="https://github.com/user-attachments/assets/89cc9ab2-1a6b-4192-be2c-f597a5e4c749" /> | <img width="328" height="256" alt="cyan" src="https://github.com/user-attachments/assets/b739748b-0892-4122-896b-79d51e62b4f5" /> | <img width="328" height="256" alt="magenta" src="https://github.com/user-attachments/assets/167fc69c-1e77-4b9b-9d74-12904180a934" /> |
