@@ -228,12 +228,12 @@ Here is an example of spectral reflectance data for a GBC greyscale measured wit
 
 ## XYZ additivity and gamma extraction
 
-It is not physically viable to simply measure the Greyscale and mathematically derive the gamma of the Red, Green, and Blue channels. This extensive manual sampling of all colors is required for the following reasons:
+To accurately derive the gamma curves of a reflective display, measurements of RGBCMYK ramps are necessary. Using the Greyscale ramp plus primary measurements, as for emissive displays, is not possible for the following reasons:
 
-1. **Lack of XYZ Additivity:** In typical emissive or transmissive panels (such as standard TN or TFT LCDs), mixed colors can be predicted from the black-corrected primary measurements. For example, $`(XYZ_W - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K) + (XYZ_B - XYZ_K)`$ and $`(XYZ_Y - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K)`$; the same relations can be tested using spectral power distributions. This additivity makes it mathematically possible to estimate the primary (R, G, B) gamma curves from grayscale measurements together with measurements of the primaries. On all reflective consoles tested so far, however, this additive model breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the illumination, meaning mixed colors (Yellow, Cyan, Magenta) and the individual gamma curves cannot be accurately predicted from the grayscale and primary measurements alone.
+1. **Lack of XYZ Additivity:** In typical emissive or transmissive panels (such as standard TN or TFT LCDs), mixed colors can be predicted from the black-corrected primary measurements. For example, $`(XYZ_W - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K) + (XYZ_B - XYZ_K)`$ and $`(XYZ_Y - XYZ_K) ≃ (XYZ_R - XYZ_K) + (XYZ_G - XYZ_K)`$; the same relations can be tested using spectral power distributions. This additivity makes it mathematically possible to estimate the primary (R, G, B) gamma curves from the Greyscale ramp and the primary measurements. On all reflective consoles tested so far, however, this additive model breaks down. The final reflected color strongly depends on how the physical liquid crystal layers interact with the illumination, meaning mixed colors (Yellow, Cyan, Magenta) and the individual gamma curves cannot be accurately predicted from the Greyscale ramp and peak primary measurements alone.
 2. **Low Luminance Noise:** Spectrophotometers can struggle to measure dark patches accurately, leading to sensor noise at low signal levels. Because gamma extraction is highly sensitive to these errors, even minor measurement deviations can produce large distortions in the calculated curves.
 
-Here is an example of gamma extracted from greyscale measurements. Blue and red scale are very distorted without performing interpolation.
+Here is an example of gamma extracted from greyscale measurements. The blue and red scales are very distorted without interpolation.
 
 | Gamma graph  | Blue scale | Red scale |
 | ------------- | :-------------: | :-------------: |
