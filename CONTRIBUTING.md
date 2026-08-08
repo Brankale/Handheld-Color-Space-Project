@@ -87,11 +87,14 @@ To achieve reproducible and accurate measurements, you must:
 
 To reproduce the display's color space, use one of the following presets according to the desired compromise between fidelity and measurement time:
 
-| Level | Measurements | Result and limitations |
-| ------------- | ------------- | ------------- |
-| **Complete** | CIE XYZ coordinates for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With 32 levels per ramp, this is 224 patches. | Provides direct measurements of all primary, secondary and greyscale response curves. |
-| **Recommended** | CIE XYZ coordinates for the full Red, Green and Blue ramps, plus Black, White, Yellow, Cyan and Magenta. | Produces results that are practically equivalent to the Complete preset for emissive and transmissive displays, with substantially fewer measurements. |
-| **Bare minimum** | CIE XYZ coordinates for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | The primary gamma curves must be calculated rather than measured directly and may be slightly less accurate because measurement errors can be amplified by the mathematical extraction steps. |
+| Level | Measurements | Patches | Result and limitations |
+| ------------- | ------------- | :-------------: | ------------- |
+| **Complete** | CIE XYZ coordinates for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. | $7N = 224$ | Provides direct measurements of all primary, secondary and greyscale response curves. |
+| **Recommended** | CIE XYZ coordinates for the full Red, Green and Blue ramps, plus Black, White, Yellow, Cyan and Magenta. | $3N + 5 = 101$ | Produces results that are practically equivalent to the Complete preset for emissive and transmissive displays, with substantially fewer measurements. |
+| **Bare minimum** | CIE XYZ coordinates for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | $N + 6 = 38$ | The primary gamma curves must be calculated rather than measured directly and may be slightly less accurate because measurement errors can be amplified by the mathematical extraction steps. |
+
+> [!NOTE]
+> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. For emissive and transmissive displays, is not necessary to measure more than 32 patches per ramp even if the native signal depth is higher because the intermediate values can be interpolated without loss of accuracy.
 
 > [!NOTE]
 > If the handheld has multiple screens (e.g., Nintendo DS family), **measure both top and bottom panels**.
@@ -175,11 +178,14 @@ To reproduce the color space of a reflective display, use one of the following p
 > [!WARNING]
 > Saving the spectral reflectance data for every patch is essential (with `spotread`, the `-s` flag automatically includes all sampled wavelengths in each patch reading). Do not rely only on the XYZ values reported by the software. See [Spectral reflectance and XYZ calculation](#spectral-reflectance-and-xyz-calculation) for the reason.
 
-| Level | Measurements | Result and limitations |
-| ------------- | ------------- | ------------- |
-| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. With a standard 5-bit depth, this is 7 ramps × 32 patches = **224 patches**. | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. |
-| **Bare minimum** | Spectral reflectance for the full Red, Green and Blue ramps, followed by the pairs Black → White, Black → Yellow, Black → Cyan and Black → Magenta. Do not omit the intervening Black readings (*). | Measures the primary gamma curves directly and captures the peak secondary colors, but does not provide secondary ramps for validation. |
-| **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | Accurate primary gamma curves are practically impossible to extract. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
+| Level | Measurements | Patches | Result and limitations |
+| ------------- | ------------- | :-------------: | ------------- |
+| **Complete** / **Recommended** | Spectral reflectance for the full Red, Green, Blue, Yellow, Cyan, Magenta and Greyscale ramps. | $7N = 224$ | Directly measures every required response curve. The secondary ramps also enable validation tests that cannot be performed using only peak secondary measurements. |
+| **Bare minimum** | Spectral reflectance for the full Red, Green and Blue ramps, followed by the pairs Black → White, Black → Yellow, Black → Cyan and Black → Magenta. Do not omit the intervening Black readings (*). | $3N + 8 = 104$ | Measures the primary gamma curves directly and captures the peak secondary colors, but does not provide secondary ramps for validation. |
+| **Insufficient** | Spectral reflectance for the full Greyscale ramp, plus Red, Green, Blue, Yellow, Cyan and Magenta. | $N + 6 = 38$ | Accurate primary gamma curves are practically impossible to extract. See [XYZ additivity and gamma extraction](#xyz-additivity-and-gamma-extraction). |
+
+> [!NOTE]
+> The counts assume a 5-bit signal depth: $N = 2^5 = 32$ levels per full ramp. They count individual readings; the $+8$ in the Bare minimum preset is the four Black → color pairs. For a bit depth $b$, use $N = 2^b$.
 
 (*) In the reflective workflow tested for this project, a measurement offset accumulates during the session. Measuring Black immediately before White and before each secondary color provides the corresponding offset reference for post-processing. Preserve this exact order in the raw data. This is an empirical correction for the tested instrument and setup, not a substitute for the instrument's calibration procedure.
 
