@@ -52,40 +52,40 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 # Handhelds status report
 
-| Nintendo Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
-| ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
-| `Game Boy` |  Reflective | 🔴 | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | |
-| `Game Boy Pocket` |  Reflective | 🔴 | ? | |
-| `Game Boy Light` |  Emissive | 🔴 | ? | |
-| `Game Boy Color` |  Reflective | 🕐 | ? | Currently provided data have issues |
-| `Game Boy Advance AGB-001` |  Reflective | 🔴 | ? | Currently provided data have issues | 
-| `Game Boy Advance SP AGS-001` |  Transflective<br>(frontlit on),<br>Reflective<br>(frontlit off) | 🔴 | ? | Currently provided data have issues |
-| `Game Boy Advance SP AGS-101` |  Emissive | 🔵 | ? |  |
-| `Game Boy Micro` |  Emissive | 🔵 | ? |  |
-| `NDS Phat` |  Transflective<br>(backlit on),<br>Reflective<br>(backlit off) [link](https://www.youtube.com/shorts/QxCrDdIadwU)  | 🔵 | ? | - only emissive mode has been measured |
-| `NDS Lite` |  Emissive | 🔵 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - greyscale gamma differs between reports (different manufacturers?) |
-| `NDSi` |  Emissive | 🔴 | ? | |
-| `NDSi XL` |  Emissive | 🔴 | ? |  |
-| `3DS` |  Emissive | 🔵 | ? | - equal primaries across measurements (except blue) and similar gamma |
-| `3DS XL` |  Emissive | 🔴 | ? |  |
-| `New 3DS` |  Emissive | 🔴 | ? | |
-| `New 3DS XL` |  Emissive | 🔵 | ? | - only IPS top screen analyzed<br>- screen lottery<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
-| `2DS` |  Emissive | 🔴 | ? |  |
-| `New 2DS` |  Emissive | 🔴 | ? |  |
-| `New 2DS XL` |  Emissive | 🔴 | ? | |
-| `Wii U` |  Emissive | 🔴 | ? | |
-| `Switch` |  Emissive | 🕐 | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
-| `Switch Mini` |  Emissive | 🔴 | ? | |
-| `Switch OLED` |  Emissive | 🔴 | ? | - [other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) |
-| `Switch 2` |  Emissive | 🔴 | ? | |
+| Nintendo Handheld  | Display Type | Bit Depth | Display Data Collected? | Known Manufacturers | Measurements Notes |
+| ------------- | :-------------: | :-------------: | :-------------: |  :-------------: | :------------- |
+| `Game Boy` | Reflective | 2-bit | 🔴 | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | |
+| `Game Boy Pocket` | Reflective | 2-bit | 🔴 | ? | |
+| `Game Boy Light` | Transflective<br>(EL backlight on),<br>Reflective<br>(backlight off) | 2-bit | 🔴 | ? | |
+| `Game Boy Color` | Reflective | 5-bit | 🕐 | ? | Currently provided data have issues |
+| `Game Boy Advance AGB-001` | Reflective | 5-bit | 🔴 | ? | Currently provided data have issues | 
+| `Game Boy Advance SP AGS-001` | Transflective<br>(frontlight on),<br>Reflective<br>(frontlight off) | 5-bit | 🔴 | ? | Currently provided data have issues |
+| `Game Boy Advance SP AGS-101` | Transmissive | 5-bit | 🔵 | ? |  |
+| `Game Boy Micro` | Transmissive | 5-bit | 🔵 | ? |  |
+| `NDS Phat` | Transflective<br>(backlight on),<br>Reflective<br>(backlight off) [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | 🔵 | ? | - only backlit mode has been measured |
+| `NDS Lite` | Transmissive | 6-bit | 🔵 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - greyscale gamma differs between reports (different manufacturers?) |
+| `NDSi` | Transmissive | 6-bit | 🔴 | ? | |
+| `NDSi XL` | Transmissive | 6-bit | 🔴 | ? |  |
+| `3DS` | Transmissive | 8-bit | 🔵 | ? | - equal primaries across measurements (except blue) and similar gamma |
+| `3DS XL` | Transmissive | 8-bit | 🔴 | ? |  |
+| `New 3DS` | Transmissive | 8-bit | 🔴 | ? | |
+| `New 3DS XL` | Transmissive<br>(TN or IPS) | 8-bit | 🔵 | ? | - only IPS top screen analyzed<br>- screen lottery<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
+| `2DS` | Transmissive | 8-bit | 🔴 | ? |  |
+| `New 2DS` | Transmissive | 8-bit | 🔴 | ? |  |
+| `New 2DS XL` | Transmissive | 8-bit | 🔴 | ? | |
+| `Wii U` | Transmissive | 8-bit | 🔴 | ? | |
+| `Switch` | Transmissive | 8-bit | 🕐 | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
+| `Switch Mini` | Transmissive | 8-bit | 🔴 | ? | |
+| `Switch OLED` | Emissive OLED | 8-bit | 🔴 | ? | - [other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) |
+| `Switch 2` | Transmissive | ? | 🔴 | ? | |
 
-| Sony Handheld  | Display Type | Display Data Collected? | Known Manufacturers | Measurements Notes |
-| ------------- | :-------------: | :-------------: |  :-------------: | :------------- |
-| `PSP-1000 (Phat)` |  Emissive | 🔵 | ? | - missing exact model number |
-| `PSP-2000 (Slim)` | ? | 🔴 | ? | |
-| `PSP-3000 (Brite)` | ? | 🔴 | ? | |
-| `PSP-N1000 (Go)` | ? | 🔴 | ? | |
-| `PSP-E1000 (Street)` | ? | 🔴 | ? | |
+| Sony Handheld  | Display Type | Bit Depth | Display Data Collected? | Known Manufacturers | Measurements Notes |
+| ------------- | :-------------: | :-------------: | :-------------: |  :-------------: | :------------- |
+| `PSP-1000 (Phat)` | Transmissive | 8-bit | 🔵 | ? | - missing exact model number |
+| `PSP-2000 (Slim)` | Transmissive | 8-bit | 🔴 | ? | |
+| `PSP-3000 (Brite)` | Transmissive | 8-bit | 🔴 | ? | |
+| `PSP-N1000 (Go)` | Transmissive | 8-bit | 🔴 | ? | |
+| `PSP-E1000 (Street)` | Transmissive | 8-bit | 🔴 | ? | |
 
 **Legend**:
 - 🔴: No data available / Invalid data
