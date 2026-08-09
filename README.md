@@ -29,7 +29,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | <img width="200" height="180" alt="gbc_raw" src="https://github.com/user-attachments/assets/778f5ae6-6d22-4c2b-b449-9bd27065621c" /> | <img width="200" height="180" alt="gbc_a" src="https://github.com/user-attachments/assets/8b752141-7f34-42dd-a2f0-6a61b34b5db3" /> | <img width="200" height="180" alt="gbc_d50" src="https://github.com/user-attachments/assets/1a407db6-5b6f-4a1a-9e33-b8a9d0d9353f" /> | <img width="200" height="180" alt="gbc_d65" src="https://github.com/user-attachments/assets/a34409f7-a662-48c0-854f-71bf35c11b6e" /> |
 
 
-## Emissive displays
+## Transmissive and emissive displays
 
 | GBA no shader | GBA SP AGS-101 | GB Micro |
 | :-------------: | :-------------: | :-------------: |
@@ -54,15 +54,15 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 | Nintendo Handheld  | Display Type | Bit Depth | Display Data Collected? | Known Manufacturers | Measurements Notes |
 | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: | :------------- |
-| `Game Boy` | Reflective | 2-bit | 🔴 | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | |
-| `Game Boy Pocket` | Reflective | 2-bit | 🔴 | ? | |
-| `Game Boy Light` | Transflective<br>(EL backlight on),<br>Reflective<br>(backlight off) | 2-bit | 🔴 | ? | |
-| `Game Boy Color` | Reflective | 5-bit | 🕐 | ? | Currently provided data have issues |
+| `Game Boy` | Reflective | 2-bit<br>per pixel | 🔴 | ? | |
+| `Game Boy Pocket` | Reflective | 2-bit<br>per pixel | 🔴 | ? | |
+| `Game Boy Light` | Transflective | 2-bit<br>per pixel | 🔴 | ? | - EL backlight |
+| `Game Boy Color` | Reflective | 5-bit | 🕐 | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | Currently provided data have issues |
 | `Game Boy Advance AGB-001` | Reflective | 5-bit | 🔴 | ? | Currently provided data have issues | 
-| `Game Boy Advance SP AGS-001` | Transflective<br>(frontlight on),<br>Reflective<br>(frontlight off) | 5-bit | 🔴 | ? | Currently provided data have issues |
+| `Game Boy Advance SP AGS-001` | Reflective | 5-bit | 🔴 | ? | - frontlit<br>- currently provided data have issues |
 | `Game Boy Advance SP AGS-101` | Transmissive | 5-bit | 🔵 | ? |  |
 | `Game Boy Micro` | Transmissive | 5-bit | 🔵 | ? |  |
-| `NDS Phat` | Transflective<br>(backlight on),<br>Reflective<br>(backlight off) [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | 🔵 | ? | - only backlit mode has been measured |
+| `NDS Phat` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | 🔵 | ? | - only backlit mode has been measured |
 | `NDS Lite` | Transmissive | 6-bit | 🔵 | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - greyscale gamma differs between reports (different manufacturers?) |
 | `NDSi` | Transmissive | 6-bit | 🔴 | ? | |
 | `NDSi XL` | Transmissive | 6-bit | 🔴 | ? |  |
@@ -71,11 +71,10 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | `New 3DS` | Transmissive | 8-bit | 🔴 | ? | |
 | `New 3DS XL` | Transmissive<br>(TN or IPS) | 8-bit | 🔵 | ? | - only IPS top screen analyzed<br>- screen lottery<br>- [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU) |
 | `2DS` | Transmissive | 8-bit | 🔴 | ? |  |
-| `New 2DS` | Transmissive | 8-bit | 🔴 | ? |  |
 | `New 2DS XL` | Transmissive | 8-bit | 🔴 | ? | |
-| `Wii U` | Transmissive | 8-bit | 🔴 | ? | |
+| `Wii U GamePad` | Transmissive | 8-bit | 🔴 | ? | |
 | `Switch` | Transmissive | 8-bit | 🕐 | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
-| `Switch Mini` | Transmissive | 8-bit | 🔴 | ? | |
+| `Switch Lite` | Transmissive | 8-bit | 🔴 | ? | |
 | `Switch OLED` | Emissive OLED | 8-bit | 🔴 | ? | - [other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) |
 | `Switch 2` | Transmissive | ? | 🔴 | ? | |
 
@@ -98,14 +97,14 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 # Index
 
-- [Retroarch Shaders](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#retroarch-shaders)
-   -  [Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#shader-parameters)
-      - [Chromatic Adaptation](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#chromatic-adaptation)
-   -  [Debug Shader parameters](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#debug-shader-parameters)
-      - [Show out of Gamut colors](https://github.com/Brankale/Handheld-Color-Space-Project/edit/main/README.md#show-out-of-gamut-colours) 
+- [RetroArch Shaders](#retroarch-shaders)
+   - [Shader parameters](#shader-parameters)
+      - [Chromatic Adaptation](#chromatic-adaptation)
+   - [Debug Shader parameters](#debug-shader-parameters)
+      - [Show out of Gamut colors](#show-out-of-gamut-colours)
 
 
-# Retroarch Shaders
+# RetroArch Shaders
 
 In the `handheld` folder, you’ll find the measured consoles and their corresponding RetroArch shaders.
 
@@ -132,7 +131,7 @@ No chromatic adaptation is applied
    - Recommended for consoles with unusual or very warm/cool white points to preserve the original look & feel.
  
 > [!WARNING]
-> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A full CIECAM02 / CIECAM16 pipeline must be implemented to address this problem.
+> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A color appearance model such as CIECAM02 or CAM16 could improve the simulation when the required viewing-condition parameters are available.
 
 ---
 
@@ -151,7 +150,7 @@ Applies D65 white point (full chromatic adaptation)
    - You can use this option as a trade-off between the display’s original color reproduction and a neutral white balance tipically found on modern displays.
 
 > [!WARNING]
-> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A full CIECAM02 / CIECAM16 pipeline must be implemented to address this problem.
+> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A color appearance model such as CIECAM02 or CAM16 could improve the simulation when the required viewing-condition parameters are available.
 
 ---
 
