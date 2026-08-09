@@ -9,6 +9,21 @@ All data is **based on instrumented colorimetric measurements of real hardware**
 
 Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles, high-precision mathematical modeling.
 
+# Index
+
+- [Showcase](#showcase)
+   - [Reflective displays](#reflective-displays)
+   - [Transmissive and emissive displays](#transmissive-and-emissive-displays)
+- [Handhelds status report](#handhelds-status-report)
+- [RetroArch Shaders](#retroarch-shaders)
+   - [Shader parameters](#shader-parameters)
+      - [Chromatic Adaptation](#chromatic-adaptation)
+         - [OFF - Original Color Reproduction (Default)](#off--original-color-reproduction-default)
+         - [ON - White Point Normalization](#on--white-point-normalization)
+         - [Example](#example)
+   - [Debug Shader parameters](#debug-shader-parameters)
+      - [Show out of Gamut colours](#show-out-of-gamut-colours)
+- [Special Thanks](#special-thanks)
 
 # Showcase
 
@@ -90,15 +105,6 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 - 🕐: Measurement data validation in progress
 
 
-
-
-# Index
-
-- [RetroArch Shaders](#retroarch-shaders)
-   - [Shader parameters](#shader-parameters)
-      - [Chromatic Adaptation](#chromatic-adaptation)
-   - [Debug Shader parameters](#debug-shader-parameters)
-      - [Show out of Gamut colors](#show-out-of-gamut-colours)
 
 
 # RetroArch Shaders
