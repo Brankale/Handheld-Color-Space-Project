@@ -1,8 +1,5 @@
 > [!NOTE]
-> Some parts of this guide were developed with AI assistance.
-
-> [!WARNING]
-> I'm not a color scientist or expert. This guide may contain inaccuracies or misleading information. Please take it with a grain of salt. If you notice any issues, feel free to open an issue.
+> This guide is an independent technical project, not an authoritative reference. Despite the research and experimental work behind it, some interpretations or conclusions may be incomplete or incorrect. Corrections supported by measurements, primary sources, or reproducible tests are welcome.
 
 # Handheld Color Space Project
 
@@ -181,3 +178,6 @@ Enable this option to highlight in red the colors that cannot be represented in 
 - **Anikom15** for helping me fix some issues with the shader code and and OS/program-specific color space management.
 - **Libretro Forum**
    - forum thread: https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540
+
+> [!NOTE]
+> AI was used as a supporting tool during the development of this guide. All technical content, decisions, and AI-assisted output were carefully reviewed before inclusion.
