@@ -206,9 +206,9 @@ $`
 
 ## Calculate the Chromatic Adaptation Transform (CAT) Matrix
 
-When performing a conversion between two colorspaces with a different white point, a chromatic adaptation must also be applied.
+Chromatic adaptation is an optional operation. It is used only when the target white point or viewing conditions are intentionally changed.
 
-To perform a chromatic adaptation you must use the following equation:
+When a chromatic adaptation is intentionally required, the corresponding XYZ values can be calculated with the following equation:
 
 $`
 \begin{equation}
@@ -217,7 +217,7 @@ $`
     \end{bmatrix}
     =
     \begin{bmatrix}
-        M_{CAM}
+        M_{A}
     \end{bmatrix}
     \begin{bmatrix}
         X_{S} \\ Y_{S} \\ Z_{S}
@@ -227,9 +227,7 @@ $`
 
 $`
 \begin{equation}
-    \begin{bmatrix}
-        M_{CAM}
-    \end{bmatrix}
+    M_{A}
     =
     \begin{bmatrix}
         M_{CAT}
@@ -251,9 +249,7 @@ $`
         L_{WS} \\ M_{WS} \\ S_{WS}
     \end{bmatrix}
     =
-    \begin{bmatrix}
-        M_{CAT}
-    \end{bmatrix}
+    M_{CAT}
     \begin{bmatrix}
         X_{WS} \\ Y_{WS} \\ Z_{WS}
     \end{bmatrix}
@@ -266,20 +262,18 @@ $`
         L_{WD} \\ M_{WD} \\ S_{WD}
     \end{bmatrix}
     =
-    \begin{bmatrix}
-        M_{CAT}
-    \end{bmatrix}
+    M_{CAT}
     \begin{bmatrix}
         X_{WD} \\ Y_{WD} \\ Z_{WD}
     \end{bmatrix}
 \end{equation}
 `$
 
-You can choose among several chromatic adaptation transforms. The most common are: Von Kries, Bradford, CIECAT02 and CIECAT16.
+The matrices below are 3 × 3 chromatic adaptation transforms that can be used as $`M_{CAT}`$. Common choices include:
 
 
 
-#### Von Kries matrix (not recommended)
+#### Von Kries matrix (simple baseline)
 $`
 \begin{equation}
     \begin{bmatrix}
@@ -309,12 +303,12 @@ $`
 \end{equation}
 `$
 
-#### CIECAT02 matrix (*)
+#### CIECAT02 matrix
 
 $`
 \begin{equation}
     \begin{bmatrix}
-        M_{CAT02}
+        M_{CIECAT02}
     \end{bmatrix}
     =
     \begin{bmatrix}
@@ -325,12 +319,12 @@ $`
 \end{equation}
 `$
 
-#### CIECAT16 matrix (*)
+#### CIECAT16 matrix
 
 $`
 \begin{equation}
     \begin{bmatrix}
-        M_{CAT16}
+        M_{CIECAT16}
     \end{bmatrix}
     =
     \begin{bmatrix}
@@ -341,9 +335,52 @@ $`
 \end{equation}
 `$
 
-> [!WARNING]
-> (*) CIECAT02 and its revision CIECAT16 should provide higher accuracy than the Bradford matrix, however they likely involve more complex operations than a simple 3×3 matrix multiplication as can be seen here: https://en.wikipedia.org/wiki/CIECAM02.
-> Since there are few publicly available resources to support precise calculations with these models, the Bradford matrix will be used to minimize the risk of errors.
+> [!NOTE]
+> Bradford is a well-established, de facto standard in practical colour-management workflows. For example, the ICC uses a matrix derived from the Bradford chromatic adaptation transform when adapting data to the D50 Profile Connection Space.
+
+> [!NOTE]
+> CIECAT02 is the CIE chromatic adaptation transform associated with the CIECAM02 colour appearance model. CIECAT16 is the most recent of the CIE transforms listed here and was introduced with CIECAM16 as an evolution of CIECAT02. **CIECAT16 is therefore the transform selected for this project**. Its accuracy advantage must be understood in context: the performance of an isolated CAT depends on the viewing conditions, reference data and adaptation model, so CIECAT16 should not be described as universally more accurate than Bradford for every application.
+
+> [!NOTE]
+> CIECAM02 and CIECAM16 are complete colour appearance models, not just 3 × 3 matrices. They include a chromatic adaptation stage together with viewing-condition parameters and equations for perceptual attribute correlates. Using CIECAT02 or CIECAT16 in the matrix above does not implement the complete CIECAM02 or CIECAM16 model.
+
+### Application in this project
+
+Measurements of handheld displays are made in total darkness, without external ambient light, to isolate the display emission. The measured emission can then be preserved as-is, or transformed when the aim is to represent different viewing conditions or compare different panels.
+
+The appropriate treatment depends on the goal of the simulation. The cases below distinguish faithful reproduction of a selected panel, simulation of its appearance under a specified viewing condition, and normalisation of several panels to a common white point.
+
+#### Faithful reproduction
+
+Suppose that panel A must be reproduced faithfully:
+
+| | Original panel A | Faithful reproduction of panel A |
+| --- | --- | --- |
+| Viewing conditions | Any chosen ambient environment, for example a room lit by daylight | The same ambient environment as the original panel |
+| Chromatic adaptation | The observer adapts naturally to the ambient light | None; the measured stimulus is preserved |
+| Result | The observer sees panel A as it naturally appears in that environment | The reproduced panel emits panel A's measured stimulus; any change in perceived colour caused by the ambient light occurs naturally, as for the original |
+
+
+#### Simulating a daylight viewing condition
+
+This is a different use case. Suppose the target is the appearance of the console at midday, under daylight approximated by D65. The original console can be viewed directly in daylight, without a CAT, because the observer naturally adapts to the daylight. To approximate the same chromatic-adaptation effect when viewing the measured stimulus in a dark room, apply CIECAT16 from the measured white point towards D65:
+
+| | Console original | Adapted stimulus in a dark room |
+| --- | --- | --- |
+| Viewing conditions | Daylight at midday, approximated by D65 | No ambient light |
+| Chromatic adaptation | No CAT; the observer adapts naturally to daylight | CIECAT16 from the measured white point towards D65 |
+| Result | Appearance of the console at midday | Similar target appearance, achieved by adapting the emitted stimulus in advance |
+
+#### Screen lottery: white-point normalisation
+
+This is another different use case. The aim is to compare several panels after removing their white-point differences, not to reproduce each panel faithfully:
+
+```
+panel A measured in darkness -> CIECAT16 -> common white
+panel B measured in darkness -> CIECAT16 -> common white
+```
+
+All panels should be compared under the same controlled ambient conditions. The result is useful for comparison, but it intentionally alters the output of each panel and must remain an explicit, optional mode.
 
 ## Calculate gamma of the primaries from the greyscale (for emissive displays)
 
