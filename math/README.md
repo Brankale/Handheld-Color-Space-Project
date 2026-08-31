@@ -72,7 +72,7 @@ where:
 - $`S_{illuminant}(\lambda)`$ is the SPD of the ambient light
 - $`R_{display}(\lambda)`$ is the spectral reflectance of the display
 
-> The following GIF [7] shows a 560 nm-normalized SPD of a CIE D illuminant (blue area) as a function of color temperature (red curve).
+> The following GIF [6] shows a 560 nm-normalized SPD of a CIE D illuminant (blue area) as a function of color temperature (red curve).
 > The same principle applies to reflective displays: the effective SPD of the display changes with the SPD of the incident illuminant. In other words, a reflective display does not have a fixed SPD — it is spectrally shaped by the light that illuminates it.
 > ![CIE_illuminants_D_and_blackbody_small](https://github.com/user-attachments/assets/6392a2c4-a622-4f3f-b212-2d53c0d1ed18)
 
@@ -512,12 +512,11 @@ $`
 
 
 # External links
-1. https://www.audioholics.com/news/nintendo-ds-price-fixing
-2. -
-3. https://www.youtube.com/@hdtvtest channel
-4. CIELUV: https://en.wikipedia.org/wiki/CIELUV
-5. LMS colorspace and chromatic adaptation matrices (i.e. Bradford, CIECAT02, CIECAT16):
-    - https://en.wikipedia.org/wiki/LMS_color_space
-    - https://en.wikipedia.org/wiki/CIECAM02
-6. Colorspace conversions: http://brucelindbloom.com/index.html
-7. https://en.wikipedia.org/wiki/Standard_illuminant
+1. [HDTVTest channel](https://www.youtube.com/@hdtvtest)
+2. [CIELUV](https://en.wikipedia.org/wiki/CIELUV)
+3. LMS colour space and chromatic adaptation matrices (including Bradford, CIECAT02 and CIECAT16):
+   - [LMS colour space](https://en.wikipedia.org/wiki/LMS_color_space)
+   - [CIECAM02](https://en.wikipedia.org/wiki/CIECAM02)
+4. [Colour Science for Python](https://github.com/colour-science/colour), including CIECAT16 and CIECAM16
+5. [Colour space conversions](http://brucelindbloom.com/index.html)
+6. [Standard illuminant](https://en.wikipedia.org/wiki/Standard_illuminant)
