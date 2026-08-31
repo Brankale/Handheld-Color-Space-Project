@@ -512,11 +512,11 @@ $`
 
 
 # External links
-1. [HDTVTest channel](https://www.youtube.com/@hdtvtest)
-2. [CIELUV](https://en.wikipedia.org/wiki/CIELUV)
+1. HDTVTest channel: https://www.youtube.com/@hdtvtest
+2. CIELUV: https://en.wikipedia.org/wiki/CIELUV
 3. LMS colour space and chromatic adaptation matrices (including Bradford, CIECAT02 and CIECAT16):
-   - [LMS colour space](https://en.wikipedia.org/wiki/LMS_color_space)
-   - [CIECAM02](https://en.wikipedia.org/wiki/CIECAM02)
-4. [Colour Science for Python](https://github.com/colour-science/colour), including CIECAT16 and CIECAM16
-5. [Colour space conversions](http://brucelindbloom.com/index.html)
-6. [Standard illuminant](https://en.wikipedia.org/wiki/Standard_illuminant)
+    - LMS colour space: https://en.wikipedia.org/wiki/LMS_color_space
+    - CIECAM02: https://en.wikipedia.org/wiki/CIECAM02
+4. Colour Science for Python: https://github.com/colour-science/colour, including CIECAT16 and CIECAM16
+5. Colour space conversions: http://brucelindbloom.com/index.html
+6. Standard illuminant: https://en.wikipedia.org/wiki/Standard_illuminant
