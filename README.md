@@ -63,14 +63,14 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 | Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Manufacturers | Measurements Notes |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: | :------------- |
-| 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit<br>per pixel | ? | |
-| 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit<br>per pixel | ? | |
-| 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit<br>per pixel | ? | - EL backlight |
-| 🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | Currently provided data have issues |
-| 🔴 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? | Currently provided data have issues |
-| 🔴 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? | - the frontlight illuminates the reflective display from the front, but does not make it transmissive or transflective<br>- currently provided data have issues |
-| 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |  |
-| 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |  |
+| 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit<br>per pixel | ? | |
+| 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit<br>per pixel | ? | |
+| 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit<br>per pixel | ? | - EL backlight |
+| 🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | Currently provided data have issues |
+| 🔴 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? | Currently provided data have issues |
+| 🔴 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? | - the frontlight illuminates the reflective display from the front, but does not make it transmissive or transflective<br>- currently provided data have issues |
+| 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |  |
+| 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |  |
 | 🔵 | `NDS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? | - only backlit mode has been measured |
 | 🔵 | `NDS Lite` | `USG-001` | Transmissive | 6-bit | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) | - greyscale gamma differs between reports (different manufacturers?) |
 | 🔴 | `NDSi` | `TWL-001` | Transmissive | 6-bit | ? | |
@@ -82,7 +82,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | 🔴 | `2DS` | `FTR-001` | Transmissive | 8-bit | ? |  |
 | 🔴 | `New 2DS XL` | `JAN-001` | Transmissive | 8-bit | ? | |
 | 🔴 | `Wii U GamePad` | `WUP-010` | Transmissive | 8-bit | ? |  |
-| 🕐 | `Switch` | `HAC-001` / `HAC-001(-01)` | Transmissive | 8-bit | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
+| 🕐 | `Switch` | `HAC-001`<br/>`HAC-001(-01)` | Transmissive | 8-bit | Innolux | - [other info here - Erica Griffin](https://www.youtube.com/watch?v=QvDdaVZ7MCU)  |
 | 🔴 | `Switch Lite` | `HDH-001` | Transmissive | 8-bit | ? | |
 | 🔴 | `Switch OLED` | `HEG-001` | Emissive OLED | 8-bit | ? | - [other info here - GamingTech](https://www.youtube.com/watch?v=mYnUdYoh_xc) |
 | 🔴 | `Switch 2` | `BEE-001` | Transmissive | ? | ? | |
@@ -94,7 +94,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | 🔴 | `PSP Brite` | `PSP-3000` | Transmissive | 8-bit | ? | |
 | 🔴 | `PSP Go` | `PSP-N1000` | Transmissive | 8-bit | ? | |
 | 🔴 | `PSP Street` | `PSP-E1000` | Transmissive | 8-bit | ? | |
-| 🔴 | `PlayStation Vita` | `PCH-1000` / `PCH-1100` | Emissive OLED | 8-bit | ? | |
+| 🔴 | `PlayStation Vita` | `PCH-1000`<br/>`PCH-1100` | Emissive OLED | 8-bit | ? | |
 | 🔴 | `PlayStation Vita Slim` | `PCH-2000` | Transmissive | 8-bit | ? | |
 
 **Screen data status legend**:
