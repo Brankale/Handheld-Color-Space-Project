@@ -68,7 +68,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 | 🔴 | `Game Boy Light` | Transflective | 2-bit<br>per pixel | ? | - EL backlight |
 | 🕐 | `Game Boy Color` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) | Currently provided data have issues |
 | 🔴 | `Game Boy Advance AGB-001` | Reflective | 5-bit | ? | Currently provided data have issues |
-| 🔴 | `Game Boy Advance SP AGS-001` | Reflective | 5-bit | ? | - frontlit<br>- currently provided data have issues |
+| 🔴 | `Game Boy Advance SP AGS-001` | Reflective | 5-bit | ? | - the frontlight illuminates the reflective display from the front, but does not make it transmissive or transflective<br>- currently provided data have issues |
 | 🔵 | `Game Boy Advance SP AGS-101` | Transmissive | 5-bit | ? |  |
 | 🔵 | `Game Boy Micro` | Transmissive | 5-bit | ? |  |
 | 🔵 | `NDS Phat` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? | - only backlit mode has been measured |
