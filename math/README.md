@@ -272,23 +272,7 @@ $`
 The matrices below are 3 × 3 chromatic adaptation transforms that can be used as $`M_{CAT}`$. Common choices include:
 
 
-
-#### Von Kries matrix (simple baseline)
-$`
-\begin{equation}
-    \begin{bmatrix}
-        M_{VK}
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-         0.40024 &  0.70760 & -0.08081 \\
-        -0.22630 &  1.16532 &  0.04570 \\
-         0.00000 & 0.00000 &  0.91822 \\
-    \end{bmatrix}
-\end{equation}
-`$
-
-#### Bradford matrix
+#### Bradford matrix (de-facto standard)
 $`
 \begin{equation}
     \begin{bmatrix}
@@ -303,7 +287,7 @@ $`
 \end{equation}
 `$
 
-#### CIECAT02 matrix
+#### CAT02 matrix (used by CIECAM02)
 
 $`
 \begin{equation}
@@ -319,7 +303,7 @@ $`
 \end{equation}
 `$
 
-#### CIECAT16 matrix
+#### CAT16 matrix (used by CAM16 and CIECAM16)
 
 $`
 \begin{equation}
@@ -334,12 +318,6 @@ $`
     \end{bmatrix}
 \end{equation}
 `$
-
-> [!NOTE]
-> Bradford is a well-established, de facto standard in practical colour-management workflows. For example, the ICC uses a matrix derived from the Bradford chromatic adaptation transform when adapting data to the D50 Profile Connection Space.
-
-> [!NOTE]
-> CIECAT02 is the CIE chromatic adaptation transform associated with the CIECAM02 colour appearance model. CIECAT16 is the most recent of the CIE transforms listed here and was introduced with CIECAM16 as an evolution of CIECAT02. **CIECAT16 is therefore the transform selected for this project**. Its accuracy advantage must be understood in context: the performance of an isolated CAT depends on the viewing conditions, reference data and adaptation model, so CIECAT16 should not be described as universally more accurate than Bradford for every application.
 
 > [!NOTE]
 > CIECAM02 and CIECAM16 are complete colour appearance models, not just 3 × 3 matrices. They include a chromatic adaptation stage together with viewing-condition parameters and equations for perceptual attribute correlates. Using CIECAT02 or CIECAT16 in the matrix above does not implement the complete CIECAM02 or CIECAM16 model.
