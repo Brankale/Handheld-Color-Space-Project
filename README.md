@@ -63,7 +63,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 Detailed notes about individual consoles and their screen measurements are available in [handhelds/README.md](handhelds/README.md).
 
-| Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Manufacturers |
+| Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: |
 | 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit<br>per pixel | ? |
 | 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit<br>per pixel | ? |
@@ -89,7 +89,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `Switch OLED` | `HEG-001` | Emissive OLED | 8-bit | ? |
 | 🔴 | `Switch 2` | `BEE-001` | Transmissive | ? | ? |
 
-| Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Manufacturers |
+| Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: |
 | 🔵 | `PSP Phat` | `PSP-1000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Slim` | `PSP-2000` | Transmissive | 8-bit | ? |
