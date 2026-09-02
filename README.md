@@ -121,7 +121,7 @@ Detailed notes about individual consoles and their screen measurements are avail
       </tr>
       <tr>
          <td align="center">🟡</td>
-         <td align="left"><code>Game Boy Advance SP</code></td>
+         <td rowspan="2" align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-001</code></td>
          <td>Reflective</td>
          <td>5-bit</td>
@@ -129,7 +129,6 @@ Detailed notes about individual consoles and their screen measurements are avail
       </tr>
       <tr>
          <td align="center">🔵</td>
-         <td align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
          <td>5-bit</td>
@@ -274,8 +273,6 @@ Detailed notes about individual consoles and their screen measurements are avail
    </tbody>
 </table>
 
-> [!NOTE]
-> Panel manufacturers are currently listed together when multiple manufacturers are known. They are not split into separate rows yet because the available measurement data does not identify which manufacturer corresponds to each measured panel. This distinction should be added when sufficient data becomes available.
 
 | Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
@@ -287,7 +284,14 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `PlayStation Vita` | `PCH-1000`<br>`PCH-1100` | Emissive OLED | 8-bit | ? |
 | 🔴 | `PlayStation Vita Slim` | `PCH-2000` | Transmissive | 8-bit | ? |
 
-**Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
+> [!NOTE]
+> For transflective panels, measurements are divided into the individual reflective and transmissive components.
+
+> [!NOTE]
+> Panel manufacturers are currently listed together when multiple manufacturers are known. They are not split into separate rows yet because the available measurement data does not identify which manufacturer corresponds to each measured panel. This distinction should be added when sufficient data becomes available.
+
+> [!NOTE]
+> **Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
 
 **Screen data status legend**:
 - 🔴: No screen data available
