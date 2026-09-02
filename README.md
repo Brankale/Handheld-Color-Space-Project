@@ -65,14 +65,14 @@ Detailed notes about individual consoles and their screen measurements are avail
 
 | Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: |
-| 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit<br>per pixel | ? |
-| 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit<br>per pixel | ? |
-| 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit<br>per pixel | ? |
-| 🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) |
-| 🔴 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? |
-| 🔴 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
-| 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |
-| 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |
+| 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit/pixel | ? |
+| 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit/pixel | ? |
+| 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit/pixel | ? |
+| 🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) |
+| 🔴 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? |
+| 🔴 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
+| 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |
+| 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |
 | 🔵 | `NDS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? |
 | 🔵 | `NDS Lite` | `USG-001` | Transmissive | 6-bit | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) |
 | 🔴 | `NDSi` | `TWL-001` | Transmissive | 6-bit | ? |
@@ -84,7 +84,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `2DS` | `FTR-001` | Transmissive | 8-bit | ? |
 | 🔴 | `New 2DS XL` | `JAN-001` | Transmissive | 8-bit | ? |
 | 🔴 | `Wii U GamePad` | `WUP-010` | Transmissive | 8-bit | ? |
-| 🕐 | `Switch` | `HAC-001`<br/>`HAC-001(-01)` | Transmissive | 8-bit | Innolux |
+| 🕐 | `Switch` | `HAC-001`<br>`HAC-001(-01)` | Transmissive | 8-bit | Innolux |
 | 🔴 | `Switch Lite` | `HDH-001` | Transmissive | 8-bit | ? |
 | 🔴 | `Switch OLED` | `HEG-001` | Emissive OLED | 8-bit | ? |
 | 🔴 | `Switch 2` | `BEE-001` | Transmissive | ? | ? |
@@ -96,8 +96,10 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `PSP Brite` | `PSP-3000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Go` | `PSP-N1000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Street` | `PSP-E1000` | Transmissive | 8-bit | ? |
-| 🔴 | `PlayStation Vita` | `PCH-1000`<br/>`PCH-1100` | Emissive OLED | 8-bit | ? |
+| 🔴 | `PlayStation Vita` | `PCH-1000`<br>`PCH-1100` | Emissive OLED | 8-bit | ? |
 | 🔴 | `PlayStation Vita Slim` | `PCH-2000` | Transmissive | 8-bit | ? |
+
+**Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
 
 **Screen data status legend**:
 - 🔴: No screen data available / Invalid data
