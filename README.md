@@ -63,11 +63,11 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 Detailed notes about individual consoles and their screen measurements are available in [handhelds/README.md](handhelds/README.md).
 
-<table>
+<table style="text-align: center;">
    <thead>
       <tr>
-         <th>Status</th>
-         <th>Nintendo Handheld</th>
+         <th style="text-align: center;">Status</th>
+         <th style="text-align: left;">Nintendo Handheld</th>
          <th>Console code(s)</th>
          <th>Display Category</th>
          <th>Panel Type</th>
@@ -77,8 +77,8 @@ Detailed notes about individual consoles and their screen measurements are avail
    </thead>
    <tbody>
       <tr>
-         <td>🔴</td>
-         <td><code>Game Boy</code></td>
+         <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Game Boy</code></td>
          <td><code>DMG-01</code></td>
          <td>Reflective</td>
          <td>?</td>
@@ -86,8 +86,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>Game Boy Pocket</code></td>
+         <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Game Boy Pocket</code></td>
          <td><code>MGB-001</code></td>
          <td>Reflective</td>
          <td>?</td>
@@ -95,8 +95,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td rowspan="2"><code>Game Boy Light</code></td>
+         <td style="text-align: center;">🔴</td>
+         <td rowspan="2" style="text-align: left;"><code>Game Boy Light</code></td>
          <td rowspan="2"><code>MGB-001</code></td>
          <td>Reflective</td>
          <td rowspan="2">?</td>
@@ -104,12 +104,12 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td>🔴</td>
+         <td style="text-align: center;">🔴</td>
          <td>Transmissive</td>
       </tr>
       <tr>
-         <td>🟡🕐</td>
-         <td><code>Game Boy Color</code></td>
+         <td style="text-align: center;">🟡🕐</td>
+         <td style="text-align: left;"><code>Game Boy Color</code></td>
          <td><code>CGB-001</code></td>
          <td>Reflective</td>
          <td>?</td>
@@ -117,8 +117,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">link</a>)</td>
       </tr>
       <tr>
-         <td>🟡</td>
-         <td><code>Game Boy Advance</code></td>
+             <td style="text-align: center;">🟡</td>
+         <td style="text-align: left;"><code>Game Boy Advance</code></td>
          <td><code>AGB-001</code></td>
          <td>Reflective</td>
          <td>?</td>
@@ -126,8 +126,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🟡</td>
-         <td><code>Game Boy Advance SP</code></td>
+             <td style="text-align: center;">🟡</td>
+         <td style="text-align: left;"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-001</code></td>
          <td>Reflective</td>
          <td>?</td>
@@ -135,8 +135,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔵</td>
-         <td><code>Game Boy Advance SP</code></td>
+             <td style="text-align: center;">🔵</td>
+         <td style="text-align: left;"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -144,8 +144,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔵</td>
-         <td><code>Game Boy Micro</code></td>
+             <td style="text-align: center;">🔵</td>
+         <td style="text-align: left;"><code>Game Boy Micro</code></td>
          <td><code>OXY-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -153,8 +153,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td rowspan="2"><code>DS Phat</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td rowspan="2" style="text-align: left;"><code>DS Phat</code></td>
          <td rowspan="2"><code>NTR-001</code></td>
          <td>Reflective (<a href="https://www.youtube.com/shorts/QxCrDdIadwU">link</a>)</td>
          <td rowspan="2">?</td>
@@ -162,12 +162,12 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td>🔵</td>
+             <td style="text-align: center;">🔵</td>
          <td>Transmissive</td>
       </tr>
       <tr>
-         <td>🔵</td>
-         <td><code>DS Lite</code></td>
+             <td style="text-align: center;">🔵</td>
+         <td style="text-align: left;"><code>DS Lite</code></td>
          <td><code>USG-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -175,8 +175,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Hitachi, Sharp (<a href="https://www.wired.com/2008/02/sharp-hitachi-s">link</a>)</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>DSi</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>DSi</code></td>
          <td><code>TWL-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -184,8 +184,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>DSi XL</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>DSi XL</code></td>
          <td><code>UTL-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -193,8 +193,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔵</td>
-         <td><code>3DS</code></td>
+             <td style="text-align: center;">🔵</td>
+         <td style="text-align: left;"><code>3DS</code></td>
          <td><code>CTR-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -202,8 +202,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>3DS XL</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>3DS XL</code></td>
          <td><code>SPR-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -211,8 +211,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>New 3DS</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>New 3DS</code></td>
          <td><code>KTR-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -220,8 +220,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td rowspan="2"><code>New 3DS XL</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td rowspan="2" style="text-align: left;"><code>New 3DS XL</code></td>
          <td rowspan="2"><code>RED-001</code></td>
          <td rowspan="2">Transmissive</td>
          <td>TN</td>
@@ -229,12 +229,12 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td>🔵</td>
+             <td style="text-align: center;">🔵</td>
          <td>IPS</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>2DS</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>2DS</code></td>
          <td><code>FTR-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -242,8 +242,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>New 2DS XL</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>New 2DS XL</code></td>
          <td><code>JAN-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -251,8 +251,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>Wii U GamePad</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Wii U GamePad</code></td>
          <td><code>WUP-010</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -260,8 +260,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🕐</td>
-         <td><code>Switch</code></td>
+             <td style="text-align: center;">🕐</td>
+         <td style="text-align: left;"><code>Switch</code></td>
          <td><code>HAC-001</code><br><code>HAC-001(-01)</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -269,8 +269,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Innolux</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>Switch Lite</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Switch Lite</code></td>
          <td><code>HDH-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
@@ -278,8 +278,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>Switch OLED</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Switch OLED</code></td>
          <td><code>HEG-001</code></td>
          <td>Emissive</td>
          <td>OLED</td>
@@ -287,8 +287,8 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td>🔴</td>
-         <td><code>Switch 2</code></td>
+             <td style="text-align: center;">🔴</td>
+         <td style="text-align: left;"><code>Switch 2</code></td>
          <td><code>BEE-001</code></td>
          <td>Transmissive</td>
          <td>?</td>
