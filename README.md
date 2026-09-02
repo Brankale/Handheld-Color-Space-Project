@@ -70,7 +70,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <th align="left">Nintendo Handheld</th>
          <th>Console code(s)</th>
          <th>Display Category</th>
-         <th>Panel Type</th>
          <th>Bit Depth</th>
          <th>Known Panel Manufacturers</th>
       </tr>
@@ -81,7 +80,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy</code></td>
          <td><code>DMG-01</code></td>
          <td>Reflective</td>
-         <td>?</td>
          <td>2-bit/pixel</td>
          <td>?</td>
       </tr>
@@ -90,7 +88,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Pocket</code></td>
          <td><code>MGB-001</code></td>
          <td>Reflective</td>
-         <td>?</td>
          <td>2-bit/pixel</td>
          <td>?</td>
       </tr>
@@ -99,7 +96,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2" align="left"><code>Game Boy Light</code></td>
          <td rowspan="2"><code>MGB-001</code></td>
          <td>Reflective</td>
-         <td rowspan="2">?</td>
          <td rowspan="2">2-bit/pixel</td>
          <td rowspan="2">?</td>
       </tr>
@@ -112,7 +108,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Color</code></td>
          <td><code>CGB-001</code></td>
          <td>Reflective</td>
-         <td>?</td>
          <td>5-bit</td>
          <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">link</a>)</td>
       </tr>
@@ -121,7 +116,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Advance</code></td>
          <td><code>AGB-001</code></td>
          <td>Reflective</td>
-         <td>?</td>
          <td>5-bit</td>
          <td>?</td>
       </tr>
@@ -130,7 +124,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-001</code></td>
          <td>Reflective</td>
-         <td>?</td>
          <td>5-bit</td>
          <td>?</td>
       </tr>
@@ -139,7 +132,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>5-bit</td>
          <td>?</td>
       </tr>
@@ -148,7 +140,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Game Boy Micro</code></td>
          <td><code>OXY-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>5-bit</td>
          <td>?</td>
       </tr>
@@ -157,7 +148,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2" align="left"><code>DS Phat</code></td>
          <td rowspan="2"><code>NTR-001</code></td>
          <td>Reflective (<a href="https://www.youtube.com/shorts/QxCrDdIadwU">link</a>)</td>
-         <td rowspan="2">?</td>
          <td rowspan="2">6-bit</td>
          <td rowspan="2">?</td>
       </tr>
@@ -170,7 +160,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>DS Lite</code></td>
          <td><code>USG-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>6-bit</td>
          <td>Hitachi, Sharp (<a href="https://www.wired.com/2008/02/sharp-hitachi-s">link</a>)</td>
       </tr>
@@ -179,7 +168,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>DSi</code></td>
          <td><code>TWL-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>6-bit</td>
          <td>?</td>
       </tr>
@@ -188,7 +176,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>DSi XL</code></td>
          <td><code>UTL-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>6-bit</td>
          <td>?</td>
       </tr>
@@ -197,7 +184,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>3DS</code></td>
          <td><code>CTR-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -206,7 +192,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>3DS XL</code></td>
          <td><code>SPR-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -215,7 +200,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>New 3DS</code></td>
          <td><code>KTR-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -223,21 +207,19 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="center">🔴</td>
          <td rowspan="2" align="left"><code>New 3DS XL</code></td>
          <td rowspan="2"><code>RED-001</code></td>
-         <td rowspan="2">Transmissive</td>
-         <td>TN</td>
+         <td>Transmissive TN</td>
          <td rowspan="2">8-bit</td>
          <td rowspan="2">?</td>
       </tr>
       <tr>
          <td align="center">🔵</td>
-         <td>IPS</td>
+         <td>Transmissive IPS</td>
       </tr>
       <tr>
          <td align="center">🔴</td>
          <td align="left"><code>2DS</code></td>
          <td><code>FTR-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -246,7 +228,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>New 2DS XL</code></td>
          <td><code>JAN-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -255,7 +236,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Wii U GamePad</code></td>
          <td><code>WUP-010</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -264,7 +244,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Switch</code></td>
          <td><code>HAC-001</code><br><code>HAC-001(-01)</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>Innolux</td>
       </tr>
@@ -273,7 +252,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Switch Lite</code></td>
          <td><code>HDH-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -282,7 +260,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Switch OLED</code></td>
          <td><code>HEG-001</code></td>
          <td>Emissive</td>
-         <td>OLED</td>
          <td>8-bit</td>
          <td>?</td>
       </tr>
@@ -291,7 +268,6 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="left"><code>Switch 2</code></td>
          <td><code>BEE-001</code></td>
          <td>Transmissive</td>
-         <td>?</td>
          <td>?</td>
          <td>?</td>
       </tr>
