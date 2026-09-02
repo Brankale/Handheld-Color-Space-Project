@@ -108,7 +108,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 - 🟢: Screen data available and verified by two or more screen reports from different consoles
 - 🕐: Screen measurement data validation in progress
 
-> [!WARNING]
+> [!NOTE]
 > 🟡 status means that either the measurement was not performed correctly and **may not be representative of the display**, or that the measurement was performed correctly but **did not capture enough information to reproduce the display faithfully**. Shaders based on such measurements may therefore be inaccurate.
 >
 > Even when a measurement is correct and sufficiently complete, the information extracted from it may be limited by the mathematical procedures used. More appropriate formulas may improve the result. However, **mathematical inference should be avoided whenever possible**, since it can introduce unnecessary errors that could be avoided by measuring all required data, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
