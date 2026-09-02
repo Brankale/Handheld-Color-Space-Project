@@ -73,10 +73,10 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🟡 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
 | 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |
 | 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |
-| 🔵 | `NDS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? |
-| 🔵 | `NDS Lite` | `USG-001` | Transmissive | 6-bit | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) |
-| 🔴 | `NDSi` | `TWL-001` | Transmissive | 6-bit | ? |
-| 🔴 | `NDSi XL` | `UTL-001` | Transmissive | 6-bit | ? |
+| 🔵 | `DS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? |
+| 🔵 | `DS Lite` | `USG-001` | Transmissive | 6-bit | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) |
+| 🔴 | `DSi` | `TWL-001` | Transmissive | 6-bit | ? |
+| 🔴 | `DSi XL` | `UTL-001` | Transmissive | 6-bit | ? |
 | 🔵 | `3DS` | `CTR-001` | Transmissive | 8-bit | ? |
 | 🔴 | `3DS XL` | `SPR-001` | Transmissive | 8-bit | ? |
 | 🔴 | `New 3DS` | `KTR-001` | Transmissive | 8-bit | ? |
