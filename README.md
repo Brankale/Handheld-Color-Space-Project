@@ -64,13 +64,13 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 Detailed notes about individual consoles and their screen measurements are available in [handhelds/README.md](handhelds/README.md).
 
 | Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
-| :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: |
+| :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
 | 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit/pixel | ? |
 | 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit/pixel | ? |
 | 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit/pixel | ? |
-| 🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) |
-| 🔴 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? |
-| 🔴 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
+| 🟡🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) |
+| 🟡 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? |
+| 🟡 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
 | 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |
 | 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |
 | 🔵 | `NDS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? |
@@ -90,7 +90,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `Switch 2` | `BEE-001` | Transmissive | ? | ? |
 
 | Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
-| :-------------: | ------------- | :-------------: | :-------------: | :-------------: |  :-------------: |
+| :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
 | 🔵 | `PSP Phat` | `PSP-1000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Slim` | `PSP-2000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Brite` | `PSP-3000` | Transmissive | 8-bit | ? |
@@ -102,10 +102,17 @@ Detailed notes about individual consoles and their screen measurements are avail
 **Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
 
 **Screen data status legend**:
-- 🔴: No screen data available / Invalid data
+- 🔴: No screen data available
+- 🟡: Measurement data incomplete or potentially unreliable
 - 🔵: Screen data available
 - 🟢: Screen data available and verified by two or more screen reports from different consoles
 - 🕐: Screen measurement data validation in progress
+
+> [!WARNING]
+> For the yellow status, "invalid" means that either the measurement was not performed correctly and may not be representative of the display, or that the measurement was performed correctly but did not capture enough information to reproduce the display faithfully. Shaders based on such measurements may therefore be inaccurate.
+>
+> Even when a measurement is correct and sufficiently complete, the information extracted from it may be limited by the mathematical procedures used. More appropriate formulas may improve the result. However, mathematical inference should be avoided whenever possible, since it can introduce unnecessary errors that could be avoided by measuring all required data, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 
 
 
