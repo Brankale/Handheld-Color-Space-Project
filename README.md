@@ -285,10 +285,10 @@ Detailed notes about individual consoles and their screen measurements are avail
 | 🔴 | `PlayStation Vita Slim` | `PCH-2000` | Transmissive | 8-bit | ? |
 
 > [!NOTE]
-> For transflective panels, measurements are divided into the individual reflective and transmissive components.
+> For **transflective** panels, measurements are divided into the individual reflective and transmissive components.
 
 > [!NOTE]
-> Panel manufacturers are currently listed together when multiple manufacturers are known. They are not split into separate rows yet because the available measurement data does not identify which manufacturer corresponds to each measured panel. This distinction should be added when sufficient data becomes available.
+> **Known manufacturers are grouped** for now; each will eventually have its own row and status once measurements identify the manufacturer of each panel.
 
 > [!NOTE]
 > **Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
