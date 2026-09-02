@@ -63,31 +63,243 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 Detailed notes about individual consoles and their screen measurements are available in [handhelds/README.md](handhelds/README.md).
 
-| Status | Nintendo Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
-| :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
-| 🔴 | `Game Boy` | `DMG-01` | Reflective | 2-bit/pixel | ? |
-| 🔴 | `Game Boy Pocket` | `MGB-001` | Reflective | 2-bit/pixel | ? |
-| 🔴 | `Game Boy Light` | `MGB-001` | Transflective | 2-bit/pixel | ? |
-| 🟡🕐 | `Game Boy Color` | `CGB-001` | Reflective | 5-bit | Sharp ([link](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)) |
-| 🟡 | `Game Boy Advance` | `AGB-001` | Reflective | 5-bit | ? |
-| 🟡 | `Game Boy Advance SP` | `AGS-001` | Reflective | 5-bit | ? |
-| 🔵 | `Game Boy Advance SP` | `AGS-101` | Transmissive | 5-bit | ? |
-| 🔵 | `Game Boy Micro` | `OXY-001` | Transmissive | 5-bit | ? |
-| 🔵 | `DS Phat` | `NTR-001` | Transflective [link](https://www.youtube.com/shorts/QxCrDdIadwU) | 6-bit | ? |
-| 🔵 | `DS Lite` | `USG-001` | Transmissive | 6-bit | Hitachi, Sharp ([link](https://www.wired.com/2008/02/sharp-hitachi-s)) |
-| 🔴 | `DSi` | `TWL-001` | Transmissive | 6-bit | ? |
-| 🔴 | `DSi XL` | `UTL-001` | Transmissive | 6-bit | ? |
-| 🔵 | `3DS` | `CTR-001` | Transmissive | 8-bit | ? |
-| 🔴 | `3DS XL` | `SPR-001` | Transmissive | 8-bit | ? |
-| 🔴 | `New 3DS` | `KTR-001` | Transmissive | 8-bit | ? |
-| 🔵 | `New 3DS XL` | `RED-001` | Transmissive<br>(TN or IPS) | 8-bit | ? |
-| 🔴 | `2DS` | `FTR-001` | Transmissive | 8-bit | ? |
-| 🔴 | `New 2DS XL` | `JAN-001` | Transmissive | 8-bit | ? |
-| 🔴 | `Wii U GamePad` | `WUP-010` | Transmissive | 8-bit | ? |
-| 🕐 | `Switch` | `HAC-001`<br>`HAC-001(-01)` | Transmissive | 8-bit | Innolux |
-| 🔴 | `Switch Lite` | `HDH-001` | Transmissive | 8-bit | ? |
-| 🔴 | `Switch OLED` | `HEG-001` | Emissive OLED | 8-bit | ? |
-| 🔴 | `Switch 2` | `BEE-001` | Transmissive | ? | ? |
+<table>
+   <thead>
+      <tr>
+         <th>Status</th>
+         <th>Nintendo Handheld</th>
+         <th>Console code(s)</th>
+         <th>Display Category</th>
+         <th>Panel Type</th>
+         <th>Bit Depth</th>
+         <th>Known Panel Manufacturers</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>🔴</td>
+         <td><code>Game Boy</code></td>
+         <td><code>DMG-01</code></td>
+         <td>Reflective</td>
+         <td>?</td>
+         <td>2-bit/pixel</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>Game Boy Pocket</code></td>
+         <td><code>MGB-001</code></td>
+         <td>Reflective</td>
+         <td>?</td>
+         <td>2-bit/pixel</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td rowspan="2"><code>Game Boy Light</code></td>
+         <td rowspan="2"><code>MGB-001</code></td>
+         <td>Reflective</td>
+         <td rowspan="2">?</td>
+         <td rowspan="2">2-bit/pixel</td>
+         <td rowspan="2">?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td>Transmissive</td>
+      </tr>
+      <tr>
+         <td>🟡🕐</td>
+         <td><code>Game Boy Color</code></td>
+         <td><code>CGB-001</code></td>
+         <td>Reflective</td>
+         <td>?</td>
+         <td>5-bit</td>
+         <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">link</a>)</td>
+      </tr>
+      <tr>
+         <td>🟡</td>
+         <td><code>Game Boy Advance</code></td>
+         <td><code>AGB-001</code></td>
+         <td>Reflective</td>
+         <td>?</td>
+         <td>5-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🟡</td>
+         <td><code>Game Boy Advance SP</code></td>
+         <td><code>AGS-001</code></td>
+         <td>Reflective</td>
+         <td>?</td>
+         <td>5-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td><code>Game Boy Advance SP</code></td>
+         <td><code>AGS-101</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>5-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td><code>Game Boy Micro</code></td>
+         <td><code>OXY-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>5-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td rowspan="2"><code>DS Phat</code></td>
+         <td rowspan="2"><code>NTR-001</code></td>
+         <td>Reflective (<a href="https://www.youtube.com/shorts/QxCrDdIadwU">link</a>)</td>
+         <td rowspan="2">?</td>
+         <td rowspan="2">6-bit</td>
+         <td rowspan="2">?</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td>Transmissive</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td><code>DS Lite</code></td>
+         <td><code>USG-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>6-bit</td>
+         <td>Hitachi, Sharp (<a href="https://www.wired.com/2008/02/sharp-hitachi-s">link</a>)</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>DSi</code></td>
+         <td><code>TWL-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>6-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>DSi XL</code></td>
+         <td><code>UTL-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>6-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td><code>3DS</code></td>
+         <td><code>CTR-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>3DS XL</code></td>
+         <td><code>SPR-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>New 3DS</code></td>
+         <td><code>KTR-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td rowspan="2"><code>New 3DS XL</code></td>
+         <td rowspan="2"><code>RED-001</code></td>
+         <td rowspan="2">Transmissive</td>
+         <td>TN</td>
+         <td rowspan="2">8-bit</td>
+         <td rowspan="2">?</td>
+      </tr>
+      <tr>
+         <td>🔵</td>
+         <td>IPS</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>2DS</code></td>
+         <td><code>FTR-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>New 2DS XL</code></td>
+         <td><code>JAN-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>Wii U GamePad</code></td>
+         <td><code>WUP-010</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🕐</td>
+         <td><code>Switch</code></td>
+         <td><code>HAC-001</code><br><code>HAC-001(-01)</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>Innolux</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>Switch Lite</code></td>
+         <td><code>HDH-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>Switch OLED</code></td>
+         <td><code>HEG-001</code></td>
+         <td>Emissive</td>
+         <td>OLED</td>
+         <td>8-bit</td>
+         <td>?</td>
+      </tr>
+      <tr>
+         <td>🔴</td>
+         <td><code>Switch 2</code></td>
+         <td><code>BEE-001</code></td>
+         <td>Transmissive</td>
+         <td>?</td>
+         <td>?</td>
+         <td>?</td>
+      </tr>
+   </tbody>
+</table>
+
+> [!NOTE]
+> Panel manufacturers are currently listed together when multiple manufacturers are known. They are not split into separate rows yet because the available measurement data does not identify which manufacturer corresponds to each measured panel. This distinction should be added when sufficient data becomes available.
 
 | Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
