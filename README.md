@@ -320,48 +320,26 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
  
 ### Chromatic Adaptation
 
----
-
 #### **OFF — Original Color Reproduction (Default)**
 
-No chromatic adaptation is applied
-
-- **Pros**
-   - Most accurate representation of the original display behavior.
-   - Preserves differences between screens of the same console model (often referred to as *“screen lottery”*).
-
-- **Use case**
-   - **Currently recommended for general use**.
-   - This option must be used if you want to make side by side comparisons with the original console.
-   - Recommended for consoles with unusual or very warm/cool white points to preserve the original look & feel.
+No chromatic adaptation is applied. This preserves the **original display behavior**, including differences between screens of the same console model, often referred to as **“screen lottery”**.
  
-> [!WARNING]
-> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A color appearance model such as CIECAM02 or CAM16 could improve the simulation when the required viewing-condition parameters are available.
-
----
 
 #### **ON — White Point Normalization**
 
-Applies D65 white point (full chromatic adaptation)
+Applies **full chromatic adaptation to a D65 white point**.
 
-- **Pros**
-   - Can mitigate *screen lottery* by enforcing a shared white reference across displays.
-   - Can slightly reduce out-of-gamut colors as a side effect.
+This option is useful for mitigating differences between panels, often referred to as **“screen lottery”**, by applying a **uniform D65 white point** that reduces variations in **color temperature** and **screen tinting**, producing the neutral white balance typically found on modern displays.
 
-- **Cons**
-   - Can noticeably alter color balance on consoles with unusual or very warm/cool white points.
- 
-- **Use case**
-   - You can use this option as a trade-off between the display’s original color reproduction and a neutral white balance tipically found on modern displays.
+The trade-off is a loss of **color accuracy** compared with the original display reproduction. Choosing between **OFF** and **ON** is therefore ultimately a matter of **personal preference**.
 
-> [!WARNING]
-> Currently, it does not fully model the human visual adaptation system, which can result in **reduced perceptual accuracy** in some specific viewing conditions. A color appearance model such as CIECAM02 or CAM16 could improve the simulation when the required viewing-condition parameters are available.
-
----
+> [!NOTE]
+> **Future improvement:** The current implementation applies **full chromatic adaptation to D65**, but does not model how the human visual system adapts to different viewing conditions. A future version could introduce **partial chromatic adaptation** through a color appearance model such as **CIECAM16**, using the required viewing-condition parameters to better approximate how chromatic adaptation is perceived by the human eye.
 
 #### Example
 
 Chromatic adaptation on the GameBoy Micro shader:
+
 - **OFF** (bottom left) = "blue tinted / cool temperature greyscale"
 - **ON** (top right) = "neutral greyscale"
 
