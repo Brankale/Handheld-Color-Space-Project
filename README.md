@@ -7,7 +7,7 @@ This project aims to **accurately reproduce the original color output of handhel
 
 All data is **based on instrumented colorimetric measurements of real hardware**. Subjective, visual, or “by eye” adjustments are explicitly excluded.
 
-Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles, high-precision mathematical modeling.
+Each display measurement is translated into a dedicated **RetroArch shader**, designed using color science principles and high-precision mathematical modeling.
 
 # Index
 
@@ -42,20 +42,15 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 | GBA no shader | GBA SP AGS-101 | GB Micro |
 | :-------------: | :-------------: | :-------------: |
-| <img width="240" height="160" alt="GB no shader" src="https://github.com/user-attachments/assets/f246821b-1583-4bee-b0b7-b801614d2a17" /> | <img width="240" height="160" alt="GBA SP AGS101" src="https://github.com/user-attachments/assets/d3c30f3b-ff4a-4d60-a827-9f01b62fb661" /> | <img width="240" height="160" alt="GBA micro" src="https://github.com/user-attachments/assets/a4d058b6-c347-4cf8-8f4f-65eb3a85dc5f" /> |  |
+| <img width="240" alt="GB no shader" src="https://github.com/user-attachments/assets/f246821b-1583-4bee-b0b7-b801614d2a17" /> | <img width="240" alt="GBA SP AGS101" src="https://github.com/user-attachments/assets/d3c30f3b-ff4a-4d60-a827-9f01b62fb661" /> | <img width="240" alt="GBA micro" src="https://github.com/user-attachments/assets/a4d058b6-c347-4cf8-8f4f-65eb3a85dc5f" /> |  |
 
 | DS no shader | DS Phat | DS Lite |
 | :-------------: | :-------------: | :-------------: |
-| <img width="256" height="192" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> | <img width="256" height="192" alt="ds_phat" src="https://github.com/user-attachments/assets/503444a4-13e0-4f75-a839-59cd8150d3b6" /> | <img width="256" height="192" alt="ds_lite" src="https://github.com/user-attachments/assets/98afdda1-5ec9-4b34-9347-cd5a59aa9cd7" /> | 
+| <img width="256" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> | <img width="256" alt="ds_phat" src="https://github.com/user-attachments/assets/503444a4-13e0-4f75-a839-59cd8150d3b6" /> | <img width="256" alt="ds_lite" src="https://github.com/user-attachments/assets/98afdda1-5ec9-4b34-9347-cd5a59aa9cd7" /> | 
 
 | 3DS no shader | 3DS | New 3DS XL (IPS) |
 | :-------------: | :-------------: | :-------------: |
-| <img width="800" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | <img width="800" alt="3ds" src="https://github.com/user-attachments/assets/8b71e3e3-a9a7-41e7-ad1c-c8da47cfca3d" /> | <img width="800" alt="3ds_xl_ips" src="https://github.com/user-attachments/assets/e49c8c67-f320-4a7c-9b38-672e0a8515c5" /> |
-| `no shader - already D65` | `D65 chromatic adaptation` | `D65 chromatic adaptation` |
-| <img width="800" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | <img width="800" alt="3ds_d65" src="https://github.com/user-attachments/assets/d0b764d3-b378-4e1a-a714-add092b10224" /> | <img width="800" alt="3ds_xl_ips_d65" src="https://github.com/user-attachments/assets/460b54cc-5f74-40af-b41f-6552b2645932" /> |
-
-
-
+| <img width="400" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | <img width="400" alt="3ds" src="https://github.com/user-attachments/assets/8b71e3e3-a9a7-41e7-ad1c-c8da47cfca3d" /> | <img width="400" alt="3ds_xl_ips" src="https://github.com/user-attachments/assets/e49c8c67-f320-4a7c-9b38-672e0a8515c5" /> |
 
 
 
@@ -320,6 +315,9 @@ In the `handheld` folder, you’ll find the measured consoles and their correspo
  
 ### Chromatic Adaptation
 
+> [!NOTE]
+> **Future improvement:** The current implementation applies **full chromatic adaptation to D65**, but does not model how the human visual system adapts to different viewing conditions. A future version could introduce **partial chromatic adaptation** through a color appearance model such as **CIECAM16**, using the required viewing-condition parameters to better approximate how chromatic adaptation is perceived by the human eye.
+
 #### **OFF — Original Color Reproduction (Default)**
 
 No chromatic adaptation is applied. This preserves the **original display behavior**, including differences between screens of the same console model, often referred to as **“screen lottery”**.
@@ -333,26 +331,15 @@ This option is useful for mitigating differences between panels, often referred 
 
 The trade-off is a loss of **color accuracy** compared with the original display reproduction. Choosing between **OFF** and **ON** is therefore ultimately a matter of **personal preference**.
 
-> [!NOTE]
-> **Future improvement:** The current implementation applies **full chromatic adaptation to D65**, but does not model how the human visual system adapts to different viewing conditions. A future version could introduce **partial chromatic adaptation** through a color appearance model such as **CIECAM16**, using the required viewing-condition parameters to better approximate how chromatic adaptation is perceived by the human eye.
+<img width="400" alt="chromatic adaptation example" src="https://github.com/user-attachments/assets/35d7e0e9-a668-494e-89d8-3141af177f23" />
 
-#### Example
-
-Chromatic adaptation on the GameBoy Micro shader:
-
-- **OFF** (bottom left) = "blue tinted / cool temperature greyscale"
-- **ON** (top right) = "neutral greyscale"
-
-<img width="896" height="504" alt="chromatic adaptation example" src="https://github.com/user-attachments/assets/35d7e0e9-a668-494e-89d8-3141af177f23" />
+In this Game Boy Micro example, chromatic adaptation is **OFF** in the bottom-left image, producing a blue-tinted, cool-temperature greyscale, and **ON** in the top-right image, producing a neutral greyscale.
 
 
-## Debug Shader parameters
 
-These parameters are used to analyze the shader's output image.
+### [DEBUG] Show out of Gamut colours
 
-### Show out of Gamut colours
-
-Enable this option to highlight in red the colors that cannot be represented in the sRGB color space. These colors are only approximations.
+This diagnostic option highlights in red colors that must be approximated because they fall outside the sRGB gamut.
 
 
 # Special Thanks
