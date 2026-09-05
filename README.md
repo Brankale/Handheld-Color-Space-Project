@@ -325,11 +325,12 @@ No chromatic adaptation is applied. This preserves the **original display behavi
 
 #### **ON — White Point Normalization**
 
-Applies **full chromatic adaptation to a D65 white point**.
-
-This option is useful for mitigating differences between panels, often referred to as **“screen lottery”**, by applying a **uniform D65 white point** that reduces variations in **color temperature** and **screen tinting**, producing the neutral white balance typically found on modern displays.
+This option applies **full chromatic adaptation to a D65 white point** — typically used on modern displays — to achieve a more neutral **color temperature** and reduce **screen tinting**.
 
 The trade-off is a loss of **color accuracy** compared with the original display reproduction. Choosing between **OFF** and **ON** is therefore ultimately a matter of **personal preference**.
+
+> [!NOTE]
+> Because of the **“screen lottery”**, this option can be understood, in a broad and conceptual sense, as moving the output toward a common reference that resembles an average across measurements from multiple screens. It is not a literal average, however, and its relevance depends heavily on the console model, panel manufacturer, panel age, and panel wear.
 
 <img width="400" alt="chromatic adaptation example" src="https://github.com/user-attachments/assets/35d7e0e9-a668-494e-89d8-3141af177f23" />
 
