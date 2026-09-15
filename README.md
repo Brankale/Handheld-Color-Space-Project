@@ -250,7 +250,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🔴</td>
+         <td align="center">🕐</td>
          <td align="left"><code>Switch OLED</code></td>
          <td><code>HEG-001</code></td>
          <td>Emissive</td>

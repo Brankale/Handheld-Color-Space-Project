@@ -1,0 +1,1 @@
+screen has been measured at max brightness
