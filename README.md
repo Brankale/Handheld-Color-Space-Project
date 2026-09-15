@@ -123,14 +123,14 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🔵🕐</td>
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
          <td>5-bit</td>
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🔵🕐</td>
          <td align="left"><code>Game Boy Micro</code></td>
          <td><code>OXY-001</code></td>
          <td>Transmissive</td>
