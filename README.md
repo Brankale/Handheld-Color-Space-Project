@@ -146,11 +146,11 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🔵🕐</td>
          <td>Transmissive</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🔵🕐</td>
          <td align="left"><code>DS Lite</code></td>
          <td><code>USG-001</code></td>
          <td>Transmissive</td>
@@ -271,7 +271,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 
 | Status | Sony Handheld  | Console code(s) | Display Type | Bit Depth | Known Panel Manufacturers |
 | :-------------: | ------------- | :-------------: | :-------------: | :-------------: | :-------------: |
-| 🔵 | `PSP Phat` | `PSP-1000` | Transmissive | 8-bit | ? |
+| 🔵🕐 | `PSP Phat` | `PSP-1000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Slim` | `PSP-2000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Brite` | `PSP-3000` | Transmissive | 8-bit | ? |
 | 🔴 | `PSP Go` | `PSP-N1000` | Transmissive | 8-bit | ? |
