@@ -107,7 +107,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">link</a>)</td>
       </tr>
       <tr>
-         <td align="center">🟡</td>
+         <td align="center">🟡🕐</td>
          <td align="left"><code>Game Boy Advance</code></td>
          <td><code>AGB-001</code></td>
          <td>Reflective</td>
@@ -115,7 +115,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🟡</td>
+         <td align="center">🟡🕐</td>
          <td rowspan="2" align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-001</code></td>
          <td>Reflective</td>
