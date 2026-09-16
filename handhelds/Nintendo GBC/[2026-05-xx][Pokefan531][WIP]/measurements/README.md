@@ -9,3 +9,4 @@ NB: data below 440nm are invalid because of instrument limitations. If you plot 
 NB: reflectance data must be greater or equal to 0. Negative values are not phisically possible.
 NB: XYZ values additivity property does not hold. Must be found how light gets reflected when combining R, G and B values
 
+The files in this measurements folder are an elaboration of the measurements in [2026-05-13][Pokefan531]; in practice, these measurements and [2026-05-13][Pokefan531] are almost exactly the same thing and should be merged.
