@@ -26,7 +26,7 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 ## Gameboy family
 
-| GBC no shader | GBC Illuminant A<br>🚧 WIP 🚧 | GBC Illuminant D50<br>🚧 WIP 🚧 | GBC Illuminant D65<br>🚧 WIP 🚧 |
+| GBC no shader | GBC Illuminant A<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D50<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D65<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> |
 | :-------------: | :-------------: | :-------------: |  :-------------: |
 | <img width="200" height="180" alt="gbc_raw" src="https://github.com/user-attachments/assets/778f5ae6-6d22-4c2b-b449-9bd27065621c" /> | <img width="200" height="180" alt="gbc_a" src="https://github.com/user-attachments/assets/8b752141-7f34-42dd-a2f0-6a61b34b5db3" /> | <img width="200" height="180" alt="gbc_d50" src="https://github.com/user-attachments/assets/1a407db6-5b6f-4a1a-9e33-b8a9d0d9353f" /> | <img width="200" height="180" alt="gbc_d65" src="https://github.com/user-attachments/assets/a34409f7-a662-48c0-854f-71bf35c11b6e" /> |
 
