@@ -24,25 +24,17 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 # Showcase
 
-## Reflective displays
+## Gameboy family
 
-> [!NOTE]
-> Physically accurate simulation of ambient illuminant effects through measured screen reflectance data, enabling the modeling of the display's reflective behavior instead of relying on chromatic adaptation.
-
-> [!WARNING]
-> The GBC shaders are based on "-45°" screen reflectance measurements (45°/0° geometry + 180° orientation), which produce a washed-out image due to the reflective properties of the original display. The screenshots shown here were generated using the "45° Simulation" parameter (45°/0° geometry + 0° orientation), a rough approximation that better represents the display's intended appearance.
-
-
-| GBC no shader | GBC Illuminant A (WIP) | GBC Illuminant D50 (WIP) | GBC Illuminant D65 (WIP) |
+| GBC no shader | GBC Illuminant A<br>🚧 WIP 🚧 | GBC Illuminant D50<br>🚧 WIP 🚧 | GBC Illuminant D65<br>🚧 WIP 🚧 |
 | :-------------: | :-------------: | :-------------: |  :-------------: |
 | <img width="200" height="180" alt="gbc_raw" src="https://github.com/user-attachments/assets/778f5ae6-6d22-4c2b-b449-9bd27065621c" /> | <img width="200" height="180" alt="gbc_a" src="https://github.com/user-attachments/assets/8b752141-7f34-42dd-a2f0-6a61b34b5db3" /> | <img width="200" height="180" alt="gbc_d50" src="https://github.com/user-attachments/assets/1a407db6-5b6f-4a1a-9e33-b8a9d0d9353f" /> | <img width="200" height="180" alt="gbc_d65" src="https://github.com/user-attachments/assets/a34409f7-a662-48c0-854f-71bf35c11b6e" /> |
-
-
-## Transmissive and emissive displays
 
 | GBA no shader | GBA SP AGS-101 | GB Micro |
 | :-------------: | :-------------: | :-------------: |
 | <img width="240" alt="GB no shader" src="https://github.com/user-attachments/assets/f246821b-1583-4bee-b0b7-b801614d2a17" /> | <img width="240" alt="GBA SP AGS101" src="https://github.com/user-attachments/assets/d3c30f3b-ff4a-4d60-a827-9f01b62fb661" /> | <img width="240" alt="GBA micro" src="https://github.com/user-attachments/assets/a4d058b6-c347-4cf8-8f4f-65eb3a85dc5f" /> |  |
+
+## DS family
 
 | DS no shader | DS Phat | DS Lite |
 | :-------------: | :-------------: | :-------------: |
