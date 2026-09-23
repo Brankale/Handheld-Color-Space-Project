@@ -25,13 +25,16 @@
 
 Depending on the display type, you must use an instrument that supports the required measurement mode. Here is a summary table:
 
-| Meter  | Emissive | Reflective | Transflective |
-| ------------- | :-------------: | :-------------: | :-------------: | 
-| Colorimeter        | ✅ good accuracy | ❌ | ❓ |
-| Spectroradiometer  | ✅ highest accuracy | ❓ | ❓ |
-| Spectrophotometer  | ⚠️ not recommended (1) | ✅ | ✅ (only with backlit turned off) |
+| Meter  | Emissive / Transmissive | Reflective |
+| ------------- | :-------------: | :-------------: |
+| Colorimeter        | ✅ good accuracy | ❌ |
+| Spectroradiometer  | ✅ highest accuracy | ❓ |
+| Spectrophotometer  | ⚠️ not recommended (1) | ✅ |
 
 (1) A spectrophotometer primarily measures reflected light from surfaces. Some models have an “emissive mode,” but they’re generally slower, less sensitive at low light, and not ideal for bright HDR peaks or very dark near-black, common in emissive displays.
+
+> [!NOTE]
+> For transflective displays, use the column corresponding to the component being measured: transmissive or reflective. To measure the reflective component, the backlight must be turned off; to measure the transmissive component, the screen must be tested with the backlight on.
 
 # Do the measurements
 
