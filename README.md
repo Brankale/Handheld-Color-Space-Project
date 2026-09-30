@@ -12,8 +12,6 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 # Index
 
 - [Showcase](#showcase)
-   - [Reflective displays](#reflective-displays)
-   - [Transmissive and emissive displays](#transmissive-and-emissive-displays)
 - [Handhelds status report](#handhelds-status-report)
 - [RetroArch Shaders](#retroarch-shaders)
    - [Shader parameters](#shader-parameters)
