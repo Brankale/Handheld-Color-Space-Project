@@ -34,42 +34,13 @@ layout(location = 0) in vec2 vTexCoord;
 layout(location = 0) out vec4 FragColor;
 layout(binding = 1) uniform sampler2D Source;
 
-
-const int GAMMA_SAMPLES = 22;
-
-const float GAMMA_R[GAMMA_SAMPLES] = float[](
-   1.87737176, // gamma[0] = gamma[1]
-   1.87737176, 1.82048314, 1.95909622, 1.86438456, 1.95186334, 1.83855526, 1.90936134, 1.82046966, 1.90673908, 1.83734752,
-   1.93856764, 1.85512424, 1.95275951, 1.86988474, 2.03689444, 1.87070282, 2.06629294, 1.89357797, 2.28527094, 1.52647976,
-   1.52647976  // gamma[31] = gamma[30]
-);
-
-const float GAMMA_G[GAMMA_SAMPLES] = float[](
-   2.11165086, // gamma[0] = gamma[1]
-   2.11165086, 2.07894442, 2.24799787, 2.16371328, 2.28111671, 2.17879005, 2.27950006, 2.20816886, 2.32959419, 2.28229452,
-   2.42126622, 2.36926675, 2.52676332, 2.46731631, 2.65844105, 2.61701026, 2.87024828, 2.6974767 , 3.15116901, 2.62935232,
-   2.62935232  // gamma[31] = gamma[30]
-);
-
-const float GAMMA_B[GAMMA_SAMPLES]  = float[](
-   2.36270063, // gamma[0] = gamma[1]
-   2.36270063, 2.06310079, 2.14259882, 1.92368565, 1.96383186, 1.75848196, 1.78118224, 1.61740708, 1.65176213, 1.50804811,
-   1.54152574, 1.3786611 , 1.397314  , 1.20584912, 1.2122414 , 0.96839024, 0.92846417, 0.56209545, 0.40887741, -0.2571288,
-   -0.2571288  // gamma[31] = gamma[30]
-);
-
 vec3 handheld_eotf(vec3 color)
 {
-   vec3 denormalized_color = color * float(GAMMA_SAMPLES - 1);
-   ivec3 idx_low = ivec3(floor(denormalized_color));
-   ivec3 idx_high = ivec3(ceil(denormalized_color));
-   vec3 weight = fract(denormalized_color);
+   float gamma_R = -2.20581791 * pow(color.x, 3.0) + 3.15345463 * pow(color.x, 2.0) -1.1359897 * color.x + 1.97112681;
+   float gamma_G = -0.97860722 * pow(color.y, 3.0) + 2.15308059 * pow(color.y, 2.0) -0.41567412 * color.y + 2.16873724;
+   float gamma_B = -7.99016962 * pow(color.z, 3.0) + 9.93001271 * pow(color.z, 2.0) -5.0091074  * color.z + 2.58173488;
 
-   float gr = mix(GAMMA_R[idx_low.x], GAMMA_R[idx_high.x], weight.x);
-   float gg = mix(GAMMA_G[idx_low.y], GAMMA_G[idx_high.y], weight.y);
-   float gb = mix(GAMMA_B[idx_low.z], GAMMA_B[idx_high.z], weight.z);
-
-   return pow(color, vec3(gr, gg, gb));
+   return pow(color, vec3(gamma_R, gamma_G, gamma_B));
 }
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
