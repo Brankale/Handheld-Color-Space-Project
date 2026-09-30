@@ -142,7 +142,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Transmissive</td>
       </tr>
       <tr>
-         <td align="center">🔵🕐</td>
+         <td align="center">🔵</td>
          <td align="left"><code>DS Lite</code></td>
          <td><code>USG-001</code></td>
          <td>Transmissive</td>
