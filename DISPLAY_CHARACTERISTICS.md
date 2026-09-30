@@ -1,40 +1,47 @@
 # Display Characteristics
 
-This table tracks physical display characteristics for every console listed in the main project README.
+These tables track physical display characteristics for every console listed in the main project README.
 
 All dimensions are in millimetres (`mm`). `Unknown` means that no verified value is currently documented in this repository. `N/A` means that the parameter is not directly applicable to the display technology.
 
-| Console | Subpixel layout | Pixel pitch | Pixel gap | Intra-pixel subpixel gap |
-| --- | --- | ---: | ---: | ---: |
-| Game Boy | Unknown | Unknown | Unknown | N/A |
-| Game Boy Pocket | Unknown | Unknown | Unknown | N/A |
-| Game Boy Light | Unknown | Unknown | Unknown | N/A |
-| Game Boy Color | Unknown | Unknown | Unknown | Unknown |
-| Game Boy Advance | Unknown | Unknown | Unknown | Unknown |
-| Game Boy Advance SP | Unknown | Unknown | Unknown | Unknown |
-| Game Boy Micro | Unknown | Unknown | Unknown | Unknown |
-| DS Phat | Unknown | Unknown | Unknown | Unknown |
-| DS Lite | Unknown | Unknown | Unknown | Unknown |
-| DSi | Unknown | Unknown | Unknown | Unknown |
-| DSi XL | Unknown | Unknown | Unknown | Unknown |
-| 3DS | Unknown | Unknown | Unknown | Unknown |
-| 3DS XL | Unknown | Unknown | Unknown | Unknown |
-| New 3DS | Unknown | Unknown | Unknown | Unknown |
-| New 3DS XL | Unknown | Unknown | Unknown | Unknown |
-| 2DS | Unknown | Unknown | Unknown | Unknown |
-| New 2DS XL | Unknown | Unknown | Unknown | Unknown |
-| Wii U GamePad | Unknown | Unknown | Unknown | Unknown |
-| Switch | Unknown | Unknown | Unknown | Unknown |
-| Switch Lite | Unknown | Unknown | Unknown | Unknown |
-| Switch OLED | Unknown | Unknown | Unknown | Unknown |
-| Switch 2 | Unknown | Unknown | Unknown | Unknown |
-| PSP Phat | Unknown | Unknown | Unknown | Unknown |
-| PSP Slim | Unknown | Unknown | Unknown | Unknown |
-| PSP Brite | Unknown | Unknown | Unknown | Unknown |
-| PSP Go | Unknown | Unknown | Unknown | Unknown |
-| PSP Street | Unknown | Unknown | Unknown | Unknown |
-| PlayStation Vita | Unknown | Unknown | Unknown | Unknown |
-| PlayStation Vita Slim | Unknown | Unknown | Unknown | Unknown |
+## Nintendo
+
+| Console | Subpixel layout | Pixel pitch | Pixel gap | Intra-pixel subpixel gap | Zoom/microscope |
+| --- | --- | ---: | ---: | ---: | --- |
+| Game Boy | Unknown | Unknown | Unknown | N/A | Unknown |
+| Game Boy Pocket | Unknown | Unknown | Unknown | N/A | Unknown |
+| Game Boy Light | Unknown | Unknown | Unknown | N/A | Unknown |
+| Game Boy Color | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Game Boy Advance | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Game Boy Advance SP | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Game Boy Micro | Unknown | Unknown | Unknown | Unknown | Unknown |
+| DS Phat | Unknown | Unknown | Unknown | Unknown | Unknown |
+| DS Lite | Unknown | Unknown | Unknown | Unknown | Unknown |
+| DSi | Unknown | Unknown | Unknown | Unknown | Unknown |
+| DSi XL | Unknown | Unknown | Unknown | Unknown | Unknown |
+| 3DS | Unknown | Unknown | Unknown | Unknown | [image](/res/3ds.png)<br>[source](https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540/269) |
+| 3DS XL | Unknown | Unknown | Unknown | Unknown | Unknown |
+| New 3DS | Unknown | Unknown | Unknown | Unknown | Unknown |
+| New 3DS XL | Unknown | Unknown | Unknown | Unknown | [image](/res/new_3ds_xl.png)<br>[source](https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540/269) |
+| 2DS | Unknown | Unknown | Unknown | Unknown | Unknown |
+| New 2DS XL | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Wii U GamePad | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Switch | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Switch Lite | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Switch OLED | Unknown | Unknown | Unknown | Unknown | Unknown |
+| Switch 2 | Unknown | Unknown | Unknown | Unknown | Unknown |
+
+## Sony
+
+| Console | Subpixel layout | Pixel pitch | Pixel gap | Intra-pixel subpixel gap | Zoom/microscope |
+| --- | --- | ---: | ---: | ---: | --- |
+| PSP Phat | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PSP Slim | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PSP Brite | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PSP Go | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PSP Street | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PlayStation Vita | Unknown | Unknown | Unknown | Unknown | Unknown |
+| PlayStation Vita Slim | Unknown | Unknown | Unknown | Unknown | Unknown |
 
 ## Terminology
 
