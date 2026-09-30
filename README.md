@@ -138,7 +138,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td align="center">🔵🕐</td>
+         <td align="center">🔵</td>
          <td>Transmissive</td>
       </tr>
       <tr>
