@@ -35,41 +35,13 @@ layout(location = 0) out vec4 FragColor;
 layout(binding = 1) uniform sampler2D Source;
 
 
-const int GAMMA_SAMPLES = 22;
-
-const float GAMMA_R[GAMMA_SAMPLES] = float[](
-   2.20309253,
-   2.20309253, 2.02396144, 2.15380016, 2.024693,   2.12473107, 2.03521286, 2.13580223, 2.03982218, 2.14653759, 2.05839876,
-   2.16583856, 2.06560805, 2.19068696, 2.09527757, 2.24248895, 2.12412583, 2.32573459, 2.11322408, 2.47270546, 1.76011842,
-   1.76011842
-);
-
-const float GAMMA_G[GAMMA_SAMPLES] = float[](
-   2.24985739,
-   2.24985739, 2.07021182, 2.20183222, 2.06622076, 2.16541104, 2.06710498, 2.15603434, 2.06849988, 2.15848396, 2.06985531,
-   2.16578416, 2.04922916, 2.15703772, 2.04167782, 2.16011144, 2.01135776, 2.17595319, 1.92297188, 2.18279858, 1.48468038,
-   1.48468038
-);
-
-const float GAMMA_B[GAMMA_SAMPLES] = float[](
-   2.10807858,
-   2.10807858, 1.86365661, 1.94804385, 1.76547609, 1.81874992, 1.67605739, 1.71830756, 1.57805084, 1.61665599, 1.47115996,
-   1.4948716,  1.32512278, 1.34500695, 1.16657771, 1.16877652, 0.95057811, 0.93879487, 0.63429913, 0.59212583, 0.16267973,
-   0.16267973
-);
-
 vec3 handheld_eotf(vec3 color)
 {
-   vec3 denormalized_color = color * float(GAMMA_SAMPLES - 1);
-   ivec3 idx_low = ivec3(floor(denormalized_color));
-   ivec3 idx_high = ivec3(ceil(denormalized_color));
-   vec3 weight = fract(denormalized_color);
+   float gamma_R = -3.35795391 * pow(color.x, 3.0) + 4.96861865 * pow(color.x, 2.0) -1.91746513 * color.x + 2.26822719;
+   float gamma_G = -4.06412851 * pow(color.y, 3.0) + 5.38865183 * pow(color.y, 2.0) -2.05475486 * color.y + 2.32401748;
+   float gamma_B = -4.1474596  * pow(color.z, 3.0) + 4.58327354 * pow(color.z, 2.0) -2.63975762 * color.z + 2.18035343;
 
-   float gr = mix(GAMMA_R[idx_low.x], GAMMA_R[idx_high.x], weight.x);
-   float gg = mix(GAMMA_G[idx_low.y], GAMMA_G[idx_high.y], weight.y);
-   float gb = mix(GAMMA_B[idx_low.z], GAMMA_B[idx_high.z], weight.z);
-
-   return pow(color, vec3(gr, gg, gb));
+   return pow(color, vec3(gamma_R, gamma_G, gamma_B));
 }
 
 const mat3 HANDHELD_RGB_LIN_TO_XYZ = mat3(
