@@ -1,4 +1,3 @@
-@ -1,31 +1,459 @@
 import argparse
 from pathlib import Path
 import shutil
@@ -468,7 +467,6 @@ GREYSCALE_XYZ = np.stack([GREYSCALE_X, GREYSCALE_Y, GREYSCALE_Z], axis=1)
 
 def compute_local_gamma_xyz(
     gray_xyz: np.ndarray,
-    primaries_xyz: np.ndarray
     primaries_xyz: np.ndarray,
     primaries_black_xyz: np.ndarray,
 ):
@@ -515,36 +513,8 @@ def compute_local_gamma_xyz(
     luminance_weights = rgb_to_xyz_matrix[1].copy()
     luminance_weight_sum = np.sum(luminance_weights)
 
-    gray_xyz = np.asarray(gray_xyz, dtype=float)
-    primaries_xyz = np.asarray(primaries_xyz, dtype=float)
-
-    # ---------------------------------------------------------
-    # 1. Black subtraction
-    # ---------------------------------------------------------
-    black_xyz = gray_xyz[0]
-    
-    primaries_xyz -= black_xyz
-    gray_xyz -= black_xyz
-
-    # ---------------------------------------------------------
-    # 2. Normalization with respect to white's Y
-    # ---------------------------------------------------------
-    Y_white = gray_xyz[-1, 1]
-    if Y_white <= 0:
-        raise ValueError("Invalid white Y")
     if not np.isfinite(luminance_weight_sum) or luminance_weight_sum <= 0:
         raise ValueError("invalid RGB luminance weights")
-
-    primaries_xyz /= Y_white
-    gray_xyz /= Y_white
-    
-    # ---------------------------------------------------------
-    # 3. XYZ → RGB matrix from primaries
-    # ---------------------------------------------------------
-    
-    M_RGB_to_XYZ = colour.normalised_primary_matrix(
-        colour.XYZ_to_xy(primaries_xyz),
-        colour.XYZ_to_xy(gray_xyz[-1])
     luminance_weights /= luminance_weight_sum
     normalized_levels = create_normalized_levels(len(normalized_gray_xyz))
 
@@ -552,20 +522,12 @@ def compute_local_gamma_xyz(
         normalized_gray_xyz[:, 1],
         normalized_levels,
     )
-    M_XYZ_to_RGB = np.linalg.inv(M_RGB_to_XYZ)
-    rgb_gamma = np.full_like(scaling_factors, np.nan)
-
-    scaling_factors = (M_XYZ_to_RGB @ gray_xyz.T).T
-    for channel_index in range(3):
-        rgb_gamma[:, channel_index] = compute_local_gamma(
-            scaling_factors[:, channel_index],
-            normalized_levels,
-        )
-
-    # ---------------------------------------------------------
-    # 4. Local gamma calculation for each channel
-    # ---------------------------------------------------------
-    gamma = np.full_like(scaling_factors, np.nan)
+    rgb_gamma = np.column_stack(
+        [
+            compute_local_gamma(scaling_factors[:, channel_index], normalized_levels)
+            for channel_index in range(3)
+        ]
+    )
     return (
         normalized_levels,
         gray_gamma,
@@ -575,12 +537,7 @@ def compute_local_gamma_xyz(
         rgb_to_xyz_matrix,
     )
 
-    for i in range(1, len(gray_xyz) - 1): # skip black & white
-        x = i / (len(gray_xyz) - 1)
-        for j in range(3):
-            gamma[i, j] = np.log(scaling_factors[i, j]) / np.log(x)
 
-    return gamma
 def non_negative_integer(value: str):
     try:
         integer_value = int(value)
@@ -618,8 +575,6 @@ def parse_args():
 
 
 def main():
-    gamma = compute_local_gamma_xyz(GREYSCALE_XYZ, PRIMARIES_XYZ)
-    print(gamma)
     args = parse_args()
     try:
         gray_xyz = read_xyz_ramp(args.greyscale)
@@ -709,3 +664,4 @@ def main():
 
 
 if __name__ == "__main__":
+    main()
