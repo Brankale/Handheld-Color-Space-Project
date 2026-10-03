@@ -19,12 +19,14 @@ layout(push_constant) uniform Push
     float RedScale;
     float GreenScale;
     float BlueScale;
+    float OutputLuminanceScale;
 };
 
 #pragma parameter ChromaticAdaptation "D65 illuminant (0=OFF,1=CIECAT16,2=CIECAM16)" 0.0 0.0 2.0 1.0
 #pragma parameter ImproveContrast "Remove backlight distortion (0=OFF,1=ON)" 1.0 0.0 1.0 1.0
 #pragma parameter OutputColorSpace "ColorSpace (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
 #pragma parameter OutputTransferOverride "Override OETF (0=Auto 1=sRGB 2=2.2 3=2.4)" 0.0 0.0 3.0 1.0
+#pragma parameter OutputLuminanceScale "Output luminance scale" 1.0 0.0 1.0 0.01
 #pragma parameter DebugOutOfGamut "[Debug] Out of gamut (0=OFF 1=clipped 2=heatmap)" 0.0 0.0 2.0 1.0
 #pragma parameter DebugDeltaEMax "[Debug] Heatmap max DeltaE" 3.0 1.0 30.0 0.5
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
@@ -312,6 +314,8 @@ void main()
     vec3 adapted_xyz = handheld_xyz;
     if      (ChromaticAdaptation == 1.0) adapted_xyz = ciecat16(handheld_xyz);
     else if (ChromaticAdaptation == 2.0) adapted_xyz = ciecam16(handheld_xyz, get_degree_of_adaptation(L_A));
+
+    adapted_xyz *= OutputLuminanceScale;
 
     // XYZ -> linear RGB
     mat3 xyz_to_rgb;
