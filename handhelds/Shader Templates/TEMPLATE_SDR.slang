@@ -25,8 +25,8 @@ layout(push_constant) uniform Push
 #pragma parameter ImproveContrast "Remove backlight distortion (0=OFF,1=ON)" 1.0 0.0 1.0 1.0
 #pragma parameter OutputColorSpace "ColorSpace (0=sRGB,1=P3,2=Adobe,3=Rec2020)" 0.0 0.0 3.0 1.0
 #pragma parameter OutputTransferOverride "Override OETF (0=Auto 1=sRGB 2=2.2 3=2.4)" 0.0 0.0 3.0 1.0
-#pragma parameter DebugOutOfGamut "[Debug] 0=OFF 1=clip 2=deltaE heat" 0.0 0.0 2.0 1.0
-#pragma parameter DebugDeltaEMax "[Debug] deltaE00 = full red in heatmap" 3.0 1.0 50.0 1.0
+#pragma parameter DebugOutOfGamut "[Debug] Out of gamut (0=OFF 1=clipped 2=heatmap)" 0.0 0.0 2.0 1.0
+#pragma parameter DebugDeltaEMax "[Debug] Heatmap max DeltaE" 3.0 1.0 30.0 0.5
 #pragma parameter RedScale "[Debug] RED scale" 0.0 0.0 1.0 1.0
 #pragma parameter GreenScale "[Debug] GREEN scale" 0.0 0.0 1.0 1.0
 #pragma parameter BlueScale "[Debug] BLUE scale" 0.0 0.0 1.0 1.0
@@ -195,7 +195,7 @@ vec3 ciecam16(vec3 xyz, float D)
 
 vec3 srgb_oetf(vec3 color)
 {
-    vec3 linear    = 12.92 * color;
+    vec3 linear = 12.92 * color;
     vec3 nonlinear = 1.055 * pow(max(color, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055;
     bvec3 cond = lessThanEqual(color, vec3(0.0031308));
     return mix(nonlinear, linear, vec3(cond));
@@ -212,29 +212,38 @@ vec3 gamma_oetf(vec3 color, float exponent)
 
 const float GAMUT_DE_THRESHOLD = 0.01;
 
-vec3 srgb_linear_to_oklab(vec3 rgb)
+// Bjorn Ottosson (2020), "A perceptual color space for image processing".
+// https://bottosson.github.io/posts/oklab/
+// Original Oklab matrices, stored column-major for GLSL.
+vec3 xyz_to_oklab(vec3 xyz)
 {
-    const mat3 SRGB_TO_LMS = mat3(
-        0.4122214708, 0.2119034982, 0.0883024619,
-        0.5363325363, 0.6806995451, 0.2817188376,
-        0.0514459929, 0.1073969566, 0.6299787005
+    const mat3 XYZ_TO_LMS = mat3(
+        0.8189330101, 0.0329845436, 0.0482003018,
+        0.3618667424, 0.9293118715, 0.2643662691,
+       -0.1288597137, 0.0361456387, 0.6338517070
     );
     const mat3 LMS_TO_OKLAB = mat3(
         0.2104542553,  1.9779984951,  0.0259040371,
         0.7936177850, -2.4285922050,  0.7827717662,
        -0.0040720468,  0.4505937099, -0.8086757660
     );
-    vec3 lms   = SRGB_TO_LMS * rgb;
+    vec3 lms = XYZ_TO_LMS * xyz;
     vec3 lms_g = sign(lms) * pow(abs(lms), vec3(1.0 / 3.0));
     return LMS_TO_OKLAB * lms_g;
 }
 
-vec3 compute_out_of_gamut(vec3 linear_rgb, vec3 encoded_rgb)
+float compute_gamut_delta_oklab(vec3 xyz, vec3 linear_rgb, mat3 xyz_to_rgb)
 {
     vec3 clamped = clamp(linear_rgb, 0.0, 1.0);
-    float dE    = length(srgb_linear_to_oklab(linear_rgb) -
-                         srgb_linear_to_oklab(clamped));
-    float grey  = (encoded_rgb.r + encoded_rgb.g + encoded_rgb.b) / 3.0;
+    // The following line is equivalent to this "vec3 clipped_xyz = inverse(xyz_to_rgb) * clamped;"
+    // but when there's no clipping (clamped - linear_rgb) = 0 and this reduces rounding errors.
+    vec3 clipped_xyz = xyz + inverse(xyz_to_rgb) * (clamped - linear_rgb);
+    return length(xyz_to_oklab(xyz) - xyz_to_oklab(clipped_xyz));
+}
+
+vec3 compute_out_of_gamut(float dE, vec3 encoded_rgb)
+{
+    float grey = (encoded_rgb.r + encoded_rgb.g + encoded_rgb.b) / 3.0;
     return mix(vec3(grey),
                vec3(1.0, grey / 2.5, grey / 2.5),
                float(dE >= GAMUT_DE_THRESHOLD));
@@ -259,11 +268,8 @@ vec3 turbo_colormap(float t)
     ), 0.0, 1.0);
 }
 
-vec3 compute_out_of_gamut_deltaE(vec3 linear_rgb, vec3 encoded_rgb, float dE_max)
+vec3 compute_out_of_gamut_deltaE(float dE, vec3 encoded_rgb, float dE_max)
 {
-    vec3 clamped = clamp(linear_rgb, 0.0, 1.0);
-    float dE    = length(srgb_linear_to_oklab(linear_rgb) -
-                         srgb_linear_to_oklab(clamped));
     float grey  = (encoded_rgb.r + encoded_rgb.g + encoded_rgb.b) / 3.0;
     if (dE < GAMUT_DE_THRESHOLD)
         return vec3(grey);
@@ -330,8 +336,13 @@ void main()
     else                    target_rgb = srgb_oetf(target_linear_rgb);
 
     // (optional) debug: out of gamut
-    if      (DebugOutOfGamut == 1.0) target_rgb = compute_out_of_gamut(target_linear_rgb, target_rgb);
-    else if (DebugOutOfGamut == 2.0) target_rgb = compute_out_of_gamut_deltaE(target_linear_rgb, target_rgb, DebugDeltaEMax);
+    if (DebugOutOfGamut == 1.0 || DebugOutOfGamut == 2.0) {
+        float gamut_delta = compute_gamut_delta_oklab(adapted_xyz, target_linear_rgb, xyz_to_rgb);
+        if (DebugOutOfGamut == 1.0)
+            target_rgb = compute_out_of_gamut(gamut_delta, target_rgb);
+        else
+            target_rgb = compute_out_of_gamut_deltaE(gamut_delta, target_rgb, DebugDeltaEMax);
+    }
 
     FragColor = vec4(target_rgb, handheld_rgba.w);
 }
