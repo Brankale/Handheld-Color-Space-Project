@@ -297,7 +297,7 @@ void main()
 
     // (optional) improve contrast by removing backlight contribution 
     // TODO: With ImproveContrast OFF, adding BLACK_SRC_NORM makes the white
-    // brighter than measured (normalized Y becomes about 1.0016 instead of 1).
+    // brighter than measured (normalized Y becomes >1 instead of 1).
     // Fix this mode to reproduce both measured black and white XYZ.
     if (ImproveContrast == 0.0)
         handheld_xyz += BLACK_SRC_NORM;
