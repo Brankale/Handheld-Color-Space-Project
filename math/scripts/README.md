@@ -49,30 +49,67 @@ Generates **color transformation matrices** for converting between the handheld 
 
 ## Installation
 
-### Prerequisites
-- Python 3.7 or higher
-- pip (Python package manager)
+### 1. Install Python
 
-### Install Dependencies
+Use Python 3.11 through 3.14. Check whether Python is already installed:
 
 ```bash
-pip install numpy colour-science
+python3 --version
 ```
 
-**Required packages:**
-- `numpy` - numerical computing library
-- `colour-science` - comprehensive color science library
+#### Linux
+
+On Debian or Ubuntu, install Python and virtual environment support with:
+
+```bash
+sudo apt update
+sudo apt install python3 python3-venv
+```
+
+On other Linux distributions, install Python 3 and its `venv` support using the distribution's package manager.
+
+#### macOS
+
+Install Python with [Homebrew](https://brew.sh/):
+
+```bash
+brew install python
+```
+
+Alternatively, use the installer from [python.org](https://www.python.org/downloads/macos/).
+
+### 2. Create and Set Up the Virtual Environment
+
+Open a terminal in the directory containing this README and `requirements.txt`. Create and activate the virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+With the environment active, install the exact dependencies listed in `requirements.txt`:
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+When finished, close the virtual environment with:
+
+```bash
+deactivate
+```
 
 ## Usage
 
-Run either script directly from the command line:
+With the virtual environment activated, run a script from this directory:
 
 ```bash
-python gamma.py
+python3 gamma.py
 ```
 
 ```bash
-python conversion_matrices.py
+python3 conversion_matrices.py
 ```
 
 Each script will print its calculated results to the console.
