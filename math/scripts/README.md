@@ -51,7 +51,7 @@ Generates **color transformation matrices** for converting between the handheld 
 
 ### 1. Install Python
 
-Use Python 3.11 through 3.14. Check whether Python is already installed:
+Use Python 3.12 through 3.14. Check whether Python is already installed:
 
 ```bash
 python3 --version
