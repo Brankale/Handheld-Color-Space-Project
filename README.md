@@ -117,7 +117,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
          <td>5-bit</td>
-         <td>likely "Sharp" because of the <a href="https://iceboy.a-singer.de/db/ags_iceboy_2.html">"LQ" prefix panel code</a></td>
+         <td>likely Sharp, based on the <a href="https://iceboy.a-singer.de/db/ags_iceboy_2.html">"LQ" panel code prefix</a></td>
       </tr>
       <tr>
          <td align="center">🔵</td>
