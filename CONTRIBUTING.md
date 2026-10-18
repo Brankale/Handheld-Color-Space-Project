@@ -1,3 +1,6 @@
+> [!NOTE]
+> This guide is an independent technical project, not an authoritative reference. Despite the research and experimental work behind it, some interpretations or conclusions may be incomplete or incorrect. Corrections supported by measurements, primary sources, or reproducible tests are welcome.
+
 # Index
 
 - [Displays types](#displays-types)
@@ -398,3 +401,6 @@ The following sources are used in this guide.
 5. Wikipedia, [Spectrometer](https://en.wikipedia.org/wiki/Spectrometer).
 6. Wikipedia, [Spectrophotometry](https://en.wikipedia.org/wiki/Spectrophotometry).
 7. Wikipedia, [Spectroradiometer](https://en.wikipedia.org/wiki/Spectroradiometer).
+
+> [!NOTE]
+> AI was used as a supporting tool during the development of this guide. All technical content, decisions, and AI-assisted output were carefully reviewed before inclusion.
