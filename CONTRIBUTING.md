@@ -3,8 +3,9 @@
 
 # Index
 
-- [Displays types](#displays-types)
-   - [Choosing a measurement tool](#choosing-a-measurement-tool) 
+- [Choosing the right measurement tool](#choosing-the-right-measurement-tool)
+  - [Display types](#display-types)
+  - [Measurement tool types](#measurement-tool-types)
 - [Do the measurements](#do-the-measurements)
    - [Introduction](#introduction)
    - [Measurements guide for emissive displays](#measurements-guide-for-emissive-displays)
@@ -18,19 +19,21 @@
 - [Sources](#sources)
 
 
-# Displays types
+# Choosing the right measurement tool
+
+## Display types
 
 - `Emissive`: the display **emits its own light** (no external illumination needed).
 - `Transmissive`: the display uses a separate backlight and modulates the light passing through the panel. A backlit LCD is therefore transmissive, whereas an OLED is emissive. Although the physical principles differ, both are measured from the viewing side using an instrument's emissive mode.
 - `Reflective`: the display **does not emit light**; it reflects ambient light. Pixels modulate reflection, rather than emitting light.
 - `Transflective`: **hybrid** of transmissive and reflective. A backlight is present, but the display can also use ambient light (via a partially reflective layer).
 
-## Choosing a measurement tool
+## Measurement tool types
 
 > [!WARNING]
 > **Marketing terms used for instruments can sometimes be misleading.** Product names often describe an instrument's main market or use, not every measurement it can perform. For example, some portable optical spectrometers, such as the i1Pro and ColorMunki Photo/Design, work as a **spectrophotometer** in reflective mode, with their lamp on, and as a **spectroradiometer** in emissive mode, with the lamp off [2, 3]. “Colorimeter” can also refer to two different instruments: a **display colorimeter** measures light from a display, while a **reflective colorimeter** measures a surface. Check the instrument’s supported modes and outputs before choosing it.
 
-### 1. Colorimeter
+### Colorimeter
 
 A colorimeter estimates color from three measurements of the incoming light, each taken through a differently colored filter. The filters are designed so that the three readings correspond to **CIE XYZ**, a standardized model of how people match colors. Unlike a spectrometer, **a colorimeter does not record the light at each wavelength (spectrum)**. Because there is no spectrum, the readings cannot be recalculated for a different illuminant [1–3].
 
@@ -43,13 +46,13 @@ A colorimeter estimates color from three measurements of the incoming light, eac
 - their calibration has not been verified for reflective LCDs and a display-specific correction cannot be established without spectral measurements
 
 
-### 2. Spectrophotometer
+### Spectrophotometer
 
 A spectrophotometer is an optical spectrometer with its own built-in light source. It illuminates the sample and measures the returned light at each wavelength, comparing it with a white reference tile to determine **spectral reflectance**: the fraction of light reflected at each wavelength. Follow the instrument’s instructions to calibrate it against the tile; in `spotread`, press `k` to repeat the calibration. Keeping the spectrum allows software to calculate XYZ values for different illuminants [3, 6].
 
 **Best for:** reflective displays, because this project’s workflow requires spectral reflectance. Low-light performance and usable wavelength range depend on the instrument, so inspect the readings and retain the full spectrum for post-processing [3].
 
-**Emissive mode:** some portable spectrometers, such as the i1Pro and ColorMunki Photo/Design, can also measure light from a source with their lamp off. In this mode, they work as spectroradiometers; see [Product names, modes, and functional names](#product-names-modes-and-functional-names) [2, 3].
+**Emissive mode:** some portable spectrometers, such as the i1Pro and ColorMunki Photo/Design, can also measure light from a source with their lamp off. In this mode, they work as spectroradiometers; see [Functional names and measurement modes](#functional-names-and-measurement-modes) [2, 3].
 
 
 #### Measurement geometry
@@ -68,7 +71,7 @@ Geometry describes the angles at which light reaches the sample and the instrume
 | Multi-angle | Light from one angle; readings from several angles. | ✅ **OK**, and the best option when available: measure as many angles as possible, always including a 45°/0° reading for comparison with other measurements. Multi-angle data also help shaders simulate the screen under different geometries and orientations. |
 
 
-### 3. Spectroradiometer
+### Spectroradiometer
 
 A spectroradiometer is an optical spectrometer without its own light source. It measures incoming light and records its spectrum: how much light it receives at each wavelength. Its factory calibration allows it to report absolute spectral radiance in mW/(m²·sr·nm); software can use the spectrum to calculate XYZ values [2, 3, 7].
 
@@ -79,22 +82,24 @@ A spectroradiometer is an optical spectrometer without its own light source. It 
 > [!NOTE]
 > A spectroradiometer with external illumination may allow a measurement geometry closer to real use, but this method has not been tested by the project and requires extra equipment and careful control of the lighting. See [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays-work-in-progress).
 
-### Product names, modes, and functional names
+### Functional names and measurement modes
 
-Use this table to map a product and its measurement mode to the functional name used in this guide. The rest of the guide uses only the functional names: **spectrophotometer** for reflectance measurements and **spectroradiometer** for absolute measurements of emitted light.
+This table maps each measurement mode to the functional name used in this guide and lists its output and example instruments.
 
-| Instrument type | Mode and illumination | Functional name | Output and units | Example instruments |
-| --- | --- | --- | --- | --- |
-| Optical spectrometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | Spectrophotometer | Spectral reflectance at each sampled wavelength; `spotread` reports `%/nm` [3] | i1Pro or ColorMunki Photo/Design in reflective mode |
-| Optical spectrometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | Spectroradiometer | Absolute spectral radiance in `mW/(m²·sr·nm)` [3] | i1Pro or ColorMunki Photo/Design in emissive mode; reference-grade examples include JETI specbos, Photo Research, and Konica Minolta CS-2000 [2] |
-| Display colorimeter | Emissive; the display provides the light being measured | Display colorimeter | Absolute XYZ values; luminance Y is in `cd/m²` [3] | i1Display Pro, ColorMunki Display or Spyder [1, 2] |
-| Reflective colorimeter | Reflective; built-in light illuminates the sample | Reflective colorimeter | Color values, but no spectrum; the output scale depends on the instrument and software [2] | DTP51 or SwatchMate Cube [2] |
+| Functional name | Mode and illumination | Output and units | Example instruments |
+| --- | --- | --- | --- |
+| Spectrophotometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | Spectral reflectance at each sampled wavelength; `spotread` reports `%/nm` [3] | i1Pro or ColorMunki Photo/Design in reflective mode |
+| Spectroradiometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | Absolute spectral radiance in `mW/(m²·sr·nm)` [3] | i1Pro or ColorMunki Photo/Design in emissive mode; reference-grade examples include JETI specbos, Photo Research, and Konica Minolta CS-2000 [2] |
+| Display colorimeter | Emissive; the display provides the light being measured | Absolute XYZ values; luminance Y is in `cd/m²` [3] | i1Display Pro, ColorMunki Display or Spyder [1, 2] |
+| Reflective colorimeter | Reflective; built-in light illuminates the sample | Color values, but no spectrum; the output scale depends on the instrument and software [2] | DTP51 or SwatchMate Cube [2] |
 
-**Important:** display colorimeters and reflective colorimeters are distinct instrument types. Do not assume that a display colorimeter contains a lamp or can switch to reflective measurement [2].
+### Recommendations by display type
 
-### Choosing an instrument by display type
-
-**Legend:** ✅ **OK**: suitable for the measurement. ⚠️ **OK with limitations**: usable, with the limitations listed in the cell. ❌ **KO**: cannot measure the quantity required. ❓ **Not tested by this project**: the method has not been tried yet. The symbols indicate suitability, not a ranking of instruments.
+**Legend:**
+- ✅ **OK**: suitable for the measurement.
+- ⚠️ **OK with limitations**: usable, with the limitations listed in the cell.
+- ❌ **KO**: cannot measure the quantity required.
+- ❓ **Insufficient information**: there is currently not enough information to assess the method's effectiveness and feasibility.
 
 Emissive and transmissive displays are measured the same way: the instrument measures the light coming from or through the screen. The same guidance therefore applies to both.
 
