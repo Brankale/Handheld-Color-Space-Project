@@ -40,11 +40,7 @@ A colorimeter estimates color from three measurements of the incoming light, eac
 
 **Best for:** emissive and transmissive displays. Colorimeters are generally fast, and suitable models can perform well on dim patches. Their accuracy depends on the display spectrum, so **use a display-specific correction**. A **CCMX** is measured using the colorimeter and a spectroradiometer on the same display; a **CCSS** is calculated from spectral samples and requires a colorimeter with known spectral sensitivities, such as the i1Display Pro or Spyder 4/5 [1–3].
 
-**Reflective colorimeters:** these have their own light source and can be used for this project only as a last resort, when a spectrophotometer is unavailable. They are strongly discouraged:
-- they do not record spectral reflectance
-- their results apply only to their built-in light source which is unknown
-- noisy wavelength regions cannot be inspected or excluded
-- their calibration has not been verified for reflective LCDs and a display-specific correction cannot be established without spectral measurements
+**Reflective colorimeters:** these have a built-in light source. They are strongly discouraged for this project and should be used only as a last resort when a spectrophotometer is unavailable. See [Recommendations by display type](#recommendations-by-display-type) for their limitations.
 
 
 ### Spectrophotometer
