@@ -6,6 +6,7 @@
 - [Choosing the right measurement tool](#choosing-the-right-measurement-tool)
   - [Display types](#display-types)
   - [Measurement tool types](#measurement-tool-types)
+  - [Recommendations by display type](#recommendations-by-display-type)
 - [Do the measurements](#do-the-measurements)
    - [Introduction](#introduction)
    - [Measurements guide for emissive displays](#measurements-guide-for-emissive-displays)
@@ -93,7 +94,7 @@ This table maps each measurement mode to the functional name used in this guide 
 | Display colorimeter | Emissive; the display provides the light being measured | Absolute XYZ values; luminance Y is in `cd/m²` [3] | i1Display Pro, ColorMunki Display or Spyder [1, 2] |
 | Reflective colorimeter | Reflective; built-in light illuminates the sample | Color values, but no spectrum; the output scale depends on the instrument and software [2] | DTP51 or SwatchMate Cube [2] |
 
-### Recommendations by display type
+## Recommendations by display type
 
 **Legend:**
 - ✅ **OK**: suitable for the measurement.
@@ -101,7 +102,6 @@ This table maps each measurement mode to the functional name used in this guide 
 - ❌ **KO**: cannot measure the quantity required.
 - ❓ **Insufficient information**: there is currently not enough information to assess the method's effectiveness and feasibility.
 
-Emissive and transmissive displays are measured the same way: the instrument measures the light coming from or through the screen. The same guidance therefore applies to both.
 
 | Instrument and mode | Emissive or transmissive display |
 | --- | --- |
@@ -123,7 +123,7 @@ A spectroradiometer measures the spectrum directly, but that does not mean every
 
 #### Transflective displays
 
-Measure the transmissive and reflective components separately, using the relevant instrument for each. For the setup described here, measure the transmissive component with the backlight on and the reflective component with it off. For the transmissive component, apply the emissive/transmissive guidance above.
+**Measure the transmissive and reflective components separately**, using the relevant instrument for each. For the setup described here, measure the transmissive component with the backlight on and the reflective component with it off. For the transmissive component, apply the emissive/transmissive guidance above.
 
 | Instrument and mode | Transflective display |
 | --- | --- |
