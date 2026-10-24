@@ -42,52 +42,31 @@ A colorimeter estimates color from three measurements of the incoming light, eac
 - noisy wavelength regions cannot be inspected or excluded
 - their calibration has not been verified for reflective LCDs and a display-specific correction cannot be established without spectral measurements
 
+
 ### 2. Spectrophotometer
 
-#### What it does and how it works
+A spectrophotometer is an optical spectrometer with its own built-in light source. It illuminates the sample and measures the returned light at each wavelength, comparing it with a white reference tile to determine **spectral reflectance**: the fraction of light reflected at each wavelength. Follow the instrument’s instructions to calibrate it against the tile; in `spotread`, press `k` to repeat the calibration. Keeping the spectrum allows software to calculate XYZ values for different illuminants [3, 6].
 
-A spectrophotometer is an optical spectrometer with its own built-in light source. It illuminates the sample and compares the light that comes back with the light returned by a white reference tile, wavelength by wavelength. Because the result is a ratio to that white reference, every reflective spectrophotometer must be calibrated against it [3, 6].
+**Best for:** reflective displays, because this project’s workflow requires spectral reflectance. Low-light performance and usable wavelength range depend on the instrument, so inspect the readings and retain the full spectrum for post-processing [3].
 
-#### The question it helps answer
+**Emissive mode:** some portable spectrometers, such as the i1Pro and ColorMunki Photo/Design, can also measure light from a source with their lamp off. In this mode, they work as spectroradiometers; see [Product names, modes, and functional names](#product-names-modes-and-functional-names) [2, 3].
 
-**How much of the light at each wavelength does this surface reflect?**
-
-#### What it measures
-
-It reports **spectral reflectance**: the fraction of light reflected at each wavelength. Keeping the spectrum lets software calculate color values for different illuminants; the resulting XYZ values depend on the illuminant selected [3, 6].
-
-#### Where it is useful
-
-A spectrophotometer is useful when the measurement needs the surface's reflectance spectrum, rather than only a set of color values. This is the type of data used by this project's reflective-display workflow [3, 6].
-
-#### Limitations and requirements
-
-Before reflective measurements, calibrate the instrument against its white reference tile, following its prompts and manual. In `spotread`, press `k` to repeat the tile calibration when needed [3]. Low-light readings and usable wavelength ranges depend on the instrument, so inspect the measurements and retain the spectral data for post-processing [3].
-
-#### Modes and variants
-
-Some portable spectrophotometers, such as the i1Pro and ColorMunki Photo/Design, also have an emissive mode: the built-in lamp is switched off and the instrument measures light coming from the source. In that mode it works as a spectroradiometer. See [Product names, modes, and functional names](#product-names-modes-and-functional-names) [2, 3].
 
 #### Measurement geometry
 
-The measurement geometry describes the angle at which light reaches the sample and the angle at which the instrument reads it. It is written as *illumination/viewing*. Common geometries for spectrophotometers are [4, 6]:
+Geometry describes the angles at which light reaches the sample and the instrument measures it, written as *illumination/viewing*. It matters because reflective LCDs can reflect light differently depending on direction, due to their polarizers, color filters and rear reflector. Measurements made with different geometries or orientations (see [Instrument Orientation](#instrument-orientation)) are therefore not directly comparable. Record the instrument model, geometry and, for directional setups, orientation [4, 6].
+
+> [!WARNING]
+> **These geometry recommendations are provisional**: the available data are limited, and few user measurements have been collected. Measurements using any geometry are welcome, provided the geometry and orientation are recorded.
 
 | Geometry | How it works | Use in this project |
 | --- | --- | --- |
-| 45°/0° or 0°/45°, directional | Light at 45° from one direction, reading perpendicular to the sample (or the reverse). Excludes the mirror-like (specular) reflection. | ✅ **OK**: reproduces a single directional light source, including its effect on contrast. Results depend on how the instrument is rotated, so **record the orientation in the report; without it, measurements cannot be compared**. See [Instrument Orientation](#instrument-orientation). |
+| 45°/0° or 0°/45°, directional | Light at 45° from one direction, reading perpendicular to the sample (or the reverse). Excludes the mirror-like (specular) reflection. | ✅ **OK**: reproduces a single directional light source, including its effect on contrast. Results depend on how the instrument is oriented. |
 | 45°/0° or 0°/45°, annular | Light at 45° from a ring all around the sample, reading perpendicular (or the reverse). Excludes the specular reflection. | ✅ **OK**: an average over all light directions; reproducible, but does not reproduce the effect of a single light source. |
 | d/8° SCE (sphere) | Diffuse light from all directions inside a white sphere; reading at 8°; specular reflection excluded. | ✅ **OK**: represents very diffuse light; not directly comparable with 45°/0° measurements. |
 | d/8° SCI (sphere) | As above, but the specular reflection is included. | ⚠️ **OK with limitations**: includes the glare from the screen surface, which inflates dark patches and lowers the measured contrast. |
 | Multi-angle | Light from one angle; readings from several angles. | ✅ **OK**, and the best option when available: measure as many angles as possible, always including a 45°/0° reading for comparison with other measurements. Multi-angle data also help shaders simulate the screen under different geometries and orientations. |
 
-> [!WARNING]
-> These recommendations are provisional and need review. The supporting data are limited and not conclusive, so treat them as a general indication only. Few user measurements are available, so measurements made with any geometry are welcome, as long as the geometry and orientation are recorded in the report.
-
-**Why it matters for reflective displays.** A matte paper scatters light in a similar way in all directions, so the geometry has a limited effect. A reflective LCD can behave differently: its polarizers, color filters and rear reflector can send light preferentially in some directions. The measured reflectance therefore applies to the geometry used, and measurements made with different geometries are not directly comparable.
-
-- Record the instrument model, its measurement geometry and, for directional geometries, its orientation in the report.
-- If the results change when the instrument is rotated, see [Instrument Orientation](#instrument-orientation).
-- A spectroradiometer with external illumination lets you choose the geometry, for example one closer to real use (lamp above, viewer in front). This method has not been tested by this project; see [Reflective displays](#reflective-displays).
 
 ### 3. Spectroradiometer
 
@@ -95,7 +74,10 @@ A spectroradiometer is an optical spectrometer without its own light source. It 
 
 **Suitable for:** measuring emissive and transmissive displays (including their spectrum), absolute light output (cd/m2), or spectral data for a colorimeter correction. Some portable spectrophotometers, such as the i1Pro and ColorMunki Photo/Design, also work as spectroradiometers in emissive mode, with their built-in lamp off. They may be slower or less reliable on dim patches than a good, corrected colorimeter, and are not necessarily equivalent to reference-grade instruments [1–3, 7].
 
-**Reflective displays:** a spectroradiometer has no built-in light source, so the display must be lit by a separate, stable lamp with a well-known illuminant. Reflectance can be calculated by comparing the display and a white reference measured under the same lighting and geometry. **This method has not been tested by this project and requires extra equipment and careful control of the illumination** [3, 7].
+**Reflective displays:** a spectroradiometer has no built-in light source, so the display must be lit by a separate, stable lamp with a well-known illuminant. Reflectance can be calculated by comparing the display and a white reference measured under the same lighting and geometry. **This method has not been tested by this project and requires extra equipment and careful control of the illumination** [3, 7]. 
+
+> [!NOTE]
+> A spectroradiometer with external illumination may allow a measurement geometry closer to real use, but this method has not been tested by the project and requires extra equipment and careful control of the lighting. See [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays-work-in-progress).
 
 ### Product names, modes, and functional names
 
