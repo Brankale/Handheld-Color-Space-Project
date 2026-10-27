@@ -38,7 +38,7 @@
 
 A colorimeter estimates color from three measurements of the incoming light, each taken through a differently colored filter. The filters are designed so that the three readings correspond to **CIE XYZ**, a standardized model of how people match colors [1]. Unlike a spectrometer, **a colorimeter does not record the light at each wavelength (spectrum)**. Because there is no spectrum, the readings cannot be recalculated for a different illuminant.
 
-**Best for:** emissive and transmissive displays. Colorimeters are generally fast, and suitable models can perform well on dim patches [1]. Their accuracy depends on the display spectrum, so **use a display-specific correction** [1]. A **CCMX** is measured using the colorimeter and a spectroradiometer on the same display; a **CCSS** is calculated from spectral samples and requires a colorimeter with known spectral sensitivities, such as the i1Display Pro or Spyder 4/5.
+**Best for:** emissive and transmissive displays. Colorimeters are generally fast, and suitable models can perform well on dim patches [1]. Their accuracy depends on the display spectrum, so it is strongly recommended to **use an appropriate display-specific correction** (**CCMX** or a **CCSS**) [1].
 
 **Reflective colorimeters:** these have a built-in light source. They are strongly discouraged for this project and should be used only as a last resort when a spectrophotometer is unavailable. See [Recommendations by display type](#recommendations-by-display-type) for their limitations.
 
