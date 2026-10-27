@@ -32,29 +32,29 @@
 ## Measurement tool types
 
 > [!WARNING]
-> **Marketing terms used for instruments can sometimes be misleading.** Product names often describe an instrument's main market or use, not every measurement it can perform. For example, some portable optical spectrometers, such as the i1Pro and ColorMunki Photo/Design, work as a **spectrophotometer** in reflective mode, with their lamp on, and as a **spectroradiometer** in emissive mode, with the lamp off [2, 3]. “Colorimeter” can also refer to two different instruments: a **display colorimeter** measures light from a display, while a **reflective colorimeter** measures a surface. Check the instrument’s supported modes and outputs before choosing it.
+> **Marketing terms used for instruments can sometimes be misleading.** Product names often describe an instrument's main market or use, not every measurement it can perform. For example, some portable optical spectrometers, such as the i1Pro and ColorMunki Photo/Design, work as a **spectrophotometer** in reflective mode, with their lamp on, and as a **spectroradiometer** in emissive mode, with the lamp off. “Colorimeter” can also refer to two different instruments: a **display colorimeter** measures light from a display, while a **reflective colorimeter** measures a surface. Check the instrument’s supported modes and outputs before choosing it.
 
 ### Colorimeter
 
-A colorimeter estimates color from three measurements of the incoming light, each taken through a differently colored filter. The filters are designed so that the three readings correspond to **CIE XYZ**, a standardized model of how people match colors. Unlike a spectrometer, **a colorimeter does not record the light at each wavelength (spectrum)**. Because there is no spectrum, the readings cannot be recalculated for a different illuminant [1–3].
+A colorimeter estimates color from three measurements of the incoming light, each taken through a differently colored filter. The filters are designed so that the three readings correspond to **CIE XYZ**, a standardized model of how people match colors [1]. Unlike a spectrometer, **a colorimeter does not record the light at each wavelength (spectrum)**. Because there is no spectrum, the readings cannot be recalculated for a different illuminant.
 
-**Best for:** emissive and transmissive displays. Colorimeters are generally fast, and suitable models can perform well on dim patches. Their accuracy depends on the display spectrum, so **use a display-specific correction**. A **CCMX** is measured using the colorimeter and a spectroradiometer on the same display; a **CCSS** is calculated from spectral samples and requires a colorimeter with known spectral sensitivities, such as the i1Display Pro or Spyder 4/5 [1–3].
+**Best for:** emissive and transmissive displays. Colorimeters are generally fast, and suitable models can perform well on dim patches [1]. Their accuracy depends on the display spectrum, so **use a display-specific correction** [1]. A **CCMX** is measured using the colorimeter and a spectroradiometer on the same display; a **CCSS** is calculated from spectral samples and requires a colorimeter with known spectral sensitivities, such as the i1Display Pro or Spyder 4/5.
 
 **Reflective colorimeters:** these have a built-in light source. They are strongly discouraged for this project and should be used only as a last resort when a spectrophotometer is unavailable. See [Recommendations by display type](#recommendations-by-display-type) for their limitations.
 
 
 ### Spectrophotometer
 
-A spectrophotometer is an optical spectrometer with its own built-in light source. It illuminates the sample and measures the returned light at each wavelength, comparing it with a white reference tile to determine **spectral reflectance**: the fraction of light reflected at each wavelength. Follow the instrument’s instructions to calibrate it against the tile; in `spotread`, press `k` to repeat the calibration. Keeping the spectrum allows software to calculate XYZ values for different illuminants [3, 6].
+A spectrophotometer is an optical spectrometer with its own built-in light source. It illuminates the sample and measures the returned light at each wavelength (**spectral reflectance**) [1] by comparing it with a white reference tile. Follow the instrument’s instructions to calibrate it against the tile; in `spotread`, press `k` to repeat the calibration. Keeping the spectrum allows software to calculate XYZ values for different illuminants. 
 
-**Best for:** reflective displays, because this project’s workflow requires spectral reflectance. Low-light performance and usable wavelength range depend on the instrument, so inspect the readings and retain the full spectrum for post-processing [3].
+**Best for:** reflective displays, because this project’s workflow requires spectral reflectance. Typical low cost instruments are not well compensated for temperature changes (making reliable black measurement somewhat tricky), and may take longer, or be less accurate at measuring low light levels than the best colorimeters [1]. The usable wavelength range depend on the instrument, so inspect the readings and retain the full spectrum for post-processing (see [Instrumental spectral limitations](#Instrumental-spectral-limitations)).
 
-**Emissive mode:** some portable spectrometers, such as the i1Pro and ColorMunki Photo/Design, can also measure light from a source with their lamp off. In this mode, they work as spectroradiometers; see [Functional names and measurement modes](#functional-names-and-measurement-modes) [2, 3].
+**Emissive mode:** some portable spectrometers, such as the i1Pro and ColorMunki Photo/Design, can also measure light from a source with their lamp off. In this mode, they work as spectroradiometers.
 
 
 #### Measurement geometry
 
-Geometry describes the angles at which light reaches the sample and the instrument measures it, written as *illumination/viewing*. It matters because reflective LCDs can reflect light differently depending on direction, due to their polarizers, color filters and rear reflector. Measurements made with different geometries or orientations (see [Instrument Orientation](#instrument-orientation)) are therefore not directly comparable. Record the instrument model, geometry and, for directional setups, orientation [4, 6].
+Geometry describes the angles at which light reaches the sample and the instrument measures it, written as *illumination/viewing*. It matters because reflective LCDs can reflect light differently depending on direction, due to their polarizers, color filters and rear reflector. Measurements made with different geometries or orientations (see [Instrument Orientation](#instrument-orientation)) are therefore not directly comparable. Record the instrument model, geometry and, for directional setups, orientation.
 
 > [!WARNING]
 > **These geometry recommendations are provisional**: the available data are limited, and few user measurements have been collected. Measurements using any geometry are welcome, provided the geometry and orientation are recorded.
@@ -70,11 +70,11 @@ Geometry describes the angles at which light reaches the sample and the instrume
 
 ### Spectroradiometer
 
-A spectroradiometer is an optical spectrometer without its own light source. It measures incoming light and records its spectrum: how much light it receives at each wavelength. Its factory calibration allows it to report absolute spectral radiance in mW/(m²·sr·nm); software can use the spectrum to calculate XYZ values [2, 3, 7].
+A spectroradiometer is an optical spectrometer without its own light source. It measures incoming light and records its spectrum: how much light it receives at each wavelength. Its factory calibration allows it to report absolute spectral radiance in mW/(m²·sr·nm); software can use the spectrum to calculate XYZ values.
 
-**Suitable for:** measuring emissive and transmissive displays (including their spectrum), absolute light output (cd/m2), or spectral data for a colorimeter correction. Some portable spectrophotometers, such as the i1Pro and ColorMunki Photo/Design, also work as spectroradiometers in emissive mode, with their built-in lamp off. They may be slower or less reliable on dim patches than a good, corrected colorimeter, and are not necessarily equivalent to reference-grade instruments [1–3, 7].
+**Suitable for:** measuring emissive and transmissive displays (including their spectrum), absolute light output (cd/m2), or spectral data for a colorimeter correction. Some portable spectrophotometers, such as the i1Pro and ColorMunki Photo/Design, also work as spectroradiometers in emissive mode, with their built-in lamp off. They may be slower or less reliable on dim patches than a good, corrected colorimeter, and are not necessarily equivalent to reference-grade instruments.
 
-**Reflective displays:** a spectroradiometer has no built-in light source, so the display must be lit by a separate, stable lamp with a well-known illuminant. Reflectance can be calculated by comparing the display and a white reference measured under the same lighting and geometry. **This method has not been tested by this project and requires extra equipment and careful control of the illumination** [3, 7]. 
+**Reflective displays:** a spectroradiometer has no built-in light source, so the display must be lit by a separate, stable lamp with a well-known illuminant. Reflectance can be calculated by comparing the display and a white reference measured under the same lighting and geometry. **This method has not been tested by this project and requires extra equipment and careful control of the illumination**. 
 
 > [!NOTE]
 > A spectroradiometer with external illumination may allow a measurement geometry closer to real use, but this method has not been tested by the project and requires extra equipment and careful control of the lighting. See [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays-work-in-progress).
@@ -85,10 +85,10 @@ This table maps each measurement mode to the functional name used in this guide 
 
 | Functional name | Mode and illumination | Output and units | Example instruments |
 | --- | --- | --- | --- |
-| Spectrophotometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | Spectral reflectance at each sampled wavelength; `spotread` reports `%/nm` [3] | i1Pro or ColorMunki Photo/Design in reflective mode |
-| Spectroradiometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | Absolute spectral radiance in `mW/(m²·sr·nm)` [3] | i1Pro or ColorMunki Photo/Design in emissive mode; reference-grade examples include JETI specbos, Photo Research, and Konica Minolta CS-2000 [2] |
-| Display colorimeter | Emissive; the display provides the light being measured | Absolute XYZ values; luminance Y is in `cd/m²` [3] | i1Display Pro, ColorMunki Display or Spyder [1, 2] |
-| Reflective colorimeter | Reflective; built-in light illuminates the sample | Color values, but no spectrum; the output scale depends on the instrument and software [2] | DTP51 or SwatchMate Cube [2] |
+| Spectrophotometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | Spectral reflectance at each sampled wavelength; `spotread` reports `%/nm` | i1Pro or ColorMunki Photo/Design in reflective mode |
+| Spectroradiometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | Absolute spectral radiance in `mW/(m²·sr·nm)` | i1Pro or ColorMunki Photo/Design in emissive mode; reference-grade examples include JETI specbos, Photo Research, and Konica Minolta CS-2000 |
+| Display colorimeter | Emissive; the display provides the light being measured | Absolute XYZ values; luminance Y is in `cd/m²` | i1Display Pro, ColorMunki Display or Spyder |
+| Reflective colorimeter | Reflective; built-in light illuminates the sample | Color values, but no spectrum; the output scale depends on the instrument and software | DTP51 or SwatchMate Cube |
 
 ## Recommendations by display type
 
@@ -101,20 +101,20 @@ This table maps each measurement mode to the functional name used in this guide 
 
 | Instrument and mode | Emissive or transmissive display |
 | --- | --- |
-| Display colorimeter | ✅ **OK** with a suitable display-specific correction based on spectral data, ideally measured from the same display: fast and can perform well on dim patches.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results [1–3]. |
-| Portable spectroradiometer | ✅ **OK**: a direct spectral measurement when the instrument has suitable absolute calibration. It can also provide spectral data for a colorimeter correction. It may be slower or less reliable at low light than a good corrected colorimeter [1–3]. |
-| Reference spectroradiometer | ✅ **OK**: measures the emitted spectrum and absolute light output with suitable calibration. Accuracy and low-light performance still depend on the model and conditions [2, 3, 7]. |
+| Display colorimeter | ✅ **OK** with a suitable display-specific correction based on spectral data, ideally measured from the same display: fast and can perform well on dim patches.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results. |
+| Portable spectroradiometer | ✅ **OK**: a direct spectral measurement when the instrument has suitable absolute calibration. It can also provide spectral data for a colorimeter correction. It may be slower or less reliable at low light than a good corrected colorimeter. |
+| Reference spectroradiometer | ✅ **OK**: measures the emitted spectrum and absolute light output with suitable calibration. Accuracy and low-light performance still depend on the model and conditions |
 | Spectrophotometer | ❌ **KO**: it illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
 
-A spectroradiometer measures the spectrum directly, but that does not mean every model performs equally well at every light level. A suitable display correction can make a colorimeter the more practical choice for fast measurements and dim patches; the spectroradiometer provides the spectral reference needed to create or select that correction [1–3].
+A spectroradiometer measures the spectrum directly, but that does not mean every model performs equally well at every light level. A suitable display correction can make a colorimeter the more practical choice for fast measurements and dim patches; the spectroradiometer provides the spectral reference needed to create or select that correction.
 
 #### Reflective displays
 
 | Instrument and mode | Reflective display |
 | --- | --- |
-| Display colorimeter | ❌ **KO**: it has no light source and reports XYZ values, not the spectral reflectance required by this project's workflow [1–3]. |
+| Display colorimeter | ❌ **KO**: it has no light source and reports XYZ values, not the spectral reflectance required by this project's workflow. |
 | Reflective colorimeter | ⚠️ **OK with limitations**: a fallback when no spectrophotometer is available. Its built-in light illuminates the surface and it reports color values, but:<br>• it does not record spectral reflectance, so its XYZ values apply only to its built-in light source and cannot be recalculated for another illuminant;<br>• noisy wavelength regions cannot be inspected or discarded;<br>• its calibration targets ordinary surfaces and has not been verified on reflective LCDs; without a spectrophotometer it cannot be corrected;<br>• the output scale depends on the instrument and software. |
-| Spectrophotometer | ✅ **OK**: measures spectral reflectance. Calibrate against the white tile and keep the full spectrum; check the instrument's low-light and wavelength limitations [3, 6]. |
+| Spectrophotometer | ✅ **OK**: measures spectral reflectance. Calibrate against the white tile and keep the full spectrum; check the instrument's low-light and wavelength limitations. |
 | Spectroradiometer with external illumination | ❓ **Not tested by this project**. Possible setup: light the display with a stable external lamp, then measure the display and a white reference under the same lighting; reflectance = display ÷ white reference, wavelength by wavelength. It requires extra equipment and careful control of the illumination, which makes the setup more complex and costly. |
 
 #### Transflective displays
@@ -123,10 +123,10 @@ A spectroradiometer measures the spectrum directly, but that does not mean every
 
 | Instrument and mode | Transflective display |
 | --- | --- |
-| Display colorimeter, transmissive component | ✅ **OK** with the backlight on and a suitable display-specific correction based on spectral data.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results [1–3]. |
-| Portable spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; requires suitable absolute calibration. Low-light performance depends on the model [2, 3]. |
-| Reference spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; absolute calibration and low-light performance depend on the instrument [2, 3, 7]. |
-| Spectrophotometer, reflective component | ✅ **OK**: measure with the backlight off. Calibrate against the white tile and retain the spectral readings [3, 6]. |
+| Display colorimeter, transmissive component | ✅ **OK** with the backlight on and a suitable display-specific correction based on spectral data.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results. |
+| Portable spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; requires suitable absolute calibration. Low-light performance depends on the model. |
+| Reference spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; absolute calibration and low-light performance depend on the instrument. |
+| Spectrophotometer, reflective component | ✅ **OK**: measure with the backlight off. Calibrate against the white tile and retain the spectral readings. |
 | Spectroradiometer with external illumination, reflective component | ❓ **Not tested by this project**. Possible setup: with the backlight off, light the display with a stable external lamp, then measure the display and a white reference under the same lighting; reflectance = display ÷ white reference, wavelength by wavelength. It requires extra equipment and careful control of the illumination, which makes the setup more complex and costly. |
 
 # Do the measurements
