@@ -98,6 +98,7 @@ This table maps each measurement mode to the functional name used in this guide 
 - ❌ **KO**: cannot measure the quantity required.
 - ❓ **Insufficient information**: there is currently not enough information to assess the method's effectiveness and feasibility.
 
+#### Emissive or transmissive displays
 
 | Instrument and mode | Emissive or transmissive display |
 | --- | --- |
@@ -106,7 +107,6 @@ This table maps each measurement mode to the functional name used in this guide 
 | Reference spectroradiometer | ✅ **OK**: measures the emitted spectrum and absolute light output with suitable calibration. Accuracy and low-light performance still depend on the model and conditions |
 | Spectrophotometer | ❌ **KO**: it illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
 
-A spectroradiometer measures the spectrum directly, but that does not mean every model performs equally well at every light level. A suitable display correction can make a colorimeter the more practical choice for fast measurements and dim patches; the spectroradiometer provides the spectral reference needed to create or select that correction.
 
 #### Reflective displays
 
@@ -119,15 +119,7 @@ A spectroradiometer measures the spectrum directly, but that does not mean every
 
 #### Transflective displays
 
-**Measure the transmissive and reflective components separately**, using the relevant instrument for each. For the setup described here, measure the transmissive component with the backlight on and the reflective component with it off. For the transmissive component, apply the emissive/transmissive guidance above.
-
-| Instrument and mode | Transflective display |
-| --- | --- |
-| Display colorimeter, transmissive component | ✅ **OK** with the backlight on and a suitable display-specific correction based on spectral data.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results. |
-| Portable spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; requires suitable absolute calibration. Low-light performance depends on the model. |
-| Reference spectroradiometer, transmissive component | ✅ **OK**: measure with the backlight on; absolute calibration and low-light performance depend on the instrument. |
-| Spectrophotometer, reflective component | ✅ **OK**: measure with the backlight off. Calibrate against the white tile and retain the spectral readings. |
-| Spectroradiometer with external illumination, reflective component | ❓ **Not tested by this project**. Possible setup: with the backlight off, light the display with a stable external lamp, then measure the display and a white reference under the same lighting; reflectance = display ÷ white reference, wavelength by wavelength. It requires extra equipment and careful control of the illumination, which makes the setup more complex and costly. |
+**Measure the transmissive and reflective components separately** using the decision tables for emissive/transmissive displays and reflective displays, respectively. Measure the transmissive component with the backlight on and the reflective component with it off.
 
 # Do the measurements
 
