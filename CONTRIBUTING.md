@@ -92,12 +92,6 @@ This table maps each measurement mode to the functional name used in this guide 
 
 ## Recommendations by display type
 
-**Legend:**
-- ✅ **OK**: suitable for the measurement.
-- ⚠️ **Known limitations**
-- ❌ **KO**: cannot measure the quantity required.
-- ❓ **Insufficient information**: there is currently not enough information to assess the method's effectiveness and feasibility.
-
 #### Emissive or transmissive displays
 
 | Instrument and mode | Emissive or transmissive display |
