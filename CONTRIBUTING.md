@@ -94,7 +94,7 @@ This table maps each measurement mode to the functional name used in this guide 
 
 **Legend:**
 - ✅ **OK**: suitable for the measurement.
-- ⚠️ **OK with limitations**: usable, with the limitations listed in the cell.
+- ⚠️ **Known limitations**
 - ❌ **KO**: cannot measure the quantity required.
 - ❓ **Insufficient information**: there is currently not enough information to assess the method's effectiveness and feasibility.
 
@@ -102,10 +102,10 @@ This table maps each measurement mode to the functional name used in this guide 
 
 | Instrument and mode | Emissive or transmissive display |
 | --- | --- |
-| Display colorimeter | ✅ **OK** with a suitable display-specific correction based on spectral data, ideally measured from the same display: fast and can perform well on dim patches.<br>⚠️ **OK with limitations** without that correction: readings may be inaccurate; do not rely on them as final results. |
-| Portable spectroradiometer | ✅ **OK**: a direct spectral measurement when the instrument has suitable absolute calibration. It can also provide spectral data for a colorimeter correction. It may be slower or less reliable at low light than a good corrected colorimeter. |
-| Reference spectroradiometer | ✅ **OK**: measures the emitted spectrum and absolute light output with suitable calibration. Accuracy and low-light performance still depend on the model and conditions |
-| Spectrophotometer | ❌ **KO**: it illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
+| Display colorimeter | ✅ **OK** with a display-specific correction based on spectral data. It can perform well on dim patches.<br>⚠️ **Unpredictable** without a display-specific correction; readings may be inaccurate. |
+| Reflective colorimeter | ❌ **KO**. It illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
+| Spectrophotometer | ❌ **KO**. It illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
+| Spectroradiometer | ✅ **OK**. It can also provide spectral data for a colorimeter correction. Depending on the instrument quality, It may be slower or less reliable at low light than a good corrected colorimeter. |
 
 
 #### Reflective displays
