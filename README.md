@@ -24,21 +24,21 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 ## Gameboy family
 
-| GBC no shader | GBC Illuminant A<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D50<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D65<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> |
+| no shader | GBC Illuminant A<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D50<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> | GBC Illuminant D65<br><span style="white-space: nowrap;">🚧 WIP 🚧</span> |
 | :-------------: | :-------------: | :-------------: |  :-------------: |
 | <img width="200" height="180" alt="gbc_raw" src="https://github.com/user-attachments/assets/778f5ae6-6d22-4c2b-b449-9bd27065621c" /> | <img width="200" height="180" alt="gbc_a" src="https://github.com/user-attachments/assets/8b752141-7f34-42dd-a2f0-6a61b34b5db3" /> | <img width="200" height="180" alt="gbc_d50" src="https://github.com/user-attachments/assets/1a407db6-5b6f-4a1a-9e33-b8a9d0d9353f" /> | <img width="200" height="180" alt="gbc_d65" src="https://github.com/user-attachments/assets/a34409f7-a662-48c0-854f-71bf35c11b6e" /> |
 
-| GBA no shader | GBA SP AGS-101 | GB Micro |
+| no shader | GBA SP AGS-101 | GB Micro |
 | :-------------: | :-------------: | :-------------: |
 | <img width="240" alt="GB no shader" src="https://github.com/user-attachments/assets/f246821b-1583-4bee-b0b7-b801614d2a17" /> | <img width="240" alt="GBA SP AGS101" src="https://github.com/user-attachments/assets/d3c30f3b-ff4a-4d60-a827-9f01b62fb661" /> | <img width="240" alt="GBA micro" src="https://github.com/user-attachments/assets/a4d058b6-c347-4cf8-8f4f-65eb3a85dc5f" /> |  |
 
 ## DS family
 
-| DS no shader | DS Phat | DS Lite |
+| no shader | DS Phat | DS Lite |
 | :-------------: | :-------------: | :-------------: |
 | <img width="256" alt="raw" src="https://github.com/user-attachments/assets/8e7f0c11-3dab-4217-95f5-f24c085129bc" /> | <img width="256" alt="ds_phat" src="https://github.com/user-attachments/assets/503444a4-13e0-4f75-a839-59cd8150d3b6" /> | <img width="256" alt="ds_lite" src="https://github.com/user-attachments/assets/98afdda1-5ec9-4b34-9347-cd5a59aa9cd7" /> | 
 
-| 3DS no shader | 3DS | New 3DS XL (IPS) |
+| no shader | 3DS | New 3DS XL (IPS) |
 | :-------------: | :-------------: | :-------------: |
 | <img width="400" alt="3ds_no_shader" src="https://github.com/user-attachments/assets/ad6fbbd6-4a31-4554-8387-1bb5facfc15a" /> | <img width="400" alt="3ds" src="https://github.com/user-attachments/assets/8b71e3e3-a9a7-41e7-ad1c-c8da47cfca3d" /> | <img width="400" alt="3ds_xl_ips" src="https://github.com/user-attachments/assets/e49c8c67-f320-4a7c-9b38-672e0a8515c5" /> |
 
