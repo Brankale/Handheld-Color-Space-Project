@@ -12,12 +12,13 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 # Index
 
 - [Showcase](#showcase)
+   - [Gameboy family](#gameboy-family)
+   - [DS family](#ds-family)
 - [Handhelds status report](#handhelds-status-report)
 - [RetroArch Shaders](#retroarch-shaders)
    - [Shader parameters](#shader-parameters)
       - [Chromatic Adaptation](#chromatic-adaptation)
-   - [Debug Shader parameters](#debug-shader-parameters)
-      - [Show out of Gamut colours](#show-out-of-gamut-colours)
+   - [[DEBUG] Show out of Gamut colours](#debug-show-out-of-gamut-colours)
 - [Special Thanks](#special-thanks)
 
 # Showcase
