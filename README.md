@@ -12,8 +12,6 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 # Index
 
 - [Showcase](#showcase)
-   - [Gameboy family](#gameboy-family)
-   - [DS family](#ds-family)
 - [Handhelds status report](#handhelds-status-report)
 - [RetroArch Shaders](#retroarch-shaders)
    - [Shader parameters](#shader-parameters)
