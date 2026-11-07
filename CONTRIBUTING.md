@@ -99,7 +99,7 @@ This table maps each measurement mode to the functional name used in this guide 
 | Display colorimeter | ✅ **OK** with a display-specific correction based on spectral data. It can perform well on dim patches.<br>⚠️ **Unpredictable** without a display-specific correction; readings may be inaccurate. |
 | Reflective colorimeter | ❌ **KO**. It illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
 | Spectrophotometer | ❌ **KO**. It illuminates the sample and measures reflected light, not the light emitted or transmitted by the screen. |
-| Spectroradiometer | ✅ **OK**. It can also provide spectral data for a colorimeter correction. Depending on the instrument quality, It may be slower or less reliable at low light than a good corrected colorimeter. |
+| Spectroradiometer | ✅ **OK**. It can also provide spectral data for a colorimeter correction. Consumer grade instrument, may be slower or less reliable at low light than a good corrected colorimeter. |
 
 
 #### Reflective displays
