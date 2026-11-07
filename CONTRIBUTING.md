@@ -83,12 +83,12 @@ A spectroradiometer is an optical spectrometer without its own light source. It 
 
 This table maps each measurement mode to the functional name used in this guide and lists its output and example instruments.
 
-| Functional name | Mode and illumination | Output and units | Example instruments |
+| Functional name | Mode and illumination | Output | Example instruments |
 | --- | --- | --- | --- |
-| Spectrophotometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | Spectral reflectance at each sampled wavelength; `spotread` reports `%/nm` | i1Pro or ColorMunki Photo/Design in reflective mode |
-| Spectroradiometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | Absolute spectral radiance in `mW/(m²·sr·nm)` | i1Pro or ColorMunki Photo/Design in emissive mode; reference-grade examples include JETI specbos, Photo Research, and Konica Minolta CS-2000 |
-| Display colorimeter | Emissive; the display provides the light being measured | Absolute XYZ values; luminance Y is in `cd/m²` | i1Display Pro, ColorMunki Display or Spyder |
-| Reflective colorimeter | Reflective; built-in light illuminates the sample | Color values, but no spectrum; the output scale depends on the instrument and software | DTP51 or SwatchMate Cube |
+| Spectrophotometer | Reflective; built-in light illuminates the sample and the instrument measures the returned light against a white reference | spectrum (spectral reflectance) | i1Pro, ColorMunki Photo (reflective mode) |
+| Spectroradiometer | Emissive; measures light from the source. On a multi-mode instrument, its reflective lamp is off | spectrum (spectral radiance) | **consumer-grade examples**: i1Pro, ColorMunki Photo  (emissive mode);<br>**reference-grade examples**: JETI specbos, Photo Research, Konica Minolta CS-2000 |
+| Display colorimeter | Emissive; measures light from the source | CIE XYZ values | i1Display Pro, ColorMunki Display, Spyder |
+| Reflective colorimeter | Reflective; built-in light illuminates the sample | CIE XYZ values | DTP51, SwatchMate Cube |
 
 ## Recommendations by display type
 
