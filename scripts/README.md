@@ -12,7 +12,7 @@ This directory contains Python scripts for analyzing and characterizing handheld
 - [Scripts](#scripts)
    - [`gamma.py`](#gammapy)
    - [`conversion_matrices.py`](#conversionmatricespy)
-- [CHC File Parser Library](#chc-file-parser-library)
+- [CHC File Parser](#chc-file-parser)
 
 ## Overview
 
@@ -151,8 +151,6 @@ Supported layout:
 - Verified binary layout: **Win32 little-endian**
 
 ### Usage
-
-From the repository root:
 
 ```python
 from scripts.chc import read_chc
