@@ -12,6 +12,7 @@ This directory contains Python scripts for analyzing and characterizing handheld
 - [Scripts](#scripts)
    - [`gamma.py`](#gammapy)
    - [`conversion_matrices.py`](#conversionmatricespy)
+- [CHC File Parser Library](#chc-file-parser-library)
 
 ## Overview
 
@@ -126,3 +127,79 @@ Generates **color transformation matrices** for converting between the handheld 
 **Output:**
 - RGB→XYZ conversion matrix
 - Bradford chromatic adaptation transform matrices (with and without black level correction)
+
+## CHC File Parser
+
+[chc.py](chc.py) extracts measurements directly from HCFR `.chc` files for analysis without installing HCFR, enabling users to perform analysis on Linux and macOS where the program is not available.
+
+Compared with HCFR's built-in XLS export, this parser provides additional stored data useful for analysis in this project, including:
+
+- **All stored spectra**, with wavelength metadata and original samples, including grayscale, saturation sweeps and free measurements when available. HCFR's XLS export includes spectra only for the primaries and on/off white.
+- **Saturation-patch measurements** for red, green, blue, yellow, cyan and magenta sweeps, including stored XYZ and spectra when available.
+
+The parser is distributed under **GPL v2**, with the complete license included in [chc.py](chc.py). Its format reference is the [HCFR SourceForge repository](https://sourceforge.net/p/hcfr/code/) (`https://git.code.sf.net/p/hcfr/code`).
+
+> [!WARNING]
+> This script was developed entirely using AI. Only its output was reviewed while the implementation was not reviewed.
+
+Supported layout:
+
+- Document version: **3**
+- Measurement version: **17**
+- Color record versions: **1 through 6**
+- Spectrum and matrix version: **1**
+- Verified binary layout: **Win32 little-endian**
+
+### Usage
+
+From the repository root:
+
+```python
+from scripts.chc import read_chc
+
+measurements = read_chc("report.chc")
+red_xyz = measurements.primaries["R"].xyz
+first_gray = measurements.grayscale[0]
+if first_gray.spectrum is not None:
+      samples = first_gray.spectrum.samples
+```
+
+`read_chc(path)` reads a CHC file and returns its measurements as a read-only `ChcMeasurements` object. From a script in this directory, import it with `from chc import read_chc`.
+
+### Raw Data Contract
+
+- `grayscale`, `near_black`, `near_white`, and `free_measurements` preserve
+   record order. `saturations` has separate `R`, `G`, `B`, `Y`, `C`, `M` groups.
+- `primaries` contains `R`, `G`, `B`; `secondaries` contains `Y`, `C`, `M`.
+- `user_black`, `on_off_black`, `on_off_white`, `ansi_black`, `ansi_white`,
+   and `prime_white` are separate records. No fallback or black substitution
+   from HCFR's application loader is applied.
+- Each `ColorMeasurement` exposes original `xyz`, optional `lux`, optional
+   `spectrum`, its record `version`, and document-relative `file_offset`.
+   Values retain the precision of stored doubles. No normalization, black
+   subtraction, correction, matrix transform, interpolation, or rounding is
+   performed. "Raw" means stored in the CHC file; the measuring software or
+   device may already have processed the values before saving them.
+- `is_valid` reports HCFR's criterion: all three XYZ components are strictly
+   greater than `-1`. Invalid records, including the `-99999.99` no-data
+   sentinel, are preserved. This property is not a physical plausibility check.
+- `color_checker` and `color_checker_master` preserve their declared slot
+   counts and stored indices. `None` denotes a slot not serialized by HCFR;
+   no synthetic XYZ are created. Stored invalid records remain accessible.
+- `Spectrum` retains `band_count`, `wavelength_min`, `wavelength_max`,
+   `bandwidth`, sample tuple, serialization `version`, and `samples_offset`.
+   Bandwidth remains an integer in old color records 2/4 and a double in 5/6.
+   No derived wavelength grid or colorimetric integration is performed.
+- `settings` retains all serialized measurement settings as named raw numeric
+   values: BT.2390 parameters, luminance targets, tone-map/override flags,
+   near-white clipping, white target, ColorChecker mode, color standard,
+   DeltaE/gamma settings, manual chromaticities, and black override.
+   Flags and enums remain stored integers; they do not modify measurements.
+   `ire_scale_mode` is the final stored integer flag. Array indices alone
+   must not be treated as exact stimulus percentages or RGB code values.
+- `notes` is a `RawString` with original `data` bytes and `is_unicode`.
+   Unicode-marked strings can use `notes.decode()` (strict UTF-16LE).
+   Multibyte strings require an explicit encoding, for example
+   `notes.decode("cp1252")` **only if that code page is known**. The CHC string
+   does not identify its original multibyte code page. There is no automatic
+   UTF-8 fallback or replacement of undecodable characters.
