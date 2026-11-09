@@ -1,15 +1,11 @@
 # Measurements report
 
-- `template version`: 1
 - `author`: pica200
 - `date`: 2024/12/21
 - `handheld`: Nintendo 3DS
 
 ## Screen
-- `type`: emissive
 - `screen location`: bottom
-- `bit depth`: 8
-- `manufacturer`: n.d.
 
 ## Meters
 - `name`: Calibrite Display Plus HL
@@ -17,8 +13,6 @@
 
 ## Software (list all software used)
 - `software name`: HCFR
-    - `software version`: n.d.
-    - `software config`: n.d.
 
 ## Measurement environment
 - `ambient lighting`: no
@@ -26,12 +20,6 @@
 ## Screen state
 - `screen warm-up`: yes
 - `brightness level`: custom 80 cd/m2
-- `charger connected`: n.d.
-- `screen protector / touchscreen overlay`: n.d.
-- `console purchase year`: n.d.
-- `second-hand`: n.d.
-- `panel artifacts`: n.d.
-- `estimated console hours of usage`: n.d.
 
 # Notes
 

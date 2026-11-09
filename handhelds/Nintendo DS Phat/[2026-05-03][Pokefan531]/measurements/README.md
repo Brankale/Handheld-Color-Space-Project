@@ -1,4 +1,17 @@
-screen has been measured fully with the Colormunki Display compared to the previous measurement of 2023-07-24.
-The old measurements were using the colormunki photo to scan the colors (currently it's not clear if also the colormunki display was used and how)
-This is the same console measured in 2023-07-24.
-I suppose this is the top screen.
+# Measurements report
+
+- `author`: Pokéfan531
+- `date`: 2026/05/03
+- `handheld`: Nintendo DS Phat
+
+## Meters
+- `name`: X-Rite ColorMunki Display
+- `type`: colorimeter
+- `instrument calibrated`: no
+
+## Screen state
+- `screen protector / touchscreen overlay`: yes (not removed)
+
+# Notes
+
+This is the same console measured on 2023/07/24.

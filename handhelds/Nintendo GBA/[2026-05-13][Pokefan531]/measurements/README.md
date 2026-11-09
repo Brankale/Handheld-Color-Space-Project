@@ -1,6 +1,13 @@
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer
+- `instrument calibrated`: yes
+
+## Software
+- `software name`: Argyll CMS - spotread
+
+## Screen state
+- `screen protector / touchscreen overlay`: yes (not removed)
 
 # Notes
 
