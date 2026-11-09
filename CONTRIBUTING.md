@@ -214,8 +214,8 @@ The physical orientation of the spectrophotometer against the display is critica
 
 | Orientation | Measurements | Output |
 | :-------------: | :-------------: | :-------------: |
-| <img height="300" alt="20260508_223035" src="https://github.com/user-attachments/assets/343f0442-c373-4f5c-b929-e2e6d66c5caf" /> | <img height="300" alt="low gamma" src="https://github.com/user-attachments/assets/6b5fc328-4e2a-4c31-8cbb-2ab6cddb23a2" /> <br>Very low gamma --> washed out image ❌ | <img width="300" alt="low_gamma" src="https://github.com/user-attachments/assets/fcbe2790-f8d4-4997-9c03-b96da9a604a4" /> |
-| <img height="300" alt="20260508_223055" src="https://github.com/user-attachments/assets/d502b5f0-93a0-4b27-afec-a8d1027aa46a" /> | <img height="300" alt="high gamma" src="https://github.com/user-attachments/assets/cacd7768-bc39-4cbd-a7cb-426c178987d7" /> <br>Normal gamma ✔️  | <img width="300" alt="std_gamma" src="https://github.com/user-attachments/assets/47017d20-1527-4501-8895-a83489999ed4" /> |
+| <img height="300" alt="20260508_223055" src="https://github.com/user-attachments/assets/d502b5f0-93a0-4b27-afec-a8d1027aa46a" /> | <img height="300" alt="low gamma" src="https://github.com/user-attachments/assets/6b5fc328-4e2a-4c31-8cbb-2ab6cddb23a2" /> <br>Very low gamma --> washed out image | <img width="300" alt="low_gamma" src="https://github.com/user-attachments/assets/fcbe2790-f8d4-4997-9c03-b96da9a604a4" /> |
+| <img height="300" alt="20260508_223035" src="https://github.com/user-attachments/assets/343f0442-c373-4f5c-b929-e2e6d66c5caf" /> | <img height="300" alt="high gamma" src="https://github.com/user-attachments/assets/cacd7768-bc39-4cbd-a7cb-426c178987d7" /> <br>Normal gamma  | <img width="300" alt="std_gamma" src="https://github.com/user-attachments/assets/47017d20-1527-4501-8895-a83489999ed4" /> |
 
 
 
