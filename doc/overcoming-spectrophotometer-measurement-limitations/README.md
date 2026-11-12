@@ -250,6 +250,8 @@ The baseline carries no information about the screen. Replace it and the first c
 
 Every method in section 5 starts with this step.
 
+Run `python scripts/5_evaluate_method.py --method cleaning` from this article's directory to regenerate the figures and print the three orientation tables below.
+
 #### Assumptions and limits
 
 - Zero is not a measurement either. It is simply the least harmful value: it adds nothing to XYZ. Section 5 replaces it with better estimates.
@@ -267,124 +269,73 @@ Every method in section 5 starts with this step.
 
 *Figure 5. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and cleaning. The area under these curves is what ends up in X and Z. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
-#### Reading 31
-
-*Table 5. Cleaning, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5705 | 0.6212 | 0.5045 | -0.0009 | 0.0000 | -0.0044 | 0.0012 | 0.53 |
-| Red | 0.3725 | 0.3115 | 0.2138 | +0.0016 | 0.0000 | +0.0077 | 0.0044 | 1.13 |
-| Green | 0.3471 | 0.4331 | 0.2832 | +0.0022 | +0.0001 | +0.0105 | 0.0052 | 1.18 |
-| Blue | 0.2316 | 0.2722 | 0.3402 | +0.0013 | 0.0000 | +0.0063 | 0.0030 | 0.96 |
-| Yellow | 0.5158 | 0.5298 | 0.3267 | +0.0005 | 0.0000 | +0.0026 | 0.0010 | 0.29 |
-| Cyan | 0.3911 | 0.5020 | 0.4536 | -0.0003 | 0.0000 | -0.0013 | 0.0005 | 0.14 |
-| Magenta | 0.4082 | 0.3832 | 0.3774 | -0.0001 | 0.0000 | -0.0003 | 0.0001 | 0.04 |
-
-*Table 6. Cleaning, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.9173 | 1.0059 | 0.7982 | -0.0029 | -0.0001 | -0.0139 | 0.0025 | 1.10 |
-| Red | 0.5272 | 0.4197 | 0.2810 | +0.0001 | 0.0000 | +0.0006 | 0.0003 | 0.07 |
-| Green | 0.4789 | 0.6130 | 0.3812 | +0.0007 | 0.0000 | +0.0032 | 0.0011 | 0.26 |
-| Blue | 0.3031 | 0.3673 | 0.5001 | -0.0015 | 0.0000 | -0.0072 | 0.0024 | 0.75 |
-| Yellow | 0.8195 | 0.8403 | 0.4818 | -0.0006 | 0.0000 | -0.0027 | 0.0007 | 0.21 |
-| Cyan | 0.5785 | 0.7799 | 0.6968 | -0.0021 | -0.0001 | -0.0101 | 0.0023 | 0.69 |
-| Magenta | 0.6276 | 0.5806 | 0.5985 | -0.0022 | -0.0001 | -0.0106 | 0.0025 | 0.81 |
-
-*Table 7. Cleaning, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5591 | 0.6056 | 0.4942 | -0.0005 | 0.0000 | -0.0024 | 0.0007 | 0.31 |
-| Red | 0.3237 | 0.2657 | 0.1802 | +0.0019 | +0.0001 | +0.0092 | 0.0062 | 1.51 |
-| Green | 0.3183 | 0.3892 | 0.2561 | +0.0013 | 0.0000 | +0.0061 | 0.0033 | 0.75 |
-| Blue | 0.2180 | 0.2490 | 0.3085 | +0.0014 | 0.0000 | +0.0065 | 0.0035 | 1.10 |
-| Yellow | 0.4980 | 0.5096 | 0.3106 | +0.0009 | 0.0000 | +0.0042 | 0.0017 | 0.48 |
-| Cyan | 0.3736 | 0.4813 | 0.4347 | -0.0003 | 0.0000 | -0.0014 | 0.0005 | 0.15 |
-| Magenta | 0.4037 | 0.3739 | 0.3753 | -0.0007 | 0.0000 | -0.0032 | 0.0012 | 0.37 |
-
 #### All readings
 
-<details>
-<summary>Cleaning: one table per ramp, readings 0–31 (produced by <code>scripts/5_evaluate_method.py --method cleaning</code>)</summary>
+Raw versus cleaned spectra: all 672 measurements, shown separately by instrument orientation. The dashed line is the historical repeatability p95 (0.82), not a significance threshold. The dotted line at 3 is an approximate visibility guide; visibility depends on viewing conditions. All panels use the same scale.
 
-**White**
+![Cleaning: primary ramp colour differences](img/method_cleaning_delta_e_primaries.png)
 
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0010 … +0.0026 | 0.0000 … +0.0001 | -0.0050 … +0.0125 | 0.0026 ± 0.0031 | 0.91 ± 1.07 | 3.84 (#0) |
-| 90° | -0.0029 … +0.0014 | -0.0001 … 0.0000 | -0.0139 … +0.0066 | 0.0017 ± 0.0010 | 0.70 ± 0.45 | 1.61 (#4) |
-| 180° | -0.0007 … +0.0020 | 0.0000 … +0.0001 | -0.0032 … +0.0094 | 0.0039 ± 0.0026 | 1.29 ± 0.83 | 2.94 (#2) |
+*Figure 6. CAM16-UCS ΔE across the 32 readings of each primary ramp, separately for 0°, 90° and 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
-**Red**
+![Cleaning: secondary ramp and greyscale colour differences](img/method_cleaning_delta_e_secondaries_greyscale.png)
 
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0014 … +0.0032 | 0.0000 … +0.0001 | +0.0065 … +0.0151 | 0.0079 ± 0.0027 | 2.20 ± 0.96 | 5.06 (#0) |
-| 90° | -0.0003 … +0.0020 | 0.0000 … +0.0001 | -0.0012 … +0.0096 | 0.0024 ± 0.0025 | 0.79 ± 0.95 | 3.09 (#1) |
-| 180° | +0.0012 … +0.0027 | 0.0000 … +0.0001 | +0.0057 … +0.0131 | 0.0089 ± 0.0016 | 2.35 ± 0.43 | 3.51 (#0) |
-
-**Green**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0016 … +0.0035 | 0.0000 … +0.0001 | +0.0076 … +0.0167 | 0.0078 ± 0.0027 | 1.99 ± 0.92 | 4.09 (#0) |
-| 90° | +0.0002 … +0.0019 | 0.0000 … +0.0001 | +0.0010 … +0.0090 | 0.0029 ± 0.0021 | 0.89 ± 0.91 | 3.23 (#3) |
-| 180° | +0.0013 … +0.0031 | 0.0000 … +0.0001 | +0.0061 … +0.0149 | 0.0092 ± 0.0034 | 2.32 ± 1.00 | 4.77 (#2) |
-
-**Blue**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0008 … +0.0035 | 0.0000 … +0.0001 | +0.0037 … +0.0167 | 0.0058 ± 0.0040 | 2.15 ± 1.67 | 5.83 (#4) |
-| 90° | -0.0017 … +0.0016 | -0.0001 … 0.0000 | -0.0083 … +0.0078 | 0.0023 ± 0.0016 | 0.85 ± 0.64 | 2.43 (#4) |
-| 180° | +0.0007 … +0.0031 | 0.0000 … +0.0001 | +0.0035 … +0.0147 | 0.0068 ± 0.0036 | 2.35 ± 1.19 | 4.68 (#3) |
-
-**Yellow**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0005 … +0.0021 | 0.0000 … +0.0001 | +0.0026 … +0.0101 | 0.0035 ± 0.0022 | 1.04 ± 0.78 | 3.59 (#0) |
-| 90° | -0.0007 … +0.0010 | 0.0000 … 0.0000 | -0.0035 … +0.0047 | 0.0010 ± 0.0009 | 0.33 ± 0.34 | 1.11 (#4) |
-| 180° | +0.0009 … +0.0028 | 0.0000 … +0.0001 | +0.0042 … +0.0132 | 0.0062 ± 0.0024 | 1.69 ± 0.66 | 3.97 (#0) |
-
-**Cyan**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0005 … +0.0022 | 0.0000 … +0.0001 | -0.0025 … +0.0104 | 0.0034 ± 0.0028 | 1.14 ± 1.06 | 3.46 (#1) |
-| 90° | -0.0022 … +0.0017 | -0.0001 … 0.0000 | -0.0108 … +0.0080 | 0.0022 ± 0.0016 | 0.77 ± 0.68 | 2.62 (#2) |
-| 180° | -0.0003 … +0.0024 | 0.0000 … +0.0001 | -0.0014 … +0.0113 | 0.0058 ± 0.0029 | 1.73 ± 0.85 | 3.01 (#1) |
-
-**Magenta**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0003 … +0.0014 | 0.0000 … 0.0000 | -0.0015 … +0.0068 | 0.0020 ± 0.0017 | 0.75 ± 0.70 | 2.39 (#1) |
-| 90° | -0.0022 … +0.0011 | -0.0001 … 0.0000 | -0.0107 … +0.0054 | 0.0018 ± 0.0009 | 0.59 ± 0.33 | 1.43 (#3) |
-| 180° | -0.0007 … +0.0025 | 0.0000 … +0.0001 | -0.0032 … +0.0119 | 0.0062 ± 0.0033 | 2.01 ± 1.07 | 3.30 (#8) |
-
-</details>
+*Figure 7. CAM16-UCS ΔE across the 32 readings of each secondary ramp and the greyscale, separately for 0°, 90° and 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
 #### Swatches
 
 ![Cleaning: swatches](img/method_cleaning_swatches.png)
 
-*Figure 6. For each ramp, the reading with the largest ΔE: raw data (left) and cleaning (right). Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+*Figure 8. For each ramp, the reading with the largest ΔE is selected; cases with ΔE above 2 are shown. Raw data (left) and cleaning (right). Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+
+XYZ values calculated under D50 are converted to sRGB. Colours outside sRGB are clipped and marked with `*`. No chromatic adaptation or per-ramp brightness normalisation is applied.
 
 #### Observations and verdict
 
-*Table 8. Cleaning, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+ΔX, ΔY, ΔZ and Δxy refer to the full-level patch (reading #31), not ramp averages. Mean, p95 and max ΔE use all 32 readings of each ramp at the stated orientation; the “All ramps” row pools its 224 measurements. p95 describes the distribution of cleaning-induced changes, not repeatability.
 
-| From | Max | Spectra above 1 |
-|---|---:|---:|
-| R·x̄ | 0.85 | 0 / 672 |
-| R·z̄ | 0.85 | 0 / 672 |
+ΔX, ΔY and ΔZ are cleaned minus raw on the original XYZ scale (perfect-reflector Y = 1). Removing a negative contribution increases Z, giving a positive ΔZ. Δxy is the chromaticity distance for the same patch. No values are multiplied by 100. Patch deltas are rounded to four decimals; 0.0000 need not mean exactly zero.
+
+*Table 5. Cleaning, 0°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0016 | 0.0000 | +0.0077 | 0.0044 | 2.20 | 4.09 | 5.06 |
+| Green | +0.0022 | +0.0001 | +0.0105 | 0.0052 | 1.99 | 3.66 | 4.09 |
+| Blue | +0.0013 | 0.0000 | +0.0063 | 0.0030 | 2.15 | 5.39 | 5.83 |
+| Yellow | +0.0005 | 0.0000 | +0.0026 | 0.0010 | 1.04 | 2.63 | 3.59 |
+| Cyan | -0.0003 | 0.0000 | -0.0013 | 0.0005 | 1.14 | 3.36 | 3.46 |
+| Magenta | -0.0001 | 0.0000 | -0.0003 | 0.0001 | 0.75 | 2.00 | 2.39 |
+| White | -0.0009 | 0.0000 | -0.0044 | 0.0012 | 0.91 | 3.28 | 3.84 |
+| All ramps | N/A | N/A | N/A | N/A | 1.45 | 3.74 | 5.83 |
+
+*Table 6. Cleaning, 90°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0001 | 0.0000 | +0.0006 | 0.0003 | 0.79 | 2.84 | 3.09 |
+| Green | +0.0007 | 0.0000 | +0.0032 | 0.0011 | 0.89 | 2.92 | 3.23 |
+| Blue | -0.0015 | 0.0000 | -0.0072 | 0.0024 | 0.85 | 2.03 | 2.43 |
+| Yellow | -0.0006 | 0.0000 | -0.0027 | 0.0007 | 0.33 | 1.03 | 1.11 |
+| Cyan | -0.0021 | -0.0001 | -0.0101 | 0.0023 | 0.77 | 2.34 | 2.62 |
+| Magenta | -0.0022 | -0.0001 | -0.0106 | 0.0025 | 0.59 | 1.12 | 1.43 |
+| White | -0.0029 | -0.0001 | -0.0139 | 0.0025 | 0.70 | 1.58 | 1.61 |
+| All ramps | N/A | N/A | N/A | N/A | 0.70 | 2.24 | 3.23 |
+
+*Table 7. Cleaning, 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0019 | +0.0001 | +0.0092 | 0.0062 | 2.35 | 2.86 | 3.51 |
+| Green | +0.0013 | 0.0000 | +0.0061 | 0.0033 | 2.32 | 4.18 | 4.77 |
+| Blue | +0.0014 | 0.0000 | +0.0065 | 0.0035 | 2.35 | 4.28 | 4.68 |
+| Yellow | +0.0009 | 0.0000 | +0.0042 | 0.0017 | 1.69 | 2.56 | 3.97 |
+| Cyan | -0.0003 | 0.0000 | -0.0014 | 0.0005 | 1.73 | 2.81 | 3.01 |
+| Magenta | -0.0007 | 0.0000 | -0.0032 | 0.0012 | 2.01 | 3.15 | 3.30 |
+| White | -0.0005 | 0.0000 | -0.0024 | 0.0007 | 1.29 | 2.69 | 2.94 |
+| All ramps | N/A | N/A | N/A | N/A | 1.96 | 3.57 | 4.77 |
 
 - **Small effect overall.** Mean ΔE is 1.37 and the maximum is 5.83 (Blue #4, 0°). At reading 31 the ΔE stays at or below 1.51. Across all readings, 60 % of the spectra change by more than the historical repeatability reference after cleaning of 0.82. This is a comparison of magnitudes, not a significance test.
-- **Y does not move.** ΔY never exceeds 0.0001.
+- **Y does not move.** The magnitude of ΔY stays below 0.0001.
 - **Z mostly rises.** Removing a negative baseline adds back what the baseline was subtracting. Removing positive values through 423.333 nm can lower Z instead, for example White #31 at 90°: ΔZ = −0.0139.
 - **Dark readings change most.** The largest ΔE values are at readings 0 to 8. There the baseline is large compared to the real signal.
 - **Verdict: necessary, not sufficient.** Cleaning zeros bands through 423.333 nm and removes negative values, but it keeps the 426.667–436.667 nm region, which section 4 shows to be contaminated.
@@ -405,7 +356,7 @@ Figure 3 shows a steep climb from the baseline at 420 nm to the real signal arou
 2. Regress the band residuals on the baseline residuals. The slope is the **leak**: the fraction of the baseline jitter that shows up in the band. 100 % means the band is the baseline; 0 % means the band ignores it.
 3. Also record the correlation between the two residuals.
 
-*Table 9. Baseline leak per band. Leak is the mean over the 7 ramps. Correlation is shown as mean (min) over the 7 ramps. The last column counts negative values over all 672 spectra. Produced by `scripts/4_band_420_440.py`.*
+*Table 8. Baseline leak per band. Leak is the mean over the 7 ramps. Correlation is shown as mean (min) over the 7 ramps. The last column counts negative values over all 672 spectra. Produced by `scripts/4_band_420_440.py`.*
 
 | Band (nm) | Leak 0° | Leak 90° | Leak 180° | Corr 0° | Corr 90° | Corr 180° | Negatives / 672 |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -428,11 +379,11 @@ Observations:
 
 ### 4.2 Shape of the drop
 
-If the climb from 420 to 440 nm were the real reflectance of the screen, each colour would climb in its own way. Figure 7 divides each spectrum by its value at 450 nm, so only the shape is left.
+If the climb from 420 to 440 nm were the real reflectance of the screen, each colour would climb in its own way. Figure 9 divides each spectrum by its value at 450 nm, so only the shape is left.
 
 ![Shape of the drop](img/4_drop_shape.png)
 
-*Figure 7. Reflectance divided by reflectance at 450 nm, mean of readings 16–31, one line per ramp and one panel per orientation. Produced by `scripts/4_band_420_440.py`.*
+*Figure 9. Reflectance divided by reflectance at 450 nm, mean of readings 16–31, one line per ramp and one panel per orientation. Produced by `scripts/4_band_420_440.py`.*
 
 - **Below about 437 nm, all seven ramps collapse onto the same curve.** The shape of the drop does not depend on the colour of the patch.
 - **Above 440 nm, the curves separate by colour,** as real reflectance should.
@@ -453,7 +404,7 @@ Each band is assigned a zone from its worst leak over the three orientations:
 
 The 5 % threshold sits just above the background level of the estimate (2.2 % at 446.7 nm, section 4.1).
 
-*Table 10. Zone of each band. Produced by `scripts/4_band_420_440.py`.*
+*Table 9. Zone of each band. Produced by `scripts/4_band_420_440.py`.*
 
 | Band (nm) | Max leak | Negatives | Zone |
 |---|---:|---:|---:|
@@ -470,7 +421,7 @@ The 5 % threshold sits just above the background level of the estimate (2.2 % at
 
 ![Reliability zones](img/4_zones.png)
 
-*Figure 8. Reliability zones over the raw spectra at reading 31, 0°. Produced by `scripts/4_band_420_440.py`.*
+*Figure 10. Reliability zones over the raw spectra at reading 31, 0°. Produced by `scripts/4_band_420_440.py`.*
 
 ### 4.4 Choosing the cutoff
 
@@ -479,7 +430,7 @@ The **cutoff** is the first band we keep. Everything below it is replaced in sec
 - a lower cutoff keeps more measured data but lets more baseline in;
 - a higher cutoff is cleaner but leaves more to reconstruct.
 
-*Table 11. Cutoff candidates. "Worst leak ≥ cutoff" is the highest leak among the bands from the cutoff up to 450 nm. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
+*Table 10. Cutoff candidates. "Worst leak ≥ cutoff" is the highest leak among the bands from the cutoff up to 450 nm. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
 
 | Cutoff (nm) | Zone | Worst leak ≥ cutoff | Negatives ≥ cutoff | X below | Z below |
 |---|---:|---:|---:|---:|---:|
@@ -525,17 +476,17 @@ Assume the screen reflects nothing below 440 nm.
 
 ![Truncation: implied reflectance](img/method_truncation_spectrum.png)
 
-*Figure 9. Reflectance implied by truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 11. Reflectance implied by truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Reflectance × CMF
 
 ![Truncation: R·x̄ and R·z̄](img/method_truncation_products.png)
 
-*Figure 10. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and truncation. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 12. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and truncation. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Reading 31
 
-*Table 12. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 11. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -547,7 +498,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.3817 | 0.5016 | 0.4073 | -0.0097 | -0.0005 | -0.0476 | 0.0172 | 4.90 |
 | Magenta | 0.3986 | 0.3828 | 0.3303 | -0.0096 | -0.0005 | -0.0474 | 0.0190 | 6.48 |
 
-*Table 13. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 12. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -559,7 +510,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.5643 | 0.7793 | 0.6273 | -0.0162 | -0.0007 | -0.0796 | 0.0189 | 5.39 |
 | Magenta | 0.6123 | 0.5798 | 0.5233 | -0.0175 | -0.0008 | -0.0857 | 0.0217 | 7.50 |
 
-*Table 14. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 13. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -638,11 +589,11 @@ Assume the screen reflects nothing below 440 nm.
 
 ![Truncation: swatches](img/method_truncation_swatches.png)
 
-*Figure 11. For each ramp, the reading with the largest ΔE: raw data (left) and truncation (right). Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 13. For each ramp, the reading with the largest ΔE: raw data (left) and truncation (right). Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Observations and verdict
 
-*Table 15. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 14. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
@@ -650,7 +601,7 @@ Assume the screen reflects nothing below 440 nm.
 | R·z̄ | 0.00 | 0 / 672 |
 
 - **Z always drops.** ΔZ is negative in almost every spectrum, down to −0.0997 (White #31, 90°). X drops about five times less, and Y barely moves.
-- **Colours shift towards yellow.** Less Z means a higher x and y on the chromaticity diagram (see Figure 19).
+- **Colours shift towards yellow.** Less Z means a higher x and y on the chromaticity diagram (see Figure 21).
 - **The effect grows with brightness.** The largest ΔE values are mostly at the bright end of the ramps, where the removed signal is largest. Mean ΔE is 3.75 and the maximum is 7.60.
 - **Verdict: a lower bound, not an estimate.** Truncation is useful as the lowest possible answer, but its assumption contradicts the data at 440 nm.
 
@@ -658,7 +609,7 @@ Assume the screen reflects nothing below 440 nm.
 
 #### Idea
 
-Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a bell curve (Figure 13). Fit a Gaussian to that half and use it to draw the missing left half.
+Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a bell curve (Figure 15). Fit a Gaussian to that half and use it to draw the missing left half.
 
 #### Technical details
 
@@ -678,24 +629,24 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
   - $\bar{z}$: peak at 446 nm, half height reached 23 nm to the left and 32 nm to the right.
 
   A Gaussian fitted to the gentle right side falls too slowly on the left, so it overestimates the missing area.
-- **The two fits are independent,** so they imply two different reflectances for the same surface at the same wavelength (Figure 12).
+- **The two fits are independent,** so they imply two different reflectances for the same surface at the same wavelength (Figure 14).
 - Y is left truncated, which is slightly inconsistent with X and Z.
 
 #### Spectrum
 
 ![Gaussian: implied reflectance](img/method_gaussian_spectrum.png)
 
-*Figure 12. Reflectance implied by the Gaussian fit to $R\bar{x}$ (solid) and to $R\bar{z}$ (dashed), reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 14. Reflectance implied by the Gaussian fit to $R\bar{x}$ (solid) and to $R\bar{z}$ (dashed), reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Reflectance × CMF
 
 ![Gaussian: R·x̄ and R·z̄](img/method_gaussian_products.png)
 
-*Figure 13. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and Gaussian extrapolation. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 15. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and Gaussian extrapolation. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Reading 31
 
-*Table 16. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 15. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -707,7 +658,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.4009 | 0.5016 | 0.5117 | +0.0095 | -0.0005 | +0.0568 | 0.0189 | 5.92 |
 | Magenta | 0.4153 | 0.3828 | 0.4190 | +0.0071 | -0.0005 | +0.0413 | 0.0155 | 4.57 |
 
-*Table 17. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 16. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -719,7 +670,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.5909 | 0.7793 | 0.7722 | +0.0104 | -0.0007 | +0.0652 | 0.0144 | 4.44 |
 | Magenta | 0.6382 | 0.5798 | 0.6592 | +0.0084 | -0.0008 | +0.0502 | 0.0120 | 3.56 |
 
-*Table 18. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 17. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -798,21 +749,21 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 ![Gaussian: swatches](img/method_gaussian_swatches.png)
 
-*Figure 14. For each ramp, the reading with the largest ΔE: raw data (left) and Gaussian extrapolation (right). Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 16. For each ramp, the reading with the largest ΔE: raw data (left) and Gaussian extrapolation (right). Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Observations and verdict
 
-*Table 19. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 18. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
 | R·x̄ | 3.19 | 178 / 672 |
 | R·z̄ | 9.30 | 445 / 672 |
 
-- **The implied reflectance is impossible.** In two thirds of the spectra (445 of 672), the $\bar{z}$ fit implies that the screen reflects more light than it receives, up to 9.3 times. Figure 12 shows the White patch climbing above 4 near 380 nm.
+- **The implied reflectance is impossible.** In two thirds of the spectra (445 of 672), the $\bar{z}$ fit implies that the screen reflects more light than it receives, up to 9.3 times. Figure 14 shows the White patch climbing above 4 near 380 nm.
 - **The two fits disagree.** The $\bar{x}$ fit implies much less reflectance than the $\bar{z}$ fit (maximum 3.19 against 9.30).
 - **Largest change of all methods.** Mean ΔE is 7.34 and the maximum is 13.43. Z rises in every spectrum, between +0.0248 and +0.0822.
-- **Colours shift towards blue.** More Z means a lower x and y (see Figure 19).
+- **Colours shift towards blue.** More Z means a lower x and y (see Figure 21).
 - **Verdict: rejected.** The result in XYZ is not far from hold (section 6), but it is reached through impossible spectra. Without a physical constraint on the fit, the method cannot be trusted.
 
 ### 5.3 Hold
@@ -837,17 +788,17 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 ![Hold: implied reflectance](img/method_hold_spectrum.png)
 
-*Figure 15. Reflectance implied by hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 17. Reflectance implied by hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Reflectance × CMF
 
 ![Hold: R·x̄ and R·z̄](img/method_hold_products.png)
 
-*Figure 16. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and hold. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 18. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and hold. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Reading 31
 
-*Table 20. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 19. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -859,7 +810,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.3989 | 0.5023 | 0.4912 | +0.0075 | +0.0003 | +0.0363 | 0.0122 | 3.83 |
 | Magenta | 0.4158 | 0.3835 | 0.4140 | +0.0075 | +0.0002 | +0.0363 | 0.0134 | 4.01 |
 
-*Table 21. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 20. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -871,7 +822,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.5899 | 0.7803 | 0.7521 | +0.0094 | +0.0003 | +0.0451 | 0.0100 | 3.11 |
 | Magenta | 0.6391 | 0.5809 | 0.6540 | +0.0093 | +0.0003 | +0.0449 | 0.0105 | 3.16 |
 
-*Table 22. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 21. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -950,11 +901,11 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 ![Hold: swatches](img/method_hold_swatches.png)
 
-*Figure 17. For each ramp, the reading with the largest ΔE: raw data (left) and hold (right). Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 19. For each ramp, the reading with the largest ΔE: raw data (left) and hold (right). Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Observations and verdict
 
-*Table 23. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 22. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
@@ -963,7 +914,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 - **Always physically possible.** The implied reflectance never exceeds 0.91, the highest value measured at 440 nm.
 - **Z rises in every spectrum,** between +0.0213 and +0.0564. X rises about five times less and Y by at most 0.0004.
-- **Colours shift towards blue,** like the Gaussian method but less (see Figure 19).
+- **Colours shift towards blue,** like the Gaussian method but less (see Figure 21).
 - **Dark readings change most in ΔE.** The largest values (up to 11.65, Blue #4, 0°) are mostly at readings 0–8. At those levels a fixed amount of added Z is a larger share of the colour.
 - **Verdict: the most plausible estimate.** Hold is simple, consistent across X, Y and Z, and always physically possible. It is an upper bound if the screen absorbs more below 440 nm.
 
@@ -971,7 +922,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 > **In short:** truncation and hold bracket the plausible answer, and the gap between them is the real uncertainty. Hold is the recommended method.
 
-*Table 24. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
+*Table 23. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
 
 | Method | mean ΔX | mean ΔY | mean ΔZ | mean Δxy | mean ΔE | p95 ΔE | max ΔE | mean ΔE #31 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -980,7 +931,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | gaussian | +0.0074 | -0.0003 | +0.0429 | 0.0231 | 7.34 | 10.62 | 13.43 | 5.99 |
 | hold | +0.0066 | +0.0002 | +0.0319 | 0.0177 | 5.69 | 8.78 | 11.65 | 4.12 |
 
-*Table 25. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
+*Table 24. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
 
 | Pair | mean ΔZ | mean ΔE | max ΔE |
 |---|---:|---:|---:|
@@ -991,7 +942,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | truncation vs hold | +0.0580 | 9.43 | 12.79 |
 | gaussian vs hold | -0.0111 | 1.68 | 4.15 |
 
-*Table 26. Summary of the plausibility checks, compiled from Tables 8, 15, 19 and 23. Shares above the historical repeatability reference after cleaning (ΔE 0.82, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
+*Table 25. Summary of the plausibility checks, compiled from Tables 14, 18 and 22 and the cleaning diagnostics printed by `scripts/5_evaluate_method.py --method cleaning`. Shares above the historical repeatability reference after cleaning (ΔE 0.82, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
 
 | Method | Treats the 423–437 nm region | Implied reflectance below 440 nm | Share of spectra changed beyond the historical repeatability reference |
 |---|---|---|---:|
@@ -1002,16 +953,16 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 ![Mean and max ΔE per ramp](img/6_delta_e.png)
 
-*Figure 18. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the historical repeatability p95 after section 3 cleaning (ΔE 0.82), not a significance threshold. Produced by `scripts/6_compare_methods.py`.*
+*Figure 20. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the historical repeatability p95 after section 3 cleaning (ΔE 0.82), not a significance threshold. Produced by `scripts/6_compare_methods.py`.*
 
 ![Chromaticity of reading 31](img/6_xy.png)
 
-*Figure 19. Chromaticity of reading 31 at 0°, one zoomed panel per ramp: raw data (circle) and the four methods. Produced by `scripts/6_compare_methods.py`.*
+*Figure 21. Chromaticity of reading 31 at 0°, one zoomed panel per ramp: raw data (circle) and the four methods. Produced by `scripts/6_compare_methods.py`.*
 
 What the comparison shows:
 
 - **Reconstruction changes are often larger than historical repeat differences after cleaning.** Truncation changes 97 % of spectra by more than the reference of 0.82; Gaussian and hold change all of them by more. This puts the size of the changes in context, without establishing their statistical significance or correctness.
-- **The methods move colours in opposite directions** (Figure 19). Truncation moves every colour towards yellow. Gaussian and hold move it towards blue. Cleaning stays close to the raw data, because it keeps the contaminated bands.
+- **The methods move colours in opposite directions** (Figure 21). Truncation moves every colour towards yellow. Gaussian and hold move it towards blue. Cleaning stays close to the raw data, because it keeps the contaminated bands.
 - **Truncation and hold set the range.** If the true reflectance below 440 nm lies anywhere between 0 and the value at 440 nm, the true colour lies between these two methods. They are 9.43 ΔE apart on average, about eleven and a half times the historical repeatability reference after cleaning. **This illustrates reconstruction uncertainty under those assumptions, not a statistical confidence interval.**
 - **Gaussian and hold agree in XYZ** (mean ΔE 1.68). They arrive there by very different routes: the Gaussian through impossible reflectance, hold through a plausible one.
 

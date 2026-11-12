@@ -5,7 +5,7 @@ import numpy as np
 
 from common import (
     CUTOFF, FULL, ORIENTATIONS, RAMP_COLOURS, RAMP_HEADER, RAMPS, cmfs, integrands, load, md_table, metrics,
-    noise_floor, plot_swatches, ramp_summary_row, save, signed, weights,
+    IMG, noise_floor, plot_swatches, ramp_summary_row, save, signed, weights,
 )
 from methods import METHODS
 
@@ -63,20 +63,72 @@ for ax in axes[1]:
 fig.suptitle(f"{name}: reflectance × CMF, 0°", fontsize=10)
 save(fig, f"method_{name}_products.png")
 
-for o, label in ORIENTATIONS.items():
-    raw, new, m = res[o]
-    rows = []
-    for k, ramp in enumerate(RAMPS):
-        X, Y, Z = new[k, FULL].sum(-1)
-        rows.append([ramp, f"{X:.4f}", f"{Y:.4f}", f"{Z:.4f}", *(signed(m[d][k, FULL]) for d in ("dX", "dY", "dZ")),
-                     f"{m['dxy'][k, FULL]:.4f}", f"{m['dE'][k, FULL]:.2f}"])
-    print(f"\n{name}, reading {FULL}, {label}\n")
-    print(md_table(["Ramp", "X", "Y", "Z", "ΔX", "ΔY", "ΔZ", "Δxy", "ΔE"], rows))
+if name == "cleaning":
+    reference = noise_floor()[1]
+    with plt.rc_context({
+        "font.family": "DejaVu Sans", "font.size": 10,
+        "axes.spines.top": False, "axes.spines.right": False,
+        "axes.edgecolor": "#b0b4b8", "axes.labelcolor": "#363b40",
+        "xtick.color": "#555b61", "ytick.color": "#555b61",
+        "savefig.facecolor": "white",
+    }):
+        for ramps, filename in (
+            (("Red", "Green", "Blue"), "method_cleaning_delta_e_primaries.png"),
+            (("Yellow", "Cyan", "Magenta", "White"), "method_cleaning_delta_e_secondaries_greyscale.png"),
+        ):
+            figure, axes = plt.subplots(1, 3, figsize=(12, 2.45), sharex=True, sharey=True)
+            for axis, (orientation, label) in zip(axes, ORIENTATIONS.items()):
+                for ramp in ramps:
+                    ramp_index = RAMPS.index(ramp)
+                    axis.plot(np.arange(FULL + 1), res[orientation][2]["dE"][ramp_index],
+                              color=RAMP_COLOURS[ramp], marker="o", markersize=2.5,
+                              linewidth=1.35, label="Grey" if ramp == "White" else ramp)
+                axis.axhline(reference, color="#7b8288", linestyle=(0, (4, 3)), linewidth=0.8)
+                axis.axhline(3, color="#c5c8cb", linestyle=":", linewidth=0.9)
+                axis.set(xlim=(-0.4, 31.4), ylim=(0, 6.15), xticks=(0, 8, 16, 24, 31),
+                         yticks=(0, 1, 2, 3, 4, 5, 6), xlabel="Patch index")
+                axis.set_title(label, fontsize=10, pad=8)
+                axis.grid(axis="y", color="#e9ebed", linewidth=0.6)
+                axis.set_axisbelow(True)
+            axes[0].set_ylabel(r"CAM16-UCS $\Delta E$")
+            handles, labels = axes[0].get_legend_handles_labels()
+            axes[-1].legend(handles, labels, loc="upper right", frameon=False, handlelength=1.8)
+            figure.subplots_adjust(wspace=0.12, left=0.055, right=0.99, bottom=0.22, top=0.86)
+            figure.savefig(IMG / filename, dpi=160, bbox_inches="tight")
+            plt.close(figure)
+            print(f"saved img/{filename}")
 
-for k, ramp in enumerate(RAMPS):
-    rows = [ramp_summary_row(label, {d: v[k] for d, v in res[o][2].items()}) for o, label in ORIENTATIONS.items()]
-    print(f"\n{name}, {ramp} ramp, readings 0–{FULL}\n")
-    print(md_table(RAMP_HEADER, rows))
+    for orientation, label in ORIENTATIONS.items():
+        differences = res[orientation][2]
+        rows = []
+        for ramp in ("Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White"):
+            ramp_index = RAMPS.index(ramp)
+            values = differences["dE"][ramp_index]
+            rows.append([
+                ramp, *(signed(differences[metric][ramp_index, FULL]) for metric in ("dX", "dY", "dZ")),
+                f"{differences['dxy'][ramp_index, FULL]:.4f}",
+                f"{values.mean():.2f}", f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}",
+            ])
+        values = differences["dE"]
+        rows.append(["All ramps", *(["N/A"] * 4), f"{values.mean():.2f}",
+                     f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}"])
+        print(f"\n{name}, {label}\n")
+        print(md_table(["Colour", "ΔX", "ΔY", "ΔZ", "Δxy", "Mean ΔE", "p95 ΔE", "Max ΔE"], rows))
+else:
+    for o, label in ORIENTATIONS.items():
+        raw, new, m = res[o]
+        rows = []
+        for k, ramp in enumerate(RAMPS):
+            X, Y, Z = new[k, FULL].sum(-1)
+            rows.append([ramp, f"{X:.4f}", f"{Y:.4f}", f"{Z:.4f}", *(signed(m[d][k, FULL]) for d in ("dX", "dY", "dZ")),
+                         f"{m['dxy'][k, FULL]:.4f}", f"{m['dE'][k, FULL]:.2f}"])
+        print(f"\n{name}, reading {FULL}, {label}\n")
+        print(md_table(["Ramp", "X", "Y", "Z", "ΔX", "ΔY", "ΔZ", "Δxy", "ΔE"], rows))
+
+    for k, ramp in enumerate(RAMPS):
+        rows = [ramp_summary_row(label, {d: v[k] for d, v in res[o][2].items()}) for o, label in ORIENTATIONS.items()]
+        print(f"\n{name}, {ramp} ramp, readings 0–{FULL}\n")
+        print(md_table(RAMP_HEADER, rows))
 
 dE = np.stack([res[o][2]["dE"] for o in ORIENTATIONS])
 _, floor95 = noise_floor()
