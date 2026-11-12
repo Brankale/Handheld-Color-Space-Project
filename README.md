@@ -163,7 +163,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🟡</td>
          <td align="left"><code>3DS</code></td>
          <td><code>CTR-001</code></td>
          <td>Transmissive</td>
@@ -195,7 +195,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td rowspan="2">?</td>
       </tr>
       <tr>
-         <td align="center">🔵</td>
+         <td align="center">🟡</td>
          <td>Transmissive IPS</td>
       </tr>
       <tr>
@@ -285,6 +285,8 @@ Detailed notes about individual consoles and their screen measurements are avail
 - 🕐: Screen measurement data validation in progress
 
 > [!NOTE]
+> Status assessments are not definitive and may change over time as new knowledge is gained.
+>
 > The 🟡 status means that either the **measurement was not performed correctly** and may not be representative of the display, or it was **performed correctly but did not capture enough information to reproduce the display faithfully**. Shaders based on such measurements may therefore be inaccurate.
 >
 > Even when a measurement is correct, the information extracted from it may be limited by the mathematical procedures currently used in this project and may therefore be inaccurate. In general, **mathematical inference should be avoided whenever possible**, since it can introduce unnecessary errors that could be avoided by measuring all the required data, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
