@@ -35,7 +35,10 @@ for a, b in combinations(METHODS, 2):
     rows.append([f"{a} vs {b}", signed(np.nanmean(m["dZ"])), f"{np.nanmean(m['dE']):.2f}", f"{np.nanmax(m['dE']):.2f}"])
 print("\nMethods against each other\n")
 print(md_table(["Pair", "mean ΔZ", "mean ΔE", "max ΔE"], rows))
-print(f"\nNoise floor: mean ΔE = {floor:.2f}, p95 ΔE = {floor95:.2f}")
+print(f"\nHistorical repeatability reference: mean ΔE = {floor:.2f}, p95 ΔE = {floor95:.2f}")
+print(md_table(["Method", "Spectra above reference", "Share"],
+                             [[name, f"{np.count_nonzero(m['dE'] > floor95)} / {m['dE'].size}",
+                                 f"{np.mean(m['dE'] > floor95):.0%}"] for name, m in M.items()]))
 
 fig, ax = plt.subplots(figsize=(10, 4))
 width = 0.8 / len(METHODS)
@@ -46,7 +49,7 @@ for j, (name, m) in enumerate(M.items()):
     pos = x + (j - (len(METHODS) - 1) / 2) * width
     ax.bar(pos, mean, width, label=name)
     ax.scatter(pos, top, marker="_", color="k", s=60, zorder=3)
-ax.axhline(floor95, color="k", ls="--", lw=0.8, label=f"noise p95 ({floor95:.2f})")
+ax.axhline(floor95, color="k", ls="--", lw=0.8, label=f"historical repeatability p95 ({floor95:.2f})")
 ax.set_xticks(x, RAMPS)
 ax.set(ylabel="ΔE CAM16-UCS vs raw", title="Mean ΔE per ramp (bars) and max ΔE (ticks), all orientations and readings")
 ax.legend(fontsize=8, ncol=3)

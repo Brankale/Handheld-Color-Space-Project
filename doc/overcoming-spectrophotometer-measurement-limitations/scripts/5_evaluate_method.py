@@ -81,7 +81,7 @@ for k, ramp in enumerate(RAMPS):
 dE = np.stack([res[o][2]["dE"] for o in ORIENTATIONS])
 _, floor95 = noise_floor()
 print(f"\n{name}, all spectra: mean ΔE = {np.nanmean(dE):.2f}, max ΔE = {np.nanmax(dE):.2f}, "
-      f"share above the noise p95 ({floor95:.2f}) = {(dE > floor95).mean():.0%}")
+    f"share above the historical repeatability p95 ({floor95:.2f}) = {(dE > floor95).mean():.0%}")
 
 below = wl < CUTOFF - 1e-3
 rows = []

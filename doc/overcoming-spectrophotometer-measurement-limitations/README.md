@@ -124,7 +124,7 @@ All the figures and tables are produced by the Python scripts in [scripts/](scri
 
 ## 2 Data and evaluation
 
-> **In short:** 672 spectra of a Game Boy Color, measured in three instrument orientations. We compare each method against the raw data with CAM16-UCS ΔE. A difference counts as real only above a noise floor of ΔE 0.54.
+> **In short:** 672 spectra of a Game Boy Color, measured in three instrument orientations. We compare each method against the raw data with CAM16-UCS ΔE. After the cleaning described in section 3, five repeated readings per patch from an earlier session provide a historical repeatability reference of ΔE 0.82, not a significance threshold.
 
 ### 2.1 Measurements
 
@@ -167,68 +167,39 @@ For each method we report:
 
 ### 2.3 Noise floor
 
-A method only makes a real difference if its ΔE is larger than the measurement noise. We need a **noise floor**.
+A measured spectrum varies slightly from one acquisition to the next. To put the changes made by a reconstruction method in context, we estimate **repeatability** from repeated measurements of the same patch under the same acquisition conditions.
 
-**First attempt: compare orientations.** The same patches were measured three times with the instrument rotated, so the differences between orientations looked like a natural estimate of repeatability.
+The source measurements were acquired on **9 May 2026**, in the report dated 13 May:
 
-*Table 2. Differences between orientations, raw data, all ramps and readings. Produced by `scripts/2_noise_floor.py`.*
+- [gbc-gamma1 2026-05-09.txt](../../handhelds/Nintendo%20GBC/%5B2026-05-13%5D%5BPokefan531%5D/measurements/gbc-gamma1%202026-05-09.txt).
+- [gbc-gamma2 2026-05-09.txt](../../handhelds/Nintendo%20GBC/%5B2026-05-13%5D%5BPokefan531%5D/measurements/gbc-gamma2%202026-05-09.txt).
 
-| Pair | mean \|ΔX\| | mean \|ΔY\| | mean \|ΔZ\| | mean Δxy | mean ΔE | p95 ΔE | max ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| 0° vs 90° | 0.1071 | 0.1181 | 0.1056 | 0.0098 | 8.60 | 14.08 | 14.98 (White #31) |
-| 0° vs 180° | 0.0656 | 0.0751 | 0.0637 | 0.0123 | 8.45 | 13.16 | 13.90 (Green #12) |
-| 90° vs 180° | 0.1727 | 0.1932 | 0.1693 | 0.0196 | 16.38 | 22.55 | 22.99 (White #20) |
+The [acquisition notes](../../handhelds/Nintendo%20GBC/%5B2026-05-13%5D%5BPokefan531%5D/measurements/README.md) identify the same physical Game Boy Color, a calibrated ColorMunki Photo and five readings per greyscale patch. Each file contains 32 blocks of five readings. These 320 historical spectra are used only for the repeatability estimate; they are not added to the 672 November spectra evaluated by the reconstruction methods.
 
-*Table 3. ΔE between orientations per ramp: mean / max / reading 31. Produced by `scripts/2_noise_floor.py`.*
+**Preprocessing.** Before computing repeatability, we apply the cleaning described in [section 3.2](#32-cleaning) to every repeated spectrum: all bands up to and including **423.333 nm** and all negative reflectance values at any wavelength are set to zero. The first band retained is 426.667 nm, provided its value is non-negative. The source files are not modified.
 
-| Ramp | 0° vs 90° | 0° vs 180° | 90° vs 180° |
-|---|---:|---:|---:|
-| White | 10.13 / 14.98 / 14.98 | 8.41 / 11.80 / 1.04 | 18.10 / 22.99 / 15.81 |
-| Red | 7.76 / 10.42 / 10.42 | 7.58 / 10.08 / 4.10 | 14.52 / 18.71 / 13.66 |
-| Green | 7.27 / 10.60 / 10.51 | 10.05 / 13.90 / 3.69 | 16.32 / 19.91 / 14.03 |
-| Blue | 7.05 / 9.75 / 9.55 | 9.19 / 12.86 / 3.53 | 14.83 / 17.58 / 12.35 |
-| Yellow | 9.67 / 14.29 / 14.29 | 7.77 / 11.15 / 1.21 | 17.00 / 21.35 / 15.31 |
-| Cyan | 9.77 / 14.21 / 14.08 | 9.37 / 13.67 / 1.23 | 18.77 / 22.79 / 15.20 |
-| Magenta | 8.55 / 12.86 / 12.86 | 6.76 / 9.83 / 1.75 | 15.14 / 18.49 / 12.97 |
+**Calculation.** We integrate each cleaned reflectance spectrum under D50 with the CIE 1931 2° observer, exactly as in section 1.1. We do not use the XYZ or Lab columns already present in the exports. Each XYZ is converted to CAM16-UCS with the settings in section 2.2. For each file $f$ and patch block $p$, the five readings give ten distinct pairs:
 
-A mean ΔE of 8 to 16 is far too large to be noise. Table 4 shows why.
+$$
+d_{f,p,a,b} = \left\|\mathbf{J}'_{f,p,a}-\mathbf{J}'_{f,p,b}\right\|_2,
+\qquad 1 \leq a < b \leq 5
+$$
 
-*Table 4. Y of reading 31 per orientation, raw data. Produced by `scripts/2_noise_floor.py`.*
+Here $\mathbf{J}'$ denotes the three CAM16-UCS coordinates $(J',a',b')$, not lightness alone. Every comparison stays within one patch block in one file. We report the distances directly, without scaling them to a single-reading standard deviation.
 
-| Ramp | 0° | 90° | 180° |
-|---|---:|---:|---:|
-| White | 0.621 | 1.006 | 0.606 |
-| Red | 0.311 | 0.420 | 0.266 |
-| Green | 0.433 | 0.613 | 0.389 |
-| Blue | 0.272 | 0.367 | 0.249 |
-| Yellow | 0.530 | 0.840 | 0.510 |
-| Cyan | 0.502 | 0.780 | 0.481 |
-| Magenta | 0.383 | 0.581 | 0.374 |
+*Table 2. Historical within-patch repeatability after section 3 cleaning. Each patch block contributes ten pairs. Produced by `scripts/2_noise_floor.py` from the two source files linked above.*
 
-At 90° every patch is 35–66 % brighter than at 0° or 180°. The difference is systematic, not random.
+| Source | Patch blocks | Readings | Pairs | mean ΔE | p95 ΔE | max ΔE |
+|---|---:|---:|---:|---:|---:|---:|
+| gbc-gamma1 2026-05-09.txt | 32 | 160 | 320 | 0.37 | 0.78 | 1.33 |
+| gbc-gamma2 2026-05-09.txt | 32 | 160 | 320 | 0.40 | 0.89 | 1.30 |
+| All | 64 | 320 | 640 | 0.38 | 0.82 | 1.33 |
 
-- **Geometry, not noise.** The Game Boy Color screen is a reflective LCD whose brightness depends strongly on the direction of the incoming light. Such a large change with rotation means that the instrument's illumination is not the same from every direction, so rotating the instrument changes how the screen is lit.
-- **Consequence.** The three orientations are three different measurement geometries. We treat them as three separate datasets and evaluate every method on each one, but we do not use their differences as noise.
+The pooled empirical 95th percentile is **ΔE = 0.82**. We use it below as a **historical repeatability reference after cleaning**. It describes differences between repeated readings after the bands through 423.333 nm and all negative values have been removed, not the repeatability of the unprocessed data, the uncertainty of a single reading or the accuracy of the instrument. The 640 pairs are not independent observations, because pairs within a block share readings. The method comparisons in sections 3, 5 and 6 remain against the raw November data, as defined in section 2.2; only the repeatability reference uses these cleaned historical spectra.
 
-**Noise floor used: reading-to-reading noise.** Within a ramp, consecutive readings change smoothly. If a reading is noisy, it stands out from the average of its two neighbours. For every inner reading $i$ (1 to 30) we compute the ΔE between $\mathrm{XYZ}_i$ and $(\mathrm{XYZ}_{i-1} + \mathrm{XYZ}_{i+1})/2$, then scale it by $\sqrt{2/3}$.
+Repeatability varies by patch, so one pooled value does not describe every colour equally well. A change above 0.82 is larger than most observed historical repeat differences after cleaning; a change below it is not automatically noise. Neither result proves that a reconstruction is correct.
 
-The scale factor converts the result to the noise of a single reading. If each reading has independent noise of size $\sigma$, the difference $\mathrm{XYZ}_i - (\mathrm{XYZ}_{i-1} + \mathrm{XYZ}_{i+1})/2$ has noise of size $\sigma\sqrt{3/2}$.
-
-*Table 5. Reading-to-reading noise, raw data. Produced by `scripts/2_noise_floor.py`.*
-
-| Orientation | mean ΔE | p95 ΔE | max ΔE |
-|---|---:|---:|---:|
-| 0° | 0.23 | 0.54 | 1.10 (Blue #5) |
-| 90° | 0.21 | 0.48 | 0.68 (Magenta #3) |
-| 180° | 0.30 | 0.60 | 1.84 (Yellow #1) |
-| All | 0.25 | 0.54 |  |
-
-The noise floor is the 95th percentile over all orientations: **ΔE = 0.54**. A method whose ΔE is below 0.54 cannot be told apart from noise.
-
-This estimate assumes that a ramp is locally straight in XYZ. Any real curvature between three consecutive levels is counted as noise, so the true noise can only be lower. The floor is therefore conservative.
-
-> [!WARNING]
-> **TODO: check this point.** The noise floor is estimated from the smoothness of the ramps because the three orientations turned out to differ by geometry, not by noise. A direct estimate would need repeated readings of the same patch without moving the instrument. Verify that the reading-to-reading estimate (ΔE p95 = 0.54) is an acceptable substitute, or replace it with a direct repeatability measurement.
+**Limits of this reference.** The repeated measurements cover greyscale patches in May, whereas the reconstruction analysis covers colour ramps in November. Session conditions may have changed, and repeatability for coloured patches is not established by these files. The reference is therefore a scale for comparison, not a verified noise floor for every November reading or a statistical significance threshold. Repeated acquisitions of the November colour patches would be needed to establish that directly.
 
 ## 3 The band at or below 420 nm
 
@@ -240,7 +211,7 @@ This estimate assumes that a ramp is locally straight in XYZ. Any real curvature
 
 *Figure 3. Raw spectra between 380 and 470 nm for all ramps at reading 31 (solid) and reading 0 (dotted), one panel per orientation. Produced by `scripts/3_band_below_420.py`.*
 
-*Table 6. Negative reflectance values per region, all ramps and readings. Produced by `scripts/3_band_below_420.py`.*
+*Table 3. Negative reflectance values per region, all ramps and readings. Produced by `scripts/3_band_below_420.py`.*
 
 | Orientation | ≤ 420 nm | 423.3–436.7 nm | 440–700 nm | > 700 nm |
 |---|---:|---:|---:|---:|
@@ -250,7 +221,7 @@ This estimate assumes that a ramp is locally straight in XYZ. Any real curvature
 
 We call **baseline** the mean of the bands at or below 420 nm in one spectrum.
 
-*Table 7. Baseline statistics per spectrum. "Max spread" is the largest difference between bands inside one baseline. The last two columns are correlations of the baseline with the reflectance at 450 nm and with Y. Produced by `scripts/3_band_below_420.py`.*
+*Table 4. Baseline statistics per spectrum. "Max spread" is the largest difference between bands inside one baseline. The last two columns are correlations of the baseline with the reflectance at 450 nm and with Y. Produced by `scripts/3_band_below_420.py`.*
 
 | Orientation | Range | Negative spectra | Max spread within baseline | corr(baseline, R450) | corr(baseline, Y) |
 |---|---:|---:|---:|---:|---:|
@@ -269,20 +240,20 @@ Observations:
 
 #### Idea
 
-The baseline carries no information about the screen. Replace it with zero, and remove every remaining negative value.
+The baseline carries no information about the screen. Replace it and the first contaminated transition band at 423.333 nm with zero, and remove every remaining negative value.
 
 #### Technical details
 
-- Bands at or below 420 nm: $R = 0$.
+- Bands up to and including 423.333 nm: $R = 0$.
 - Every other band: $R = \max(R, 0)$.
-- Bands from 423.3 nm upward are otherwise left untouched.
+- Bands from 426.667 nm upward are otherwise left untouched.
 
 Every method in section 5 starts with this step.
 
 #### Assumptions and limits
 
 - Zero is not a measurement either. It is simply the least harmful value: it adds nothing to XYZ. Section 5 replaces it with better estimates.
-- Cleaning leaves the steep region from 423 to 437 nm in place. Section 4 shows that this region is still contaminated by the baseline.
+- Cleaning leaves the steep region from 426.667 to 436.667 nm in place. Section 4 shows that these bands are still contaminated by the baseline.
 
 #### Spectrum
 
@@ -298,41 +269,41 @@ Every method in section 5 starts with this step.
 
 #### Reading 31
 
-*Table 8. Cleaning, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+*Table 5. Cleaning, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5713 | 0.6212 | 0.5081 | -0.0002 | 0.0000 | -0.0008 | 0.0002 | 0.09 |
-| Red | 0.3726 | 0.3115 | 0.2140 | +0.0017 | 0.0000 | +0.0079 | 0.0045 | 1.16 |
+| White | 0.5705 | 0.6212 | 0.5045 | -0.0009 | 0.0000 | -0.0044 | 0.0012 | 0.53 |
+| Red | 0.3725 | 0.3115 | 0.2138 | +0.0016 | 0.0000 | +0.0077 | 0.0044 | 1.13 |
 | Green | 0.3471 | 0.4331 | 0.2832 | +0.0022 | +0.0001 | +0.0105 | 0.0052 | 1.18 |
-| Blue | 0.2318 | 0.2722 | 0.3410 | +0.0015 | 0.0000 | +0.0070 | 0.0034 | 1.07 |
-| Yellow | 0.5161 | 0.5298 | 0.3282 | +0.0009 | 0.0000 | +0.0042 | 0.0016 | 0.46 |
-| Cyan | 0.3917 | 0.5020 | 0.4564 | +0.0003 | 0.0000 | +0.0015 | 0.0005 | 0.16 |
-| Magenta | 0.4087 | 0.3832 | 0.3800 | +0.0005 | 0.0000 | +0.0023 | 0.0009 | 0.28 |
+| Blue | 0.2316 | 0.2722 | 0.3402 | +0.0013 | 0.0000 | +0.0063 | 0.0030 | 0.96 |
+| Yellow | 0.5158 | 0.5298 | 0.3267 | +0.0005 | 0.0000 | +0.0026 | 0.0010 | 0.29 |
+| Cyan | 0.3911 | 0.5020 | 0.4536 | -0.0003 | 0.0000 | -0.0013 | 0.0005 | 0.14 |
+| Magenta | 0.4082 | 0.3832 | 0.3774 | -0.0001 | 0.0000 | -0.0003 | 0.0001 | 0.04 |
 
-*Table 9. Cleaning, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.9187 | 1.0059 | 0.8049 | -0.0015 | 0.0000 | -0.0072 | 0.0013 | 0.58 |
-| Red | 0.5277 | 0.4197 | 0.2834 | +0.0006 | 0.0000 | +0.0030 | 0.0012 | 0.32 |
-| Green | 0.4792 | 0.6130 | 0.3828 | +0.0010 | 0.0000 | +0.0047 | 0.0017 | 0.39 |
-| Blue | 0.3041 | 0.3674 | 0.5050 | -0.0005 | 0.0000 | -0.0023 | 0.0008 | 0.24 |
-| Yellow | 0.8202 | 0.8403 | 0.4851 | +0.0001 | 0.0000 | +0.0005 | 0.0001 | 0.04 |
-| Cyan | 0.5797 | 0.7800 | 0.7028 | -0.0009 | 0.0000 | -0.0041 | 0.0009 | 0.28 |
-| Magenta | 0.6288 | 0.5806 | 0.6043 | -0.0010 | 0.0000 | -0.0047 | 0.0011 | 0.36 |
-
-*Table 10. Cleaning, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+*Table 6. Cleaning, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5598 | 0.6056 | 0.4977 | +0.0002 | 0.0000 | +0.0011 | 0.0003 | 0.14 |
-| Red | 0.3237 | 0.2657 | 0.1804 | +0.0020 | +0.0001 | +0.0093 | 0.0063 | 1.53 |
-| Green | 0.3184 | 0.3892 | 0.2562 | +0.0013 | 0.0000 | +0.0063 | 0.0034 | 0.78 |
-| Blue | 0.2182 | 0.2490 | 0.3098 | +0.0016 | 0.0000 | +0.0078 | 0.0041 | 1.30 |
-| Yellow | 0.4983 | 0.5097 | 0.3121 | +0.0012 | 0.0000 | +0.0057 | 0.0023 | 0.65 |
-| Cyan | 0.3742 | 0.4813 | 0.4377 | +0.0003 | 0.0000 | +0.0015 | 0.0006 | 0.17 |
-| Magenta | 0.4045 | 0.3740 | 0.3791 | +0.0001 | 0.0000 | +0.0007 | 0.0003 | 0.08 |
+| White | 0.9173 | 1.0059 | 0.7982 | -0.0029 | -0.0001 | -0.0139 | 0.0025 | 1.10 |
+| Red | 0.5272 | 0.4197 | 0.2810 | +0.0001 | 0.0000 | +0.0006 | 0.0003 | 0.07 |
+| Green | 0.4789 | 0.6130 | 0.3812 | +0.0007 | 0.0000 | +0.0032 | 0.0011 | 0.26 |
+| Blue | 0.3031 | 0.3673 | 0.5001 | -0.0015 | 0.0000 | -0.0072 | 0.0024 | 0.75 |
+| Yellow | 0.8195 | 0.8403 | 0.4818 | -0.0006 | 0.0000 | -0.0027 | 0.0007 | 0.21 |
+| Cyan | 0.5785 | 0.7799 | 0.6968 | -0.0021 | -0.0001 | -0.0101 | 0.0023 | 0.69 |
+| Magenta | 0.6276 | 0.5806 | 0.5985 | -0.0022 | -0.0001 | -0.0106 | 0.0025 | 0.81 |
+
+*Table 7. Cleaning, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+
+| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| White | 0.5591 | 0.6056 | 0.4942 | -0.0005 | 0.0000 | -0.0024 | 0.0007 | 0.31 |
+| Red | 0.3237 | 0.2657 | 0.1802 | +0.0019 | +0.0001 | +0.0092 | 0.0062 | 1.51 |
+| Green | 0.3183 | 0.3892 | 0.2561 | +0.0013 | 0.0000 | +0.0061 | 0.0033 | 0.75 |
+| Blue | 0.2180 | 0.2490 | 0.3085 | +0.0014 | 0.0000 | +0.0065 | 0.0035 | 1.10 |
+| Yellow | 0.4980 | 0.5096 | 0.3106 | +0.0009 | 0.0000 | +0.0042 | 0.0017 | 0.48 |
+| Cyan | 0.3736 | 0.4813 | 0.4347 | -0.0003 | 0.0000 | -0.0014 | 0.0005 | 0.15 |
+| Magenta | 0.4037 | 0.3739 | 0.3753 | -0.0007 | 0.0000 | -0.0032 | 0.0012 | 0.37 |
 
 #### All readings
 
@@ -343,57 +314,57 @@ Every method in section 5 starts with this step.
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0003 … +0.0026 | 0.0000 … +0.0001 | -0.0013 … +0.0125 | 0.0026 ± 0.0032 | 0.91 ± 1.09 | 3.84 (#0) |
-| 90° | -0.0015 … +0.0014 | 0.0000 … 0.0000 | -0.0072 … +0.0066 | 0.0013 ± 0.0012 | 0.53 ± 0.52 | 1.83 (#4) |
-| 180° | +0.0001 … +0.0020 | 0.0000 … +0.0001 | +0.0004 … +0.0094 | 0.0041 ± 0.0025 | 1.35 ± 0.78 | 2.94 (#2) |
+| 0° | -0.0010 … +0.0026 | 0.0000 … +0.0001 | -0.0050 … +0.0125 | 0.0026 ± 0.0031 | 0.91 ± 1.07 | 3.84 (#0) |
+| 90° | -0.0029 … +0.0014 | -0.0001 … 0.0000 | -0.0139 … +0.0066 | 0.0017 ± 0.0010 | 0.70 ± 0.45 | 1.61 (#4) |
+| 180° | -0.0007 … +0.0020 | 0.0000 … +0.0001 | -0.0032 … +0.0094 | 0.0039 ± 0.0026 | 1.29 ± 0.83 | 2.94 (#2) |
 
 **Red**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0015 … +0.0032 | 0.0000 … +0.0001 | +0.0072 … +0.0151 | 0.0079 ± 0.0026 | 2.21 ± 0.95 | 5.06 (#0) |
-| 90° | +0.0002 … +0.0020 | 0.0000 … +0.0001 | +0.0012 … +0.0097 | 0.0031 ± 0.0023 | 0.98 ± 0.89 | 3.13 (#1) |
-| 180° | +0.0012 … +0.0027 | 0.0000 … +0.0001 | +0.0057 … +0.0131 | 0.0089 ± 0.0016 | 2.35 ± 0.42 | 3.51 (#0) |
+| 0° | +0.0014 … +0.0032 | 0.0000 … +0.0001 | +0.0065 … +0.0151 | 0.0079 ± 0.0027 | 2.20 ± 0.96 | 5.06 (#0) |
+| 90° | -0.0003 … +0.0020 | 0.0000 … +0.0001 | -0.0012 … +0.0096 | 0.0024 ± 0.0025 | 0.79 ± 0.95 | 3.09 (#1) |
+| 180° | +0.0012 … +0.0027 | 0.0000 … +0.0001 | +0.0057 … +0.0131 | 0.0089 ± 0.0016 | 2.35 ± 0.43 | 3.51 (#0) |
 
 **Green**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
 | 0° | +0.0016 … +0.0035 | 0.0000 … +0.0001 | +0.0076 … +0.0167 | 0.0078 ± 0.0027 | 1.99 ± 0.92 | 4.09 (#0) |
-| 90° | +0.0006 … +0.0019 | 0.0000 … +0.0001 | +0.0030 … +0.0091 | 0.0033 ± 0.0019 | 1.01 ± 0.88 | 3.26 (#3) |
-| 180° | +0.0013 … +0.0031 | 0.0000 … +0.0001 | +0.0063 … +0.0149 | 0.0092 ± 0.0034 | 2.32 ± 1.00 | 4.77 (#2) |
+| 90° | +0.0002 … +0.0019 | 0.0000 … +0.0001 | +0.0010 … +0.0090 | 0.0029 ± 0.0021 | 0.89 ± 0.91 | 3.23 (#3) |
+| 180° | +0.0013 … +0.0031 | 0.0000 … +0.0001 | +0.0061 … +0.0149 | 0.0092 ± 0.0034 | 2.32 ± 1.00 | 4.77 (#2) |
 
 **Blue**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0010 … +0.0035 | 0.0000 … +0.0001 | +0.0047 … +0.0167 | 0.0060 ± 0.0039 | 2.21 ± 1.62 | 5.83 (#4) |
-| 90° | -0.0007 … +0.0017 | 0.0000 … 0.0000 | -0.0031 … +0.0081 | 0.0023 ± 0.0018 | 0.84 ± 0.74 | 2.50 (#4) |
-| 180° | +0.0011 … +0.0031 | 0.0000 … +0.0001 | +0.0051 … +0.0147 | 0.0069 ± 0.0035 | 2.39 ± 1.14 | 4.68 (#3) |
+| 0° | +0.0008 … +0.0035 | 0.0000 … +0.0001 | +0.0037 … +0.0167 | 0.0058 ± 0.0040 | 2.15 ± 1.67 | 5.83 (#4) |
+| 90° | -0.0017 … +0.0016 | -0.0001 … 0.0000 | -0.0083 … +0.0078 | 0.0023 ± 0.0016 | 0.85 ± 0.64 | 2.43 (#4) |
+| 180° | +0.0007 … +0.0031 | 0.0000 … +0.0001 | +0.0035 … +0.0147 | 0.0068 ± 0.0036 | 2.35 ± 1.19 | 4.68 (#3) |
 
 **Yellow**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0009 … +0.0021 | 0.0000 … +0.0001 | +0.0042 … +0.0101 | 0.0037 ± 0.0020 | 1.12 ± 0.73 | 3.59 (#0) |
-| 90° | 0.0000 … +0.0011 | 0.0000 … 0.0000 | -0.0002 … +0.0053 | 0.0013 ± 0.0011 | 0.43 ± 0.39 | 1.26 (#4) |
-| 180° | +0.0010 … +0.0028 | 0.0000 … +0.0001 | +0.0048 … +0.0132 | 0.0063 ± 0.0023 | 1.71 ± 0.62 | 3.97 (#0) |
+| 0° | +0.0005 … +0.0021 | 0.0000 … +0.0001 | +0.0026 … +0.0101 | 0.0035 ± 0.0022 | 1.04 ± 0.78 | 3.59 (#0) |
+| 90° | -0.0007 … +0.0010 | 0.0000 … 0.0000 | -0.0035 … +0.0047 | 0.0010 ± 0.0009 | 0.33 ± 0.34 | 1.11 (#4) |
+| 180° | +0.0009 … +0.0028 | 0.0000 … +0.0001 | +0.0042 … +0.0132 | 0.0062 ± 0.0024 | 1.69 ± 0.66 | 3.97 (#0) |
 
 **Cyan**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0001 … +0.0022 | 0.0000 … +0.0001 | +0.0007 … +0.0104 | 0.0037 ± 0.0026 | 1.25 ± 1.00 | 3.46 (#1) |
-| 90° | -0.0010 … +0.0017 | 0.0000 … 0.0000 | -0.0047 … +0.0080 | 0.0020 ± 0.0018 | 0.72 ± 0.77 | 2.73 (#2) |
-| 180° | +0.0003 … +0.0024 | 0.0000 … +0.0001 | +0.0015 … +0.0113 | 0.0060 ± 0.0027 | 1.79 ± 0.79 | 3.01 (#1) |
+| 0° | -0.0005 … +0.0022 | 0.0000 … +0.0001 | -0.0025 … +0.0104 | 0.0034 ± 0.0028 | 1.14 ± 1.06 | 3.46 (#1) |
+| 90° | -0.0022 … +0.0017 | -0.0001 … 0.0000 | -0.0108 … +0.0080 | 0.0022 ± 0.0016 | 0.77 ± 0.68 | 2.62 (#2) |
+| 180° | -0.0003 … +0.0024 | 0.0000 … +0.0001 | -0.0014 … +0.0113 | 0.0058 ± 0.0029 | 1.73 ± 0.85 | 3.01 (#1) |
 
 **Magenta**
 
 | Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
 |---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0003 … +0.0014 | 0.0000 … 0.0000 | +0.0015 … +0.0068 | 0.0025 ± 0.0015 | 0.90 ± 0.61 | 2.39 (#1) |
-| 90° | -0.0010 … +0.0012 | 0.0000 … 0.0000 | -0.0047 … +0.0059 | 0.0014 ± 0.0011 | 0.48 ± 0.41 | 1.55 (#3) |
-| 180° | +0.0001 … +0.0025 | 0.0000 … +0.0001 | +0.0007 … +0.0119 | 0.0063 ± 0.0032 | 2.06 ± 1.03 | 3.30 (#8) |
+| 0° | -0.0003 … +0.0014 | 0.0000 … 0.0000 | -0.0015 … +0.0068 | 0.0020 ± 0.0017 | 0.75 ± 0.70 | 2.39 (#1) |
+| 90° | -0.0022 … +0.0011 | -0.0001 … 0.0000 | -0.0107 … +0.0054 | 0.0018 ± 0.0009 | 0.59 ± 0.33 | 1.43 (#3) |
+| 180° | -0.0007 … +0.0025 | 0.0000 … +0.0001 | -0.0032 … +0.0119 | 0.0062 ± 0.0033 | 2.01 ± 1.07 | 3.30 (#8) |
 
 </details>
 
@@ -405,18 +376,18 @@ Every method in section 5 starts with this step.
 
 #### Observations and verdict
 
-*Table 11. Cleaning, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
+*Table 8. Cleaning, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method cleaning`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
 | R·x̄ | 0.85 | 0 / 672 |
 | R·z̄ | 0.85 | 0 / 672 |
 
-- **Small effect overall.** Mean ΔE is 1.41 and the maximum is 5.83 (Blue #4, 0°). At reading 31 the ΔE stays at or below 1.53. 72 % of the spectra change by more than the noise floor.
+- **Small effect overall.** Mean ΔE is 1.37 and the maximum is 5.83 (Blue #4, 0°). At reading 31 the ΔE stays at or below 1.51. Across all readings, 60 % of the spectra change by more than the historical repeatability reference after cleaning of 0.82. This is a comparison of magnitudes, not a significance test.
 - **Y does not move.** ΔY never exceeds 0.0001.
-- **Z mostly rises.** Removing a negative baseline adds back what the baseline was subtracting. Where the baseline was positive, as in the brightest readings at 90° (Figure 3), cleaning lowers Z instead, for example White #31 at 90°: ΔZ = −0.0072.
+- **Z mostly rises.** Removing a negative baseline adds back what the baseline was subtracting. Removing positive values through 423.333 nm can lower Z instead, for example White #31 at 90°: ΔZ = −0.0139.
 - **Dark readings change most.** The largest ΔE values are at readings 0 to 8. There the baseline is large compared to the real signal.
-- **Verdict: necessary, not sufficient.** Cleaning removes values that are certainly wrong, but it keeps the 423–437 nm region, which section 4 shows to be contaminated.
+- **Verdict: necessary, not sufficient.** Cleaning zeros bands through 423.333 nm and removes negative values, but it keeps the 426.667–436.667 nm region, which section 4 shows to be contaminated.
 
 ## 4 The band from 420 to 440 nm
 
@@ -434,7 +405,7 @@ Figure 3 shows a steep climb from the baseline at 420 nm to the real signal arou
 2. Regress the band residuals on the baseline residuals. The slope is the **leak**: the fraction of the baseline jitter that shows up in the band. 100 % means the band is the baseline; 0 % means the band ignores it.
 3. Also record the correlation between the two residuals.
 
-*Table 12. Baseline leak per band. Leak is the mean over the 7 ramps. Correlation is shown as mean (min) over the 7 ramps. The last column counts negative values over all 672 spectra. Produced by `scripts/4_band_420_440.py`.*
+*Table 9. Baseline leak per band. Leak is the mean over the 7 ramps. Correlation is shown as mean (min) over the 7 ramps. The last column counts negative values over all 672 spectra. Produced by `scripts/4_band_420_440.py`.*
 
 | Band (nm) | Leak 0° | Leak 90° | Leak 180° | Corr 0° | Corr 90° | Corr 180° | Negatives / 672 |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -482,7 +453,7 @@ Each band is assigned a zone from its worst leak over the three orientations:
 
 The 5 % threshold sits just above the background level of the estimate (2.2 % at 446.7 nm, section 4.1).
 
-*Table 13. Zone of each band. Produced by `scripts/4_band_420_440.py`.*
+*Table 10. Zone of each band. Produced by `scripts/4_band_420_440.py`.*
 
 | Band (nm) | Max leak | Negatives | Zone |
 |---|---:|---:|---:|
@@ -508,7 +479,7 @@ The **cutoff** is the first band we keep. Everything below it is replaced in sec
 - a lower cutoff keeps more measured data but lets more baseline in;
 - a higher cutoff is cleaner but leaves more to reconstruct.
 
-*Table 14. Cutoff candidates. "Worst leak ≥ cutoff" is the highest leak among the bands from the cutoff up to 450 nm. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
+*Table 11. Cutoff candidates. "Worst leak ≥ cutoff" is the highest leak among the bands from the cutoff up to 450 nm. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
 
 | Cutoff (nm) | Zone | Worst leak ≥ cutoff | Negatives ≥ cutoff | X below | Z below |
 |---|---:|---:|---:|---:|---:|
@@ -564,7 +535,7 @@ Assume the screen reflects nothing below 440 nm.
 
 #### Reading 31
 
-*Table 15. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 12. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -576,7 +547,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.3817 | 0.5016 | 0.4073 | -0.0097 | -0.0005 | -0.0476 | 0.0172 | 4.90 |
 | Magenta | 0.3986 | 0.3828 | 0.3303 | -0.0096 | -0.0005 | -0.0474 | 0.0190 | 6.48 |
 
-*Table 16. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 13. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -588,7 +559,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.5643 | 0.7793 | 0.6273 | -0.0162 | -0.0007 | -0.0796 | 0.0189 | 5.39 |
 | Magenta | 0.6123 | 0.5798 | 0.5233 | -0.0175 | -0.0008 | -0.0857 | 0.0217 | 7.50 |
 
-*Table 17. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 14. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -671,7 +642,7 @@ Assume the screen reflects nothing below 440 nm.
 
 #### Observations and verdict
 
-*Table 18. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 15. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
@@ -724,7 +695,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 #### Reading 31
 
-*Table 19. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 16. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -736,7 +707,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.4009 | 0.5016 | 0.5117 | +0.0095 | -0.0005 | +0.0568 | 0.0189 | 5.92 |
 | Magenta | 0.4153 | 0.3828 | 0.4190 | +0.0071 | -0.0005 | +0.0413 | 0.0155 | 4.57 |
 
-*Table 20. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 17. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -748,7 +719,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.5909 | 0.7793 | 0.7722 | +0.0104 | -0.0007 | +0.0652 | 0.0144 | 4.44 |
 | Magenta | 0.6382 | 0.5798 | 0.6592 | +0.0084 | -0.0008 | +0.0502 | 0.0120 | 3.56 |
 
-*Table 21. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 18. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -831,7 +802,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 #### Observations and verdict
 
-*Table 22. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 19. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
@@ -876,7 +847,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 #### Reading 31
 
-*Table 23. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 20. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -888,7 +859,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.3989 | 0.5023 | 0.4912 | +0.0075 | +0.0003 | +0.0363 | 0.0122 | 3.83 |
 | Magenta | 0.4158 | 0.3835 | 0.4140 | +0.0075 | +0.0002 | +0.0363 | 0.0134 | 4.01 |
 
-*Table 24. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 21. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -900,7 +871,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.5899 | 0.7803 | 0.7521 | +0.0094 | +0.0003 | +0.0451 | 0.0100 | 3.11 |
 | Magenta | 0.6391 | 0.5809 | 0.6540 | +0.0093 | +0.0003 | +0.0449 | 0.0105 | 3.16 |
 
-*Table 25. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 22. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -983,7 +954,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 #### Observations and verdict
 
-*Table 26. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 23. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | From | Max | Spectra above 1 |
 |---|---:|---:|
@@ -1000,38 +971,38 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 > **In short:** truncation and hold bracket the plausible answer, and the gap between them is the real uncertainty. Hold is the recommended method.
 
-*Table 27. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
+*Table 24. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
 
 | Method | mean ΔX | mean ΔY | mean ΔZ | mean Δxy | mean ΔE | p95 ΔE | max ΔE | mean ΔE #31 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| cleaning | +0.0013 | 0.0000 | +0.0062 | 0.0046 | 1.41 | 3.40 | 5.83 | 0.54 |
+| cleaning | +0.0010 | 0.0000 | +0.0050 | 0.0045 | 1.37 | 3.40 | 5.83 | 0.61 |
 | truncation | -0.0053 | -0.0003 | -0.0262 | 0.0124 | 3.75 | 6.82 | 7.60 | 4.77 |
 | gaussian | +0.0074 | -0.0003 | +0.0429 | 0.0231 | 7.34 | 10.62 | 13.43 | 5.99 |
 | hold | +0.0066 | +0.0002 | +0.0319 | 0.0177 | 5.69 | 8.78 | 11.65 | 4.12 |
 
-*Table 28. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
+*Table 25. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
 
 | Pair | mean ΔZ | mean ΔE | max ΔE |
 |---|---:|---:|---:|
-| cleaning vs truncation | -0.0323 | 5.12 | 8.03 |
-| cleaning vs gaussian | +0.0367 | 5.97 | 9.85 |
-| cleaning vs hold | +0.0257 | 4.32 | 6.63 |
+| cleaning vs truncation | -0.0312 | 4.98 | 7.88 |
+| cleaning vs gaussian | +0.0379 | 6.11 | 9.90 |
+| cleaning vs hold | +0.0269 | 4.46 | 6.63 |
 | truncation vs gaussian | +0.0691 | 11.08 | 15.84 |
 | truncation vs hold | +0.0580 | 9.43 | 12.79 |
 | gaussian vs hold | -0.0111 | 1.68 | 4.15 |
 
-*Table 29. Summary of the plausibility checks, compiled from Tables 11, 18, 22 and 26 and from the summary line printed by `scripts/5_evaluate_method.py`.*
+*Table 26. Summary of the plausibility checks, compiled from Tables 8, 15, 19 and 23. Shares above the historical repeatability reference after cleaning (ΔE 0.82, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
 
-| Method | Treats the 423–437 nm region | Implied reflectance below 440 nm | Share of spectra changed beyond the noise floor |
+| Method | Treats the 423–437 nm region | Implied reflectance below 440 nm | Share of spectra changed beyond the historical repeatability reference |
 |---|---|---|---:|
-| cleaning | Keeps it (contaminated) | Measured values, max 0.85 | 72 % |
-| truncation | Replaces it | 0 everywhere | 99 % |
+| cleaning | Removes 423.333 nm; keeps 426.667–436.667 nm (contaminated) | Measured values, max 0.85 | 60 % |
+| truncation | Replaces it | 0 everywhere | 97 % |
 | gaussian | Replaces it | Up to 9.30, above 1 in 445 / 672 spectra | 100 % |
 | hold | Replaces it | Up to 0.91, never above 1 | 100 % |
 
 ![Mean and max ΔE per ramp](img/6_delta_e.png)
 
-*Figure 18. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the noise floor. Produced by `scripts/6_compare_methods.py`.*
+*Figure 18. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the historical repeatability p95 after section 3 cleaning (ΔE 0.82), not a significance threshold. Produced by `scripts/6_compare_methods.py`.*
 
 ![Chromaticity of reading 31](img/6_xy.png)
 
@@ -1039,9 +1010,9 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 What the comparison shows:
 
-- **Every reconstruction matters.** All three methods in section 5 change 99–100 % of the spectra by more than the noise floor. The choice of method is not a detail.
+- **Reconstruction changes are often larger than historical repeat differences after cleaning.** Truncation changes 97 % of spectra by more than the reference of 0.82; Gaussian and hold change all of them by more. This puts the size of the changes in context, without establishing their statistical significance or correctness.
 - **The methods move colours in opposite directions** (Figure 19). Truncation moves every colour towards yellow. Gaussian and hold move it towards blue. Cleaning stays close to the raw data, because it keeps the contaminated bands.
-- **Truncation and hold set the range.** If the true reflectance below 440 nm lies anywhere between 0 and the value at 440 nm, the true colour lies between these two methods. They are 9.43 ΔE apart on average, about 17 times the noise floor. **This is the real uncertainty caused by the missing data.**
+- **Truncation and hold set the range.** If the true reflectance below 440 nm lies anywhere between 0 and the value at 440 nm, the true colour lies between these two methods. They are 9.43 ΔE apart on average, about eleven and a half times the historical repeatability reference after cleaning. **This illustrates reconstruction uncertainty under those assumptions, not a statistical confidence interval.**
 - **Gaussian and hold agree in XYZ** (mean ΔE 1.68). They arrive there by very different routes: the Gaussian through impossible reflectance, hold through a plausible one.
 
 **Choice: hold.** It is the only method that:
@@ -1062,16 +1033,16 @@ Hold sits at the upper end of the plausible range. If future measurements show t
 5. **Truncation is a lower bound.** It assumes the reflectance drops to zero in one step, which no real material does.
 6. **Gaussian extrapolation is rejected.** It implies reflectance above 1 in two thirds of the spectra.
 7. **Hold is recommended.** It is simple, always physically possible and consistent across X, Y and Z.
-8. **The uncertainty is large.** Truncation and hold differ by 9.43 ΔE on average, far above the noise floor of 0.54. Without a reference measurement below 440 nm, colours derived from this instrument carry this uncertainty in the blue direction.
-9. **Orientation matters more than any method.** Rotating the instrument changes Y by up to 66 % and ΔE by up to 23. The geometry of the measurement needs as much care as the spectral correction.
+8. **The reconstruction uncertainty is large.** Truncation and hold differ by 9.43 ΔE on average, compared with a historical repeatability p95 after cleaning of 0.82. The former describes disagreement between reconstruction assumptions; the latter describes repeated measurements after section 3 cleaning. Neither establishes the true spectrum below 440 nm.
+9. **Keep acquisition conditions consistent.** The method results are reported separately for each instrument orientation. Assess a correction within the same acquisition geometry rather than mixing datasets.
 
 ## 8 Limitations and open questions
 
 - **No ground truth.** No method can be proven correct without a reference measurement of the same screen below 440 nm, for example with a spectroradiometer or a spectrophotometer whose range covers 380 nm reliably. Such a measurement would also decide where the truth lies between truncation and hold.
 - **Polarizer or instrument?** The common drop below 437 nm (section 4.2) could be an instrument artefact or a real absorption in the polarizer or the screen protector. If it is real, hold overestimates Z.
 - **Screen protector.** It was not removed. Its transmission below 440 nm is unknown and is included in every measurement.
-- **Orientation dependence.** The three orientations give very different results (section 2.3). It is still open which one, if any, represents how the screen is seen in normal use.
-- **Noise floor.** It is estimated from the smoothness of the ramps, not from repeated readings (see the TODO in [section 2.3](#23-noise-floor)).
+- **Orientation dependence.** The per-orientation results in sections 3 and 5 differ. It is still open which acquisition geometry, if any, represents how the screen is seen in normal use.
+- **Repeatability reference.** The five-reading patch blocks come from May greyscale measurements, not the November colour ramps. Their pooled p95 of 0.82 describes repeatability after section 3 cleaning, not the variability of the raw exports. It is an empirical reference, not a verified noise floor for every patch, a significance test or an accuracy estimate (see [section 2.3](#23-noise-floor)).
 - **Zone thresholds.** The 5 %, 10 % and 25 % leak thresholds are judgement calls. The 5 % threshold is anchored to the background level of the estimate. The other two only separate degrees of contamination and do not affect the cutoff.
 - **Gaussian method.** Y was not reconstructed. This does not change the verdict, because it accounts for only 0.1 % of Y.
 - **Above 700 nm.** The instability was not corrected, because its effect on XYZ is negligible (Table 1). It would matter for observers or illuminants with more weight in the deep red.

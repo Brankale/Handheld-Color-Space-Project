@@ -1,14 +1,9 @@
 import numpy as np
 from scipy.optimize import curve_fit
 
-from common import BASELINE_END, CUTOFF, band, cmfs, integrands, weights
+from common import CUTOFF, band, clean, cmfs, integrands, weights
 
 GAUSS_WINDOW = 40.0
-
-
-def clean(wl, R):
-    """Bands at or below the flat baseline and negative values set to 0."""
-    return np.clip(np.where(wl <= BASELINE_END, 0.0, R), 0.0, None)
 
 
 def cleaning(wl, R, cutoff=CUTOFF):

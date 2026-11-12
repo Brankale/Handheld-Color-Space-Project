@@ -12,6 +12,8 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parents[2] / "handhelds" / "Nintendo GBC" / "[2026-11-09][Pokefan531]" / "measurements"
+REPEAT_DATA = DATA.parents[1] / "[2026-05-13][Pokefan531]" / "measurements"
+REPEAT_FILES = ("gbc-gamma1 2026-05-09.txt", "gbc-gamma2 2026-05-09.txt")
 IMG = HERE.parent / "img"
 
 ORIENTATIONS = {"top": "0°", "middle": "90°", "bottom": "180°"}
@@ -22,6 +24,7 @@ RAMP_COLOURS = {
 }
 FULL = 31
 BASELINE_END = 420.0
+CLEAN_END = 423.333
 UNSTABLE_START = 700.0
 CUTOFF = 440.0
 
@@ -88,17 +91,54 @@ def orientation_metrics():
     return {(a, b): metrics(XYZ[a], XYZ[b], wl) for a, b in combinations(ORIENTATIONS, 2)}
 
 
-def ramp_noise(orientation):
-    """ΔE of each inner reading from the mean of its two neighbours, scaled by √(2/3) to a single-reading noise."""
-    wl, R = load(orientation)
-    XYZ = xyz(wl, R)
-    return metrics((XYZ[:, 2:] + XYZ[:, :-2]) / 2, XYZ[:, 1:-1], wl)["dE"] * np.sqrt(2 / 3)
+def clean(wl, R):
+    """Bands through 423.333 nm inclusive and all negative values set to 0."""
+    return np.clip(np.where(wl <= wl[band(wl, CLEAN_END)], 0.0, R), 0.0, None)
+
+
+@cache
+def load_repetitions(filename):
+    """Read 32 documented five-reading blocks, returning wavelengths and raw spectra."""
+    path = REPEAT_DATA / filename
+    blocks = path.read_text().strip().split("\n\n")
+    sizes = [len(block.splitlines()) - (index == 0) for index, block in enumerate(blocks)]
+    frame = pd.read_csv(path, sep="\t")
+    wl = np.array(frame.columns[7:], float)
+    values = frame.to_numpy(float)
+    if sizes != [5] * 32 or frame.shape != (160, 113):
+        raise ValueError(f"{path}: expected 32 blocks of five readings and 106 spectral bands")
+    if tuple(frame.columns[:7]) != ("Reading", "X", "Y", "Z", "L*", "a*", "b*"):
+        raise ValueError(f"{path}: unexpected measurement columns")
+    if not np.array_equal(values[:, 0], np.arange(1, 161)) or not np.isfinite(values).all():
+        raise ValueError(f"{path}: invalid reading sequence or non-finite measurements")
+    if not np.allclose(wl, np.linspace(380, 730, 106), rtol=0, atol=0.00051):
+        raise ValueError(f"{path}: unexpected wavelength grid")
+    return wl, values[:, 7:].reshape(32, 5, 106)
+
+
+def repetition_differences(XYZ, wl):
+    """Ten pairwise CAM16-UCS distances within each five-reading patch block."""
+    XYZ = np.asarray(XYZ)
+    if XYZ.shape[-2:] != (5, 3) or not np.isfinite(XYZ).all():
+        raise ValueError("Expected finite XYZ values with shape (..., 5, 3)")
+    appearance = cam16ucs(XYZ, wl)
+    if not np.isfinite(appearance).all():
+        raise ValueError("Non-finite CAM16-UCS coordinates in repeated measurements")
+    return np.stack([np.linalg.norm(appearance[..., first, :] - appearance[..., second, :], axis=-1)
+                     for first, second in combinations(range(5), 2)], axis=-1)
+
+
+@cache
+def repeatability():
+    """Historical within-patch differences after section 3 cleaning, one (32, 10) array per file."""
+    return {filename: repetition_differences(xyz(wl, clean(wl, spectra)), wl)
+            for filename in REPEAT_FILES for wl, spectra in [load_repetitions(filename)]}
 
 
 def noise_floor():
-    """Mean and 95th percentile of the ramp noise over all orientations."""
-    dE = np.concatenate([ramp_noise(o).ravel() for o in ORIENTATIONS])
-    return float(np.nanmean(dE)), float(np.nanpercentile(dE, 95))
+    """Mean and empirical p95 of historical within-patch repeatability differences."""
+    dE = np.concatenate([values.ravel() for values in repeatability().values()])
+    return float(np.mean(dE)), float(np.percentile(dE, 95))
 
 
 def md_table(header, rows):
