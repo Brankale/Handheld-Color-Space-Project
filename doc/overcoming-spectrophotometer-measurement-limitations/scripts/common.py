@@ -128,8 +128,8 @@ RAMP_HEADER = ["Orientation", "ΔX range", "ΔY range", "ΔZ range", "Δxy mean 
 
 
 def to_srgb(XYZ, wl):
-    """XYZ (D50) adapted to D65 with Bradford, encoded sRGB; returns (rgb clipped, clipped flag)."""
-    rgb = colour.XYZ_to_sRGB(XYZ, colour.XYZ_to_xy(white(wl)), chromatic_adaptation_transform="Bradford")
+    """XYZ encoded as sRGB without chromatic adaptation; returns (rgb clipped, clipped flag)."""
+    rgb = colour.XYZ_to_sRGB(XYZ, chromatic_adaptation_transform=None)
     clipped = (rgb < 0).any(-1) | (rgb > 1).any(-1)
     return np.clip(rgb, 0, 1), clipped
 

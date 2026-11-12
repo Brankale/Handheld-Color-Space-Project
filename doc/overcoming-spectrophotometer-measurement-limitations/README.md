@@ -156,9 +156,9 @@ Every method changes the spectrum, so it also changes XYZ. We compare the XYZ of
 | ΔE | Perceived colour difference in CAM16-UCS |
 
 - **ΔE settings.** XYZ is multiplied by 100. The reference white is the perfect reflector under D50, computed on the same 106 bands. The adapting luminance is $L_A = 318.31$ cd/m², the background is $Y_b = 20$ and the surround is *Average*.
-- **Reading ΔE.** Roughly, 1 is a just-noticeable difference for two colours side by side. Differences of 5 and more are obvious.
+- **Reading ΔE.** As a practical guideline here, differences start to become visible above about ΔE 3. This is not a universal threshold: visibility depends on the colours and viewing conditions.
 - **The raw data are not the truth.** They are just the common reference. ΔE tells us how much a method changes the colour. It does not tell us whether the change is correct. We judge correctness separately, with physical plausibility checks.
-- **Swatches.** To show differences visually, XYZ is adapted from D50 to D65 with the Bradford transform and encoded as sRGB. Colours outside sRGB are clipped and marked with `*`.
+- **Swatches.** XYZ values calculated under D50 are converted to sRGB. Colours outside sRGB are clipped and marked with `*`.
 
 For each method we report:
 
