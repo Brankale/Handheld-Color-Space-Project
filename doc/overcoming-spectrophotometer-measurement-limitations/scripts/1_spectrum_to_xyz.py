@@ -1,21 +1,56 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from common import CMFS, CUTOFF, D50, FULL, RAMPS, UNSTABLE_START, band, integrands, load, md_table, save, shade_regions
+from common import (CMFS, CUTOFF, D50, FULL, RAMPS, UNSTABLE_START, band, integrands, load, md_table, save,
+                    shade_regions)
 
 wl, R = load("top")
+XYZ_NAMES = ("X", "Y", "Z")
+XYZ_COLOURS = ("tab:red", "tab:green", "tab:blue")
+CMF_NAMES = (r"$\bar{x}$", r"$\bar{y}$", r"$\bar{z}$")
 
-fig, ax = plt.subplots(figsize=(8, 4))
-for i, (name, col) in enumerate(zip((r"$\bar{x}$", r"$\bar{y}$", r"$\bar{z}$"), ("tab:red", "tab:green", "tab:blue"))):
-    ax.plot(CMFS.wavelengths, CMFS.values[:, i], color=col, label=name)
-ax2 = ax.twinx()
-ax2.plot(D50.wavelengths, D50.values, color="0.3", ls="--", label="D50")
-ax.set(xlim=(380, 730), xlabel="Wavelength (nm)", ylabel="CIE 1931 2° CMF")
-ax2.set(ylabel="D50 relative power", ylim=(0, None))
-h1, l1 = ax.get_legend_handles_labels()
-h2, l2 = ax2.get_legend_handles_labels()
-ax.legend(h1 + h2, l1 + l2, loc="upper right", fontsize=8)
-save(fig, "1_cmfs_d50.png")
+
+def chain(titles):
+    """Three side-by-side panels joined by × and = signs."""
+    fig, axes = plt.subplots(1, 3, figsize=(12, 3.4), sharex=True)
+    fig.subplots_adjust(wspace=0.6)
+    for ax, title in zip(axes, titles):
+        ax.set(xlim=(380, 730), xlabel="Wavelength (nm)", title=title)
+    for sign, a, b in (("×", axes[0], axes[1]), ("=", axes[1], axes[2])):
+        # Left part of the gap: the right part holds the next panel's y labels.
+        x = a.get_position().x1 + 0.25 * (b.get_position().x0 - a.get_position().x1)
+        fig.text(x, 0.5, sign, ha="center", va="center", fontsize=22)
+    return fig, axes
+
+
+r = R[0, FULL]
+reflected = np.interp(wl, D50.wavelengths, D50.values) * r / 100
+
+fig, (a, b, c) = chain(("Light: D50", f"Screen: White #{FULL}, 0°", "Reflected light"))
+a.plot(D50.wavelengths, D50.values, color="0.3")
+a.set(ylabel="Relative power", ylim=(0, None))
+b.plot(wl, r, color="0.3")
+b.set(ylabel="Reflectance factor (%)")
+c.plot(wl, reflected, color="0.3")
+c.set(ylabel="Relative power")
+for ax in (b, c):
+    ax.axhline(0, color="k", lw=0.5)
+save(fig, "1a_reflected_light.png")
+
+fig, (a, b, c) = chain(("Reflected light", "Eye: CIE 1931 2° observer", "Light seen by the eye"))
+a.plot(wl, reflected, color="0.3")
+a.axhline(0, color="k", lw=0.5)
+a.set(ylabel="Relative power")
+for i, (name, col) in enumerate(zip(CMF_NAMES, XYZ_COLOURS)):
+    b.plot(CMFS.wavelengths, CMFS.values[:, i], color=col, label=name)
+b.set(ylabel="Sensitivity")
+b.legend(fontsize=8)
+for p, name, col in zip(integrands(wl, r), XYZ_NAMES, XYZ_COLOURS):
+    c.plot(wl, p, color=col, lw=0.8)
+    c.fill_between(wl, p, color=col, alpha=0.25, lw=0, label=f"area = {name} = {p.sum():.3f}")
+c.axhline(0, color="k", lw=0.5)
+c.legend(fontsize=8)
+save(fig, "1b_light_to_xyz.png")
 
 fig, ax = plt.subplots(figsize=(8, 4))
 cmap = plt.get_cmap("viridis")

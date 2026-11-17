@@ -45,36 +45,45 @@ The article is written for two audiences:
 
 ### 1.1 From spectrum to XYZ
 
-The instrument returns a **reflectance factor** $R(\lambda)$ for each wavelength band. ArgyllCMS `spotread` reports it in percent: 0 means the surface reflects nothing and 100 means it reflects as much as a perfect white reference. This article keeps that scale. Our data have 106 bands from 380 to 730 nm, one every 3.33 nm.
+The instrument measures the **reflectance** $R(\lambda)$ of the screen: the share of light it reflects at each wavelength, in percent. 0 % means nothing is reflected, 100 % means as much as a perfect white. Our data have 106 bands from 380 to 730 nm, one every 3.33 nm.
 
-To turn a spectrum into a colour, we multiply it by:
+A spectrum is not yet a colour. We get there in two steps, following the path of the light.
 
-- an **illuminant** $S(\lambda)$, the light the surface is viewed under. We use CIE D50.
-- the three **colour matching functions** $\bar{x}(\lambda)$, $\bar{y}(\lambda)$, $\bar{z}(\lambda)$ of the CIE 1931 2° standard observer, which describe how the eye responds to each wavelength.
+**1. Light hits the screen.** The reflected light depends on what illuminates the screen. For this analysis we choose **CIE D50**, a standard daylight illuminant. Multiplying its power by the reflectance, wavelength by wavelength, gives the light the screen sends back (Figure 1a).
 
-We then add up the products over all bands:
+![D50 times the reflectance gives the reflected light](img/1a_reflected_light.png)
+
+*Figure 1a. D50 (left) times the reflectance of the brightest white of the Game Boy Color (centre: reading 31, 0°, raw data) gives the reflected light (right). Produced by `scripts/1_spectrum_to_xyz.py`.*
+
+**2. The eye sees the reflected light.** The **CIE 1931 2° standard observer** describes the eye with three curves, $\bar{x}$, $\bar{y}$ and $\bar{z}$, one per coordinate. Multiplying the reflected light by each curve gives what the eye picks up at each wavelength. The area under each product is X, Y or Z (Figure 1b).
+
+![Reflected light times the colour matching functions gives X, Y and Z](img/1b_light_to_xyz.png)
+
+*Figure 1b. The reflected light of Figure 1a (left) times the CIE 1931 2° colour matching functions (centre). The coloured areas (right) are X, Y and Z. Produced by `scripts/1_spectrum_to_xyz.py`.*
+
+This also tells us where measurement errors hurt most: a reflectance error counts more where both the light and the eye are strong. Z is most sensitive around 450 nm, where $\bar{z}$ peaks and D50 is already high; above 520 nm $\bar{z}$ is almost zero, so Z barely moves.
+
+**Scale.** The areas are multiplied by a constant $k$, chosen so that a **perfect reflector** ($R = 100\ \%$ at every wavelength) has $Y = 100$. This puts XYZ on the same 0–100 scale as the values exported by `spotread`, and makes the perfect reflector the reference white for the colour differences in section 2.2. On this scale the Game Boy Color is very dark: its brightest white reaches only $Y \approx 0.6$–$1.0$ (0.62 in Figure 1b).
+
+<details>
+<summary><b>For the maths</b></summary>
+
+With $S(\lambda)$ the illuminant and $\lambda_i$ the band centres:
 
 $$
-X = k\sum_i R(\lambda_i)\,S(\lambda_i)\,\bar{x}(\lambda_i),\qquad
-Y = k\sum_i R(\lambda_i)\,S(\lambda_i)\,\bar{y}(\lambda_i),\qquad
-Z = k\sum_i R(\lambda_i)\,S(\lambda_i)\,\bar{z}(\lambda_i)
+X = k\sum_i S(\lambda_i)\,R(\lambda_i)\,\bar{x}(\lambda_i),\qquad
+Y = k\sum_i S(\lambda_i)\,R(\lambda_i)\,\bar{y}(\lambda_i),\qquad
+Z = k\sum_i S(\lambda_i)\,R(\lambda_i)\,\bar{z}(\lambda_i)
 $$
 
 $$
 k = \frac{1}{\sum_i S(\lambda_i)\,\bar{y}(\lambda_i)}
 $$
 
-The constant $k$ scales the result so that a **perfect reflector** ($R = 100\ \%$ at every wavelength) has $Y = 100$. All XYZ values in this article are on this 0–100 scale, the same as the XYZ exported by `spotread`. The Game Boy Color is a dark reflective screen: its full white reaches only $Y \approx 0.6$–$1.0$.
+- **Sensitivity to errors.** In the sum for X, the reflectance $R(\lambda_i)$ is multiplied by $k\,S(\lambda_i)\,\bar{x}(\lambda_i)$. This factor depends only on illuminant and observer, not on the screen: it is how much X changes for each unit of reflectance error in band $i$. The same holds for Y and Z with $\bar{y}$ and $\bar{z}$.
+- **Wavelength grid.** D50 is resampled to 1 nm with colour-science, then D50 and the colour matching functions are linearly interpolated to the 106 measured band centres.
 
-Each wavelength band contributes to all three coordinates. Its contribution to X is its measured reflectance $R(\lambda_i)$ multiplied by $k\,S(\lambda_i)\,\bar{x}(\lambda_i)$. This multiplier is the band's **weight for X**. The weights for Y and Z use $\bar{y}$ and $\bar{z}$ instead. The weights depend on the chosen illuminant and observer, not on the measured surface.
-
-A weight tells us how sensitive a coordinate is to a reflectance error in that band: the same reflectance error produces a larger error in X where the weight for X is larger. The band's actual contribution, however, depends on both its weight and its reflectance. This distinction helps us assess which unreliable bands most affect the calculated colour.
-
-For the calculation, the illuminant and observer data must be evaluated at the same wavelengths as the measurements. Our scripts first resample D50 to 1 nm with colour-science, then linearly interpolate D50 and the colour matching functions to the 106 measured band centres.
-
-![Colour matching functions and D50](img/1_cmfs_d50.png)
-
-*Figure 1. CIE 1931 2° colour matching functions (left axis) and D50 relative power (right axis). Produced by `scripts/1_spectrum_to_xyz.py`.*
+</details>
 
 ### 1.2 The problem
 
@@ -91,7 +100,7 @@ Two regions are clearly wrong:
 
 ### 1.3 Why it matters
 
-Look again at Figure 1. The peak of $\bar{z}$ (446 nm) and the small blue lobe of $\bar{x}$ (442 nm) sit right at the edge of the bad region. Table 1 shows how much of each coordinate comes from the two unreliable regions.
+Look again at Figure 1b. The peak of $\bar{z}$ (446 nm) and the small blue lobe of $\bar{x}$ (442 nm) sit right at the edge of the bad region. Table 1 shows how much of each coordinate comes from the two unreliable regions.
 
 *Table 1. Share of X, Y and Z coming from the bands below 440 nm and above 700 nm, reading 31, 0°, raw data. "Perfect reflector" is the theoretical $R = 100\ \%$ surface. Produced by `scripts/1_spectrum_to_xyz.py`.*
 
