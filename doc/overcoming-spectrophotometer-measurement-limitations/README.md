@@ -271,7 +271,7 @@ Run `python scripts/5_evaluate_method.py --method cleaning` from this article's 
 
 #### All readings
 
-Raw versus cleaned spectra: all 672 measurements, shown separately by instrument orientation. The dashed line is the historical repeatability p95 (0.22), not a significance threshold. The dotted line at 3 is an approximate visibility guide; visibility depends on viewing conditions. All panels use the same scale.
+Raw versus cleaned spectra: all 672 measurements, shown separately by instrument orientation. The dashed line is the historical repeatability p95 (0.22), not a significance threshold. All panels use the same scale, from 0 to 2.
 
 ![Cleaning: primary ramp colour differences](img/method_cleaning_delta_e_primaries.png)
 

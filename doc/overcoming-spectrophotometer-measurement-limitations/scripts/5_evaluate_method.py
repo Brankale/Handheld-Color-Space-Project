@@ -82,9 +82,8 @@ if name == "cleaning":
                               color=RAMP_COLOURS[ramp], marker="o", markersize=2.5,
                               linewidth=1.35, label="Grey" if ramp == "White" else ramp)
                 axis.axhline(reference, color="#7b8288", linestyle=(0, (4, 3)), linewidth=0.8)
-                axis.axhline(3, color="#c5c8cb", linestyle=":", linewidth=0.9)
-                axis.set(xlim=(-0.4, 31.4), ylim=(0, 3.15), xticks=(0, 8, 16, 24, 31),
-                         yticks=(0, 0.5, 1, 1.5, 2, 2.5, 3), xlabel="Patch index")
+                axis.set(xlim=(-0.4, 31.4), ylim=(0, 2.05), xticks=(0, 8, 16, 24, 31),
+                         yticks=(0, 0.5, 1, 1.5, 2), xlabel="Patch index")
                 axis.set_title(label, fontsize=10, pad=8)
                 axis.grid(axis="y", color="#e9ebed", linewidth=0.6)
                 axis.set_axisbelow(True)
