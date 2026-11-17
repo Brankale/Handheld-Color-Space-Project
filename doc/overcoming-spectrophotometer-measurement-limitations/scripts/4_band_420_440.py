@@ -93,7 +93,7 @@ for k, ramp in enumerate(RAMPS):
 ax.axhline(0, color="k", lw=0.5)
 handles = [plt.Rectangle((0, 0), 1, 1, color=c, alpha=0.4) for c in ZONE_COLOURS.values()]
 ax.legend(handles, ZONE_COLOURS.keys(), fontsize=8, loc="upper left")
-ax.set(xlim=(400, 480), xlabel="Wavelength (nm)", ylabel="Reflectance factor", title=f"Reliability zones, reading {FULL} (0°)")
+ax.set(xlim=(400, 480), xlabel="Wavelength (nm)", ylabel="Reflectance factor (%)", title=f"Reliability zones, reading {FULL} (0°)")
 save(fig, "4_zones.png")
 
 Wc = integrands(wl, np.ones_like(wl))

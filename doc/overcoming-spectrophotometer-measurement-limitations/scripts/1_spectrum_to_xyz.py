@@ -23,7 +23,7 @@ for r in range(R.shape[1]):
     ax.plot(wl, R[0, r], color=cmap(r / (R.shape[1] - 1)), lw=0.8)
 shade_regions(ax)
 ax.axhline(0, color="k", lw=0.5)
-ax.set(xlim=(380, 730), xlabel="Wavelength (nm)", ylabel="Reflectance factor", title="White ramp, readings 0–31 (0°)")
+ax.set(xlim=(380, 730), xlabel="Wavelength (nm)", ylabel="Reflectance factor (%)", title="White ramp, readings 0–31 (0°)")
 ax.legend(loc="lower right", fontsize=8)
 fig.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(0, 31)), ax=ax, label="Reading")
 save(fig, "1_white_ramp.png")
@@ -35,7 +35,7 @@ for k, name in enumerate(RAMPS):
     total = I.sum(-1)
     lo, hi = I[:, :i_cut].sum(-1) / total, I[:, i_ir + 1 :].sum(-1) / total
     rows.append([name] + [f"{100 * v:.1f} %" for v in lo] + [f"{100 * v:.2f} %" for v in hi])
-I = integrands(wl, np.ones_like(wl))
+I = integrands(wl, np.full_like(wl, 100.0))
 total = I.sum(-1)
 rows.append(["Perfect reflector"] + [f"{100 * v:.1f} %" for v in I[:, :i_cut].sum(-1) / total]
             + [f"{100 * v:.2f} %" for v in I[:, i_ir + 1 :].sum(-1) / total])

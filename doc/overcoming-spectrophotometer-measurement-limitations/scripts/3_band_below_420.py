@@ -13,7 +13,7 @@ for ax, (o, label) in zip(axes, ORIENTATIONS.items()):
     ax.axvspan(BASELINE_END, CUTOFF, color="tab:orange", alpha=0.08, lw=0)
     ax.axhline(0, color="k", lw=0.5)
     ax.set(xlim=(380, 470), title=label, xlabel="Wavelength (nm)")
-axes[0].set_ylabel("Reflectance factor")
+axes[0].set_ylabel("Reflectance factor (%)")
 axes[0].legend(fontsize=7, loc="upper left")
 fig.suptitle("Solid: reading 31, dotted: reading 0", fontsize=9)
 save(fig, "3_zoom_380_470.png")

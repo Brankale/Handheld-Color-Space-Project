@@ -31,6 +31,8 @@ CUTOFF = 440.0
 CMFS = colour.MSDS_CMFS["CIE 1931 2 Degree Standard Observer"]
 D50 = colour.SDS_ILLUMINANTS["D50"].copy().interpolate(colour.SpectralShape(300, 780, 1))
 CAM16_KWARGS = {"L_A": 318.31, "Y_b": 20, "surround": colour.VIEWING_CONDITIONS_CAM16["Average"]}
+# Display exposure only: the screen reflects about 1 %, so Y = 1 is shown as sRGB white.
+SWATCH_GAIN = 100
 
 
 @cache
@@ -51,7 +53,7 @@ def cmfs(wl):
 
 
 def weights(wl):
-    """k·S(λ)·cmf(λ), shape (3, n): the band sum of R·weights is XYZ with Y(white) = 1."""
+    """k·S(λ)·cmf(λ), shape (3, n): with R in percent, the band sum of R·weights is XYZ with Y(white) = 100."""
     S = np.interp(wl, D50.wavelengths, D50.values)
     W = S * cmfs(wl)
     return W / W[1].sum()
@@ -66,11 +68,12 @@ def xyz(wl, R):
 
 
 def white(wl):
-    return weights(wl).sum(-1)
+    """XYZ of the perfect reflector, R = 100 % at every band."""
+    return 100 * weights(wl).sum(-1)
 
 
 def cam16ucs(XYZ, wl):
-    spec = colour.XYZ_to_CAM16(XYZ * 100, white(wl) * 100, **CAM16_KWARGS)
+    spec = colour.XYZ_to_CAM16(XYZ, white(wl), **CAM16_KWARGS)
     return colour.JMh_CAM16_to_CAM16UCS(np.stack([spec.J, spec.M, spec.h], -1))
 
 
@@ -169,7 +172,7 @@ RAMP_HEADER = ["Orientation", "ΔX range", "ΔY range", "ΔZ range", "Δxy mean 
 
 def to_srgb(XYZ, wl):
     """XYZ encoded as sRGB without chromatic adaptation; returns (rgb clipped, clipped flag)."""
-    rgb = colour.XYZ_to_sRGB(XYZ, chromatic_adaptation_transform=None)
+    rgb = colour.XYZ_to_sRGB(XYZ / 100 * SWATCH_GAIN, chromatic_adaptation_transform=None)
     clipped = (rgb < 0).any(-1) | (rgb > 1).any(-1)
     return np.clip(rgb, 0, 1), clipped
 

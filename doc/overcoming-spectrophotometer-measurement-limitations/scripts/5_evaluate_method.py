@@ -4,12 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from common import (
-    CUTOFF, FULL, ORIENTATIONS, RAMP_COLOURS, RAMP_HEADER, RAMPS, cmfs, integrands, load, md_table, metrics,
+    CUTOFF, FULL, ORIENTATIONS, RAMP_COLOURS, RAMP_HEADER, RAMPS, clean, cmfs, integrands, load, md_table, metrics,
     IMG, noise_floor, plot_swatches, ramp_summary_row, save, signed, weights,
 )
 from methods import METHODS
-
-SWATCH_THRESHOLD = 2.0
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--method", choices=METHODS, required=True)
@@ -43,7 +41,7 @@ axes.flat[-1].axis("off")
 for ax in axes[1]:
     ax.set_xlabel("Wavelength (nm)")
 for ax in axes[:, 0]:
-    ax.set_ylabel("Reflectance factor")
+    ax.set_ylabel("Reflectance factor (%)")
 fig.suptitle(f"{name}: reflectance, reading {FULL}, 0°", fontsize=10)
 save(fig, f"method_{name}_spectrum.png")
 
@@ -85,8 +83,8 @@ if name == "cleaning":
                               linewidth=1.35, label="Grey" if ramp == "White" else ramp)
                 axis.axhline(reference, color="#7b8288", linestyle=(0, (4, 3)), linewidth=0.8)
                 axis.axhline(3, color="#c5c8cb", linestyle=":", linewidth=0.9)
-                axis.set(xlim=(-0.4, 31.4), ylim=(0, 6.15), xticks=(0, 8, 16, 24, 31),
-                         yticks=(0, 1, 2, 3, 4, 5, 6), xlabel="Patch index")
+                axis.set(xlim=(-0.4, 31.4), ylim=(0, 3.15), xticks=(0, 8, 16, 24, 31),
+                         yticks=(0, 0.5, 1, 1.5, 2, 2.5, 3), xlabel="Patch index")
                 axis.set_title(label, fontsize=10, pad=8)
                 axis.grid(axis="y", color="#e9ebed", linewidth=0.6)
                 axis.set_axisbelow(True)
@@ -136,22 +134,21 @@ print(f"\n{name}, all spectra: mean ΔE = {np.nanmean(dE):.2f}, max ΔE = {np.na
     f"share above the historical repeatability p95 ({floor95:.2f}) = {(dE > floor95).mean():.0%}")
 
 below = wl < CUTOFF - 1e-3
+measured = np.stack([clean(wl, load(o)[1])[..., ~below].max(-1) for o in ORIENTATIONS])
 rows = []
 for ch, label in ((0, "R·x̄"), (2, "R·z̄")):
     implied = np.stack([res[o][1][..., ch, below] / weights(wl)[ch, below] for o in ORIENTATIONS]).max(-1)
-    rows.append([label, f"{implied.max():.2f}", f"{(implied > 1).sum()} / {implied.size}"])
+    rows.append([label, f"{implied.max():.2f} %", f"{(implied > 100).sum()} / {implied.size}",
+                 f"{(implied > measured + 1e-9).sum()} / {implied.size}", f"{(implied / measured).max():.2f}"])
 print(f"\n{name}, reflectance implied below {CUTOFF:g} nm\n")
-print(md_table(["From", "Max", "Spectra above 1"], rows))
+print(md_table(["From", "Max", "Spectra above 100 %", f"Spectra above own max ≥ {CUTOFF:g} nm",
+                f"Max ratio to own max ≥ {CUTOFF:g} nm"], rows))
 
 cases = []
 for k, ramp in enumerate(RAMPS):
     oi, r = np.unravel_index(np.nanargmax(dE[:, k]), dE[:, k].shape)
-    if dE[oi, k, r] > SWATCH_THRESHOLD:
-        o = list(ORIENTATIONS)[oi]
-        raw, new, _ = res[o]
-        cases.append((f"{ramp} #{r}, {ORIENTATIONS[o]}", raw[k, r].sum(-1), new[k, r].sum(-1), dE[oi, k, r]))
+    o = list(ORIENTATIONS)[oi]
+    raw, new, _ = res[o]
+    cases.append((f"{ramp} #{r}, {ORIENTATIONS[o]}", raw[k, r].sum(-1), new[k, r].sum(-1), dE[oi, k, r]))
 cases.sort(key=lambda case: -case[3])
-if cases:
-    plot_swatches(cases, wl, f"method_{name}_swatches.png", labels=("raw", name))
-else:
-    print(f"No case with ΔE > {SWATCH_THRESHOLD:g}: no swatches")
+plot_swatches(cases, wl, f"method_{name}_swatches.png", labels=("raw", name))
