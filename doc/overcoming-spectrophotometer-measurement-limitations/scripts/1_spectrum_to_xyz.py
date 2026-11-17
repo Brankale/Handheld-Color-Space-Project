@@ -1,3 +1,4 @@
+import colour
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -77,3 +78,21 @@ rows.append(["Perfect reflector"] + [f"{100 * v:.1f} %" for v in I[:, :i_cut].su
 c, u = f"{CUTOFF:g}", f"{UNSTABLE_START:g}"
 print(f"\nShare of X, Y, Z from bands below {c} nm and above {u} nm (reading {FULL}, 0°, raw data)\n")
 print(md_table(["Ramp", f"X < {c}", f"Y < {c}", f"Z < {c}", f"X > {u}", f"Y > {u}", f"Z > {u}"], rows))
+
+rows = []
+observer = CMFS.values
+reflectances = np.vstack((R[:, FULL], np.full_like(wl, 100.0)))
+shares_by_illuminant = []
+for name in ("D50", "D55", "D65", "D75"):
+    illuminant = colour.SDS_ILLUMINANTS[name].copy().interpolate(colour.SpectralShape(300, 780, 1))
+    power = np.interp(wl, illuminant.wavelengths, illuminant.values)
+    shares = []
+    for channel in (0, 2):
+        product = reflectances * power * np.interp(wl, CMFS.wavelengths, observer[:, channel])
+        shares.append(100 * product[:, :i_cut].sum(-1) / product.sum(-1))
+    shares_by_illuminant.append(np.stack(shares, axis=-1))
+for name, shares in zip((*RAMPS, "Perfect reflector"), np.concatenate(shares_by_illuminant, axis=-1)):
+    rows.append([name] + [f"{value:.1f} %" for value in shares])
+print(f"\nShare of X and Z below {c} nm by illuminant (reading {FULL}, 0°, raw data)\n")
+print(md_table(["Ramp"] + [f"{name} {channel} < {c}" for name in ("D50", "D55", "D65", "D75")
+                          for channel in ("X", "Z")], rows))
