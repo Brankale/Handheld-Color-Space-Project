@@ -113,26 +113,19 @@ Look again at Figure 1b. The peak of $\bar{z}$ (446 nm) and the small blue lobe 
 | Magenta | 2.4 % | 0.1 % | 12.6 % | 0.11 % | 0.04 % | 0.00 % |
 | Perfect reflector | 3.6 % | 0.1 % | 20.4 % | 0.11 % | 0.04 % | 0.00 % |
 
-The illuminant also matters. The shares below 440 nm increase from D50 to D75, as more of the illuminant's energy lies at short wavelengths relative to the rest of the spectrum.
-
-*Table 1a. Share of X and Z coming from bands below 440 nm under four daylight illuminants, reading 31, 0°, raw data. The perfect reflector has $R = 100\ \%$ at every wavelength. All calculations use the same 106 bands and CIE 1931 2° observer. Produced by `scripts/1_spectrum_to_xyz.py`.*
-
-| Ramp | D50 X < 440 | D50 Z < 440 | D55 X < 440 | D55 Z < 440 | D65 X < 440 | D65 Z < 440 | D75 X < 440 | D75 Z < 440 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 2.2 % | 11.9 % | 2.5 % | 12.5 % | 3.2 % | 13.4 % | 3.8 % | 14.1 % |
-| Red | 1.1 % | 10.1 % | 1.3 % | 10.4 % | 1.7 % | 11.0 % | 1.9 % | 11.3 % |
-| Green | 0.8 % | 5.3 % | 1.0 % | 5.5 % | 1.2 % | 5.7 % | 1.3 % | 5.9 % |
-| Blue | 2.7 % | 9.3 % | 3.1 % | 9.7 % | 3.8 % | 10.2 % | 4.3 % | 10.7 % |
-| Yellow | 1.3 % | 10.3 % | 1.5 % | 10.8 % | 2.0 % | 11.5 % | 2.3 % | 12.0 % |
-| Cyan | 2.5 % | 10.5 % | 2.9 % | 11.0 % | 3.6 % | 11.9 % | 4.1 % | 12.4 % |
-| Magenta | 2.4 % | 12.6 % | 2.8 % | 13.1 % | 3.5 % | 14.0 % | 4.1 % | 14.6 % |
-| Perfect reflector | 3.6 % | 20.4 % | 4.2 % | 21.5 % | 5.4 % | 23.1 % | 6.4 % | 24.3 % |
-
 What Table 1 tells us under D50:
 
 - **Below 440 nm matters.** For a surface that reflects evenly, one fifth of Z and 3.6 % of X come from the bands the instrument gets wrong. The measured screens show less, because the raw data are already wrong there. The perfect reflector shows what is at stake.
 - **Y is almost unaffected** (0.1 %). Brightness is safe, while chromaticity (the hue and saturation) is not.
 - **Above 700 nm does not matter** for colour. All three coordinates get at most 0.13 % from that region. The rest of the article ignores it.
+
+The illuminant also matters. Figure 2a keeps the screen fixed and changes the light: north sky daylight (D75, about 7500 K), incandescent light (A, about 2856 K), cool white fluorescent light (FL2, about 4230 K) and a cool white LED (LED-B5, about 6600 K). These standard spectra illustrate everyday lighting, not every lamp of each type.
+
+![Reflected spectra of the same screen under daylight, incandescent, fluorescent and LED lighting](img/1_illuminants_reflected.png)
+
+*Figure 2a. One panel per illuminant: incident light (dashed, right axis) and light reflected by the same brightest white (solid with shaded area, left axis; reading 31, 0°, raw data). Red, green and blue curves show reflected light multiplied by $\bar{x}$, $\bar{y}$ and $\bar{z}$ respectively, on the left-axis scale without separate normalisation. Sources are normalised to equal photometric illumination on the 106 measured bands. Each panel has its own vertical scale, so curve heights cannot be compared directly across panels. The right-axis scale is 100 times the left-axis scale so both curves are visible. Fills use the temperature swatches from [Wikipedia's standard illuminant table](https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants), not the screen's perceived colour. The darker background marks bands below 440 nm. Produced by `scripts/1_spectrum_to_xyz.py`.*
+
+The unreliable wavelength range stays the same, but the illuminant can **increase or reduce the area affected** under the reflected spectrum. Incandescent light supplies little short-wavelength energy, while FL2 has a strong emission near 436 nm, inside the suspect region. LED-B5 instead concentrates much of its blue emission beyond 440 nm. The same reflectance error therefore changes the reflected light more where the illuminant is strong. The effect on XYZ also depends on the eye's sensitivity, as explained in section 1.1; these raw spectra do not establish the true missing signal or the size of the measurement error.
 
 ### 1.4 Roadmap
 

@@ -99,7 +99,7 @@ Each script prints its tables and lists the figures it saved.
 |---|---|---|
 | `common.py` | – | Shared code: data loading, spectrum to XYZ (D50, CIE 1931 2°), CAM16-UCS ΔE, tables, swatches |
 | `methods.py` | 3, 5 | Cleaning, truncation, Gaussian and hold methods |
-| `1_spectrum_to_xyz.py` | 1 | `1a_reflected_light.png`, `1b_light_to_xyz.png`, `1_white_ramp.png`, share of X, Y, Z below the cutoff and above 700 nm |
+| `1_spectrum_to_xyz.py` | 1 | `1a_reflected_light.png`, `1b_light_to_xyz.png`, `1_white_ramp.png`, `1_illuminants_reflected.png`, share of X, Y, Z below the cutoff and above 700 nm |
 | `2_noise_floor.py` | 2.3 | Historical repeated-patch source counts, mean/p95/max pairwise ΔE, per-patch p95 ΔE |
 | `3_band_below_420.py` | 3 | `3_zoom_380_470.png`, negative values per region |
 | `4_band_420_440.py` | 4 | Cutoff candidates table (shares of X and Z below each cutoff), `4_drop_shape.png` |
