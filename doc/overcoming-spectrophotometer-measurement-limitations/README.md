@@ -26,10 +26,8 @@ The article is written for two audiences:
    - [3.1 What the data show](#31-what-the-data-show)
    - [3.2 Cleaning](#32-cleaning)
 - [4 The band from 420 to 440 nm](#4-the-band-from-420-to-440-nm)
-   - [4.1 Baseline leak](#41-baseline-leak)
-   - [4.2 Shape of the drop](#42-shape-of-the-drop)
-   - [4.3 Reliability zones](#43-reliability-zones)
-   - [4.4 Choosing the cutoff](#44-choosing-the-cutoff)
+   - [4.1 Shape of the drop](#41-shape-of-the-drop)
+   - [4.2 Choosing the cutoff](#42-choosing-the-cutoff)
 - [5 Reconstructing the region below the cutoff](#5-reconstructing-the-region-below-the-cutoff)
    - [5.1 Truncation](#51-truncation)
    - [5.2 Gaussian extrapolation](#52-gaussian-extrapolation)
@@ -264,7 +262,7 @@ Observations:
 
 #### Idea
 
-The baseline carries no information about the screen. Replace it and the first contaminated transition band at 423.333 nm with zero, and remove every remaining negative value.
+The baseline carries no information about the screen. Replace it and the first transition band at 423.333 nm with zero, and remove every remaining negative value.
 
 #### Technical details
 
@@ -279,7 +277,7 @@ Run `python scripts/5_evaluate_method.py --method cleaning` from this article's 
 #### Assumptions and limits
 
 - Zero is not a measurement either. It is simply the least harmful value: it adds nothing to XYZ. Section 5 replaces it with better estimates.
-- Cleaning leaves the steep region from 426.667 to 436.667 nm in place. Section 4 shows that these bands are still contaminated by the baseline.
+- Cleaning leaves the steep region from 426.667 to 436.667 nm in place. Section 4 shows that the shape of this drop is common to all colours; its origin remains uncertain.
 
 #### Spectrum
 
@@ -362,46 +360,15 @@ XYZ values calculated under D50 are converted to sRGB with the fixed display exp
 - **Y does not move.** The magnitude of ΔY stays below 0.0001.
 - **Z mostly rises.** Removing a negative baseline adds back what the baseline was subtracting. Removing positive values through 423.333 nm can lower Z instead, for example White #31 at 90°: ΔZ = −0.0139.
 - **Dark readings change most.** The largest ΔE values are at readings 0 to 8. There the baseline is large compared to the real signal.
-- **Verdict: necessary, not sufficient.** Cleaning zeros bands through 423.333 nm and removes negative values, but it keeps the 426.667–436.667 nm region, which section 4 shows to be contaminated.
+- **Verdict: necessary, not sufficient.** Cleaning zeros bands through 423.333 nm and removes negative values, but it keeps the uncertain 426.667–436.667 nm region discussed in section 4.
 
 ## 4 The band from 420 to 440 nm
 
-> **In short:** between 420 and 440 nm the signal is a blend of real reflectance and the baseline. The baseline's share drops below 5 % only from 440 nm. That is our cutoff.
+> **In short:** below about 437 nm, all colours share the same steep drop. Its origin is uncertain. We use 440 nm as an operational cutoff for the reconstruction, not as a validated boundary of instrument reliability.
 
 Figure 3 shows a steep climb from the baseline at 420 nm to the real signal around 440 nm. The question is: which of these bands can we trust?
 
-### 4.1 Baseline leak
-
-**Idea.** The baseline changes from reading to reading in a way that has nothing to do with the screen. If a band follows those changes, part of the baseline has *leaked* into it.
-
-**How the leak is measured,** for each band, ramp and orientation:
-
-1. Remove the real brightness trend. Within one ramp, regress the band on the mean of a trusted reference region (446–461 nm) and keep the residuals. Do the same for the baseline.
-2. Regress the band residuals on the baseline residuals. The slope is the **leak**: the fraction of the baseline jitter that shows up in the band. 100 % means the band is the baseline; 0 % means the band ignores it.
-3. Also record the correlation between the two residuals.
-
-*Table 8. Baseline leak per band. Leak is the mean over the 7 ramps. Correlation is shown as mean (min) over the 7 ramps. The last column counts negative values over all 672 spectra. Produced by `scripts/4_band_420_440.py`.*
-
-| Band (nm) | Leak 0° | Leak 90° | Leak 180° | Corr 0° | Corr 90° | Corr 180° | Negatives / 672 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| 420.0 | 100.5 % | 100.5 % | 100.5 % | 1.00 (1.00) | 1.00 (1.00) | 1.00 (1.00) | 615 |
-| 423.3 | 37.8 % | 43.2 % | 34.8 % | 0.77 (0.58) | 0.70 (0.53) | 0.81 (0.64) | 247 |
-| 426.7 | 13.6 % | 19.3 % | 16.6 % | 0.44 (0.23) | 0.45 (0.26) | 0.49 (-0.07) | 0 |
-| 430.0 | 7.9 % | 11.6 % | 13.5 % | 0.46 (0.11) | 0.36 (0.22) | 0.52 (0.05) | 0 |
-| 433.3 | 4.1 % | 7.3 % | 7.4 % | 0.39 (-0.16) | 0.26 (0.02) | 0.46 (-0.08) | 0 |
-| 436.7 | 2.1 % | 7.0 % | 5.8 % | 0.34 (-0.32) | 0.27 (-0.14) | 0.52 (-0.05) | 0 |
-| 440.0 | 0.0 % | 3.5 % | 2.4 % | 0.14 (-0.35) | 0.23 (-0.44) | 0.36 (-0.60) | 0 |
-| 443.3 | 0.2 % | 2.3 % | 1.8 % | 0.04 (-0.35) | 0.18 (-0.55) | 0.26 (-0.72) | 0 |
-| 446.7 | 0.4 % | 2.2 % | 0.9 % | 0.08 (-0.33) | 0.26 (-0.07) | 0.12 (-0.53) | 0 |
-| 450.0 | 0.3 % | 0.7 % | 0.4 % | 0.07 (-0.34) | 0.12 (-0.17) | 0.03 (-0.55) | 0 |
-
-Observations:
-
-- **420 nm is the baseline** (leak 100 %, correlation 1.00).
-- **The leak fades over about 15 nm.** 423.3 nm still carries 35–43 % of the baseline jitter and has 247 negative values. By 430 nm the leak is down to 8–14 %, and by 436.7 nm to 2–7 %.
-- **From 440 nm the leak is at the level of the reference region.** 446.7 nm overlaps the reference region, so it cannot be contaminated, yet it still shows a leak of up to 2.2 %. That is the background level of this estimate. 440 nm (at most 3.5 %) is in the same range.
-
-### 4.2 Shape of the drop
+### 4.1 Shape of the drop
 
 If the climb from 420 to 440 nm were the real reflectance of the screen, each colour would climb in its own way. Figure 9 divides each spectrum by its value at 450 nm, so only the shape is left.
 
@@ -414,57 +381,24 @@ If the climb from 420 to 440 nm were the real reflectance of the screen, each co
 
 A common shape points to something that affects every colour equally. That is either the instrument itself, such as the edge of its usable range smeared by its optical bandwidth, or a layer common to the whole screen, such as the polarizer or the screen protector. The data cannot tell these apart (see [section 8](#8-limitations-and-open-questions)). Either way, the bands below 437 nm do not tell us anything about the colour of each patch.
 
-### 4.3 Reliability zones
-
-Each band is assigned a zone from its worst leak over the three orientations:
-
-| Zone | Rule |
-|---|---|
-| baseline | Part of the flat line (≤ 420 nm) |
-| invalid | Negative values, or leak ≥ 25 % |
-| contaminated | Leak ≥ 10 % |
-| grey | Leak ≥ 5 % |
-| reliable | Leak < 5 % |
-
-The 5 % threshold sits just above the background level of the estimate (2.2 % at 446.7 nm, section 4.1).
-
-*Table 9. Zone of each band. Produced by `scripts/4_band_420_440.py`.*
-
-| Band (nm) | Max leak | Negatives | Zone |
-|---|---:|---:|---:|
-| 420.0 | 100.5 % | 615 | baseline |
-| 423.3 | 43.2 % | 247 | invalid |
-| 426.7 | 19.3 % | 0 | contaminated |
-| 430.0 | 13.5 % | 0 | contaminated |
-| 433.3 | 7.4 % | 0 | grey |
-| 436.7 | 7.0 % | 0 | grey |
-| 440.0 | 3.5 % | 0 | reliable |
-| 443.3 | 2.3 % | 0 | reliable |
-| 446.7 | 2.2 % | 0 | reliable |
-| 450.0 | 0.7 % | 0 | reliable |
-
-![Reliability zones](img/4_zones.png)
-
-*Figure 10. Reliability zones over the raw spectra at reading 31, 0°. Produced by `scripts/4_band_420_440.py`.*
-
-### 4.4 Choosing the cutoff
+### 4.2 Choosing the cutoff
 
 The **cutoff** is the first band we keep. Everything below it is replaced in section 5. Choosing it is a trade-off:
 
-- a lower cutoff keeps more measured data but lets more baseline in;
-- a higher cutoff is cleaner but leaves more to reconstruct.
+- a lower cutoff keeps more measured data from the uncertain transition region;
+- a higher cutoff discards more measured data and leaves more to reconstruct.
 
-*Table 10. Cutoff candidates. "Worst leak ≥ cutoff" is the highest leak among the bands from the cutoff up to 450 nm. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
+*Table 8. Cutoff candidates. "X below" and "Z below" are the shares of X and Z of a perfect reflector under D50 that lie below the cutoff and must be reconstructed. Produced by `scripts/4_band_420_440.py`.*
 
-| Cutoff (nm) | Zone | Worst leak ≥ cutoff | Negatives ≥ cutoff | X below | Z below |
-|---|---:|---:|---:|---:|---:|
-| 430.0 | contaminated | 13.5 % | 0 | 1.6 % | 9.1 % |
-| 433.3 | grey | 7.4 % | 0 | 2.2 % | 12.2 % |
-| 436.7 | grey | 7.0 % | 0 | 2.8 % | 16.0 % |
-| 440.0 | reliable | 3.5 % | 0 | 3.6 % | 20.4 % |
-| 443.3 | reliable | 2.3 % | 0 | 4.4 % | 25.5 % |
+| Cutoff (nm) | X below | Z below |
+|---|---:|---:|
+| 430.0 | 1.6 % | 9.1 % |
+| 433.3 | 2.2 % | 12.2 % |
+| 436.7 | 2.8 % | 16.0 % |
+| 440.0 | 3.6 % | 20.4 % |
+| 443.3 | 4.4 % | 25.5 % |
 
-**Decision: cutoff at 440 nm,** the lowest band in the reliable zone. Going lower would keep bands that still carry 7 % or more of the baseline. Going higher would add 5 percentage points of Z to reconstruct without making the data noticeably cleaner.
+**Operational choice: cutoff at 440 nm,** just above the common drop seen below about 437 nm. Moving to 443.3 nm would add about 5 percentage points of Z to reconstruct. The shape comparison does not establish that 440 nm is the first reliable band; validating that boundary requires an independent reference measurement.
 
 The price is that 20.4 % of Z and 3.6 % of X of a perfect reflector must be reconstructed.
 
@@ -500,17 +434,17 @@ Assume the screen reflects nothing below 440 nm.
 
 ![Truncation: implied reflectance](img/method_truncation_spectrum.png)
 
-*Figure 11. Reflectance implied by truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 10. Reflectance implied by truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Reflectance × CMF
 
 ![Truncation: R·x̄ and R·z̄](img/method_truncation_products.png)
 
-*Figure 12. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and truncation. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 11. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and truncation. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Reading 31
 
-*Table 11. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 9. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -522,7 +456,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.3817 | 0.5016 | 0.4073 | -0.0097 | -0.0005 | -0.0476 | 0.0172 | 1.68 |
 | Magenta | 0.3986 | 0.3828 | 0.3303 | -0.0096 | -0.0005 | -0.0474 | 0.0190 | 2.08 |
 
-*Table 12. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 10. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -534,7 +468,7 @@ Assume the screen reflects nothing below 440 nm.
 | Cyan | 0.5643 | 0.7793 | 0.6273 | -0.0162 | -0.0007 | -0.0796 | 0.0189 | 1.96 |
 | Magenta | 0.6123 | 0.5798 | 0.5233 | -0.0175 | -0.0008 | -0.0857 | 0.0217 | 2.58 |
 
-*Table 13. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 11. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -613,11 +547,11 @@ Assume the screen reflects nothing below 440 nm.
 
 ![Truncation: swatches](img/method_truncation_swatches.png)
 
-*Figure 13. For each ramp, the reading with the largest ΔE: raw data (left) and truncation (right). Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Figure 12. For each ramp, the reading with the largest ΔE: raw data (left) and truncation (right). Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 #### Observations and verdict
 
-*Table 14. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 12. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
 | From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
 |---|---:|---:|---:|---:|
@@ -625,7 +559,7 @@ Assume the screen reflects nothing below 440 nm.
 | R·z̄ | 0.00 % | 0 / 672 | 0 / 672 | 0.00 |
 
 - **Z always drops.** ΔZ is negative in almost every spectrum, down to −0.0997 (White #31, 90°). X drops about five times less, and Y barely moves.
-- **Colours shift towards yellow.** Less Z means a higher x and y on the chromaticity diagram (see Figure 21).
+- **Colours shift towards yellow.** Less Z means a higher x and y on the chromaticity diagram (see Figure 20).
 - **The effect grows with brightness.** The largest ΔE values are mostly at the bright end of the ramps, where the removed signal is largest. Mean ΔE is 1.18 and the maximum is 2.61.
 - **Verdict: a lower bound, not an estimate.** Truncation is useful as the lowest possible answer, but its assumption contradicts the data at 440 nm.
 
@@ -633,7 +567,7 @@ Assume the screen reflects nothing below 440 nm.
 
 #### Idea
 
-Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a bell curve (Figure 15). Fit a Gaussian to that half and use it to draw the missing left half.
+Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a bell curve (Figure 14). Fit a Gaussian to that half and use it to draw the missing left half.
 
 #### Technical details
 
@@ -653,24 +587,24 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
   - $\bar{z}$: peak at 446 nm, half height reached 23 nm to the left and 32 nm to the right.
 
   A Gaussian fitted to the gentle right side falls too slowly on the left, so it overestimates the missing area.
-- **The two fits are independent,** so they imply two different reflectances for the same surface at the same wavelength (Figure 14).
+- **The two fits are independent,** so they imply two different reflectances for the same surface at the same wavelength (Figure 13).
 - Y is left truncated, which is slightly inconsistent with X and Z.
 
 #### Spectrum
 
 ![Gaussian: implied reflectance](img/method_gaussian_spectrum.png)
 
-*Figure 14. Reflectance implied by the Gaussian fit to $R\bar{x}$ (solid) and to $R\bar{z}$ (dashed), reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 13. Reflectance implied by the Gaussian fit to $R\bar{x}$ (solid) and to $R\bar{z}$ (dashed), reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Reflectance × CMF
 
 ![Gaussian: R·x̄ and R·z̄](img/method_gaussian_products.png)
 
-*Figure 15. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and Gaussian extrapolation. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 14. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and Gaussian extrapolation. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Reading 31
 
-*Table 15. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 13. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -682,7 +616,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.4009 | 0.5016 | 0.5117 | +0.0095 | -0.0005 | +0.0568 | 0.0189 | 2.01 |
 | Magenta | 0.4153 | 0.3828 | 0.4190 | +0.0071 | -0.0005 | +0.0413 | 0.0155 | 1.58 |
 
-*Table 16. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 14. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -694,7 +628,7 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 | Cyan | 0.5909 | 0.7793 | 0.7722 | +0.0104 | -0.0007 | +0.0652 | 0.0144 | 1.60 |
 | Magenta | 0.6382 | 0.5798 | 0.6592 | +0.0084 | -0.0008 | +0.0502 | 0.0120 | 1.31 |
 
-*Table 17. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 15. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -773,21 +707,21 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 ![Gaussian: swatches](img/method_gaussian_swatches.png)
 
-*Figure 16. For each ramp, the reading with the largest ΔE: raw data (left) and Gaussian extrapolation (right). Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Figure 15. For each ramp, the reading with the largest ΔE: raw data (left) and Gaussian extrapolation (right). Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 #### Observations and verdict
 
-*Table 18. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 16. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
 | From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
 |---|---:|---:|---:|---:|
 | R·x̄ | 3.19 % | 0 / 672 | 632 / 672 | 4.29 |
 | R·z̄ | 9.30 % | 0 / 672 | 672 / 672 | 12.52 |
 
-- **The implied reflectance is implausible.** It never exceeds 100 % (maximum 9.30 %), so it is not physically impossible. However, the $\bar{z}$ fit implies more reflectance below 440 nm than the highest value measured from 440 nm upward in every spectrum (672 of 672), by up to 12.5 times; the $\bar{x}$ fit does so in 632 of 672. Figure 14 shows the White patch climbing above 4 % near 380 nm, while its measured spectrum never exceeds 0.8 %. Nothing in the reliable bands points to such a violet peak.
+- **The implied reflectance is implausible.** It never exceeds 100 % (maximum 9.30 %), so it is not physically impossible. However, the $\bar{z}$ fit implies more reflectance below 440 nm than the highest value measured from 440 nm upward in every spectrum (672 of 672), by up to 12.5 times; the $\bar{x}$ fit does so in 632 of 672. Figure 13 shows the White patch climbing above 4 % near 380 nm, while its measured spectrum never exceeds 0.8 %. Nothing in the reliable bands points to such a violet peak.
 - **The two fits disagree.** The $\bar{x}$ fit implies much less reflectance than the $\bar{z}$ fit (maximum 3.19 % against 9.30 %).
 - **Largest change of all methods.** Mean ΔE is 2.25 and the maximum is 3.82. Z rises in every spectrum, between +0.0248 and +0.0822.
-- **Colours shift towards blue.** More Z means a lower x and y (see Figure 21).
+- **Colours shift towards blue.** More Z means a lower x and y (see Figure 20).
 - **Verdict: rejected.** The result in XYZ is not far from hold (section 6), but it is reached through implausible spectra. Without a physical constraint on the fit, the method cannot be trusted.
 
 ### 5.3 Hold
@@ -805,24 +739,24 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 #### Assumptions and limits
 
 - The method assumes no spectral feature below 440 nm: no peak and no dip.
-- If the screen absorbs more strongly below 440 nm, for example in the polarizer, hold **overestimates** the region. Section 4.2 shows a common drop in all colours below 437 nm. If that drop is real and not an instrument artefact, the truth lies between truncation and hold.
+- If the screen absorbs more strongly below 440 nm, for example in the polarizer, hold **overestimates** the region. Section 4.1 shows a common drop in all colours below 437 nm. If that drop is real and not an instrument artefact, the truth lies between truncation and hold.
 - The implied reflectance can never exceed the measured value at 440 nm, so it can never exceed 100 % or the spectrum's own measured maximum.
 
 #### Spectrum
 
 ![Hold: implied reflectance](img/method_hold_spectrum.png)
 
-*Figure 17. Reflectance implied by hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 16. Reflectance implied by hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Reflectance × CMF
 
 ![Hold: R·x̄ and R·z̄](img/method_hold_products.png)
 
-*Figure 18. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and hold. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 17. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and hold. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Reading 31
 
-*Table 19. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 17. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -834,7 +768,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.3989 | 0.5023 | 0.4912 | +0.0075 | +0.0003 | +0.0363 | 0.0122 | 1.30 |
 | Magenta | 0.4158 | 0.3835 | 0.4140 | +0.0075 | +0.0002 | +0.0363 | 0.0134 | 1.39 |
 
-*Table 20. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 18. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -846,7 +780,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | Cyan | 0.5899 | 0.7803 | 0.7521 | +0.0094 | +0.0003 | +0.0451 | 0.0100 | 1.12 |
 | Magenta | 0.6391 | 0.5809 | 0.6540 | +0.0093 | +0.0003 | +0.0449 | 0.0105 | 1.17 |
 
-*Table 21. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 19. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -925,11 +859,11 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 ![Hold: swatches](img/method_hold_swatches.png)
 
-*Figure 19. For each ramp, the reading with the largest ΔE: raw data (left) and hold (right). Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Figure 18. For each ramp, the reading with the largest ΔE: raw data (left) and hold (right). Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 #### Observations and verdict
 
-*Table 22. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 20. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
 | From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
 |---|---:|---:|---:|---:|
@@ -938,7 +872,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 - **Always physically possible.** The implied reflectance never exceeds 0.91 %, the highest value measured at 440 nm, and never exceeds the spectrum's own maximum from 440 nm upward.
 - **Z rises in every spectrum,** between +0.0213 and +0.0564. X rises about five times less and Y by at most 0.0004.
-- **Colours shift towards blue,** like the Gaussian method but less (see Figure 21).
+- **Colours shift towards blue,** like the Gaussian method but less (see Figure 20).
 - **Dark readings change most in ΔE.** The largest values (up to 3.33, Blue #4, 0°) are mostly at readings 0–9. At those levels a fixed amount of added Z is a larger share of the colour.
 - **Verdict: the most plausible estimate.** Hold is simple, consistent across X, Y and Z, and always physically possible. It is an upper bound if the screen absorbs more below 440 nm.
 
@@ -946,7 +880,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 > **In short:** truncation and hold bracket the plausible answer, and the gap between them is the real uncertainty. Hold is the recommended method.
 
-*Table 23. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
+*Table 21. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
 
 | Method | mean ΔX | mean ΔY | mean ΔZ | mean Δxy | mean ΔE | p95 ΔE | max ΔE | mean ΔE #31 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -955,7 +889,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | gaussian | +0.0074 | -0.0003 | +0.0429 | 0.0231 | 2.25 | 3.02 | 3.82 | 1.97 |
 | hold | +0.0066 | +0.0002 | +0.0319 | 0.0177 | 1.74 | 2.47 | 3.33 | 1.37 |
 
-*Table 24. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
+*Table 22. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
 
 | Pair | mean ΔZ | mean ΔE | max ΔE |
 |---|---:|---:|---:|
@@ -966,33 +900,33 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | truncation vs hold | +0.0580 | 2.91 | 3.77 |
 | gaussian vs hold | -0.0111 | 0.52 | 1.19 |
 
-*Table 25. Summary of the plausibility checks, compiled from Tables 14, 18 and 22 and the cleaning diagnostics printed by `scripts/5_evaluate_method.py --method cleaning`. Shares above the historical repeatability reference after cleaning (ΔE 0.22, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
+*Table 23. Summary of the plausibility checks, compiled from Tables 12, 16 and 20 and the cleaning diagnostics printed by `scripts/5_evaluate_method.py --method cleaning`. Shares above the historical repeatability reference after cleaning (ΔE 0.22, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
 
 | Method | Treats the 423–437 nm region | Implied reflectance below 440 nm | Share of spectra changed beyond the historical repeatability reference |
 |---|---|---|---:|
-| cleaning | Removes 423.333 nm; keeps 426.667–436.667 nm (contaminated) | Measured values, max 0.85 % | 66 % |
+| cleaning | Removes 423.333 nm; keeps the uncertain 426.667–436.667 nm region | Measured values, max 0.85 % | 66 % |
 | truncation | Replaces it | 0 everywhere | 98 % |
 | gaussian | Replaces it | Up to 9.30 %; above own measured maximum in 672 / 672 spectra | 100 % |
 | hold | Replaces it | Up to 0.91 %, never above own measured maximum | 100 % |
 
 ![Mean and max ΔE per ramp](img/6_delta_e.png)
 
-*Figure 20. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the historical repeatability p95 after section 3 cleaning (ΔE 0.22), not a significance threshold. Produced by `scripts/6_compare_methods.py`.*
+*Figure 19. Mean ΔE (bars) and max ΔE (ticks) per ramp and method, against the raw data. The dashed line is the historical repeatability p95 after section 3 cleaning (ΔE 0.22), not a significance threshold. Produced by `scripts/6_compare_methods.py`.*
 
 ![Chromaticity of reading 31](img/6_xy.png)
 
-*Figure 21. Chromaticity of reading 31 at 0°, one zoomed panel per ramp: raw data (circle) and the four methods. Produced by `scripts/6_compare_methods.py`.*
+*Figure 20. Chromaticity of reading 31 at 0°, one zoomed panel per ramp: raw data (circle) and the four methods. Produced by `scripts/6_compare_methods.py`.*
 
 What the comparison shows:
 
 - **Reconstruction changes are often larger than historical repeat differences after cleaning.** Truncation changes 98 % of spectra by more than the reference of 0.22; Gaussian and hold change all of them by more. This puts the size of the changes in context, without establishing their statistical significance or correctness.
-- **The methods move colours in opposite directions** (Figure 21). Truncation moves every colour towards yellow. Gaussian and hold move it towards blue. Cleaning stays close to the raw data, because it keeps the contaminated bands.
+- **The methods move colours in opposite directions** (Figure 20). Truncation moves every colour towards yellow. Gaussian and hold move it towards blue. Cleaning stays close to the raw data, because it keeps most of the transition region.
 - **Truncation and hold set the range.** If the true reflectance below 440 nm lies anywhere between 0 and the value at 440 nm, the true colour lies between these two methods. They are 2.91 ΔE apart on average, about thirteen times the historical repeatability reference after cleaning. **This illustrates reconstruction uncertainty under those assumptions, not a statistical confidence interval.**
 - **Gaussian and hold agree in XYZ** (mean ΔE 0.52). They arrive there by very different routes: the Gaussian through an implausible violet peak, hold through a plausible reflectance.
 
 **Choice: hold.** It is the only method that:
 
-1. replaces all the contaminated bands;
+1. replaces the entire region below the chosen cutoff;
 2. never implies a reflectance above what the same spectrum shows from 440 nm upward;
 3. uses the same reflectance for X, Y and Z;
 4. needs no fitting and no free parameters.
@@ -1001,10 +935,10 @@ Hold sits at the upper end of the plausible range. If future measurements show t
 
 ## 7 Conclusions
 
-1. **The ColorMunki Photo does not measure below 440 nm on this screen.** Up to 420 nm it returns a flat, mostly negative line that follows the patch brightness. Between 420 and 437 nm that line still leaks into the signal.
+1. **The short-wavelength measurements need caution.** Up to 420 nm the ColorMunki Photo returns a flat, mostly negative line that follows the patch brightness. Below about 437 nm all colours share a common drop whose origin remains uncertain.
 2. **The damage is in X and Z, not in Y.** Below 440 nm lies 20.4 % of Z and 3.6 % of X for a uniform reflector under D50, against 0.1 % of Y. Above 700 nm the instrument is noisy, but the region contributes at most 0.13 % and can be ignored.
-3. **The cutoff is 440 nm.** It is the lowest band where the baseline leak drops to the background level of the estimate (below 5 %).
-4. **Cleaning alone is not enough.** It removes impossible values but keeps contaminated bands.
+3. **The operational cutoff is 440 nm.** It lies just above the common drop. This is a reconstruction choice, not a validated boundary of instrument reliability.
+4. **Cleaning alone does not address the whole transition region.** It removes impossible values but keeps the uncertain bands from 426.667 to 436.667 nm.
 5. **Truncation is a lower bound.** It assumes the reflectance drops to zero in one step, which no real material does.
 6. **Gaussian extrapolation is rejected.** In every spectrum it implies more reflectance below 440 nm than the same spectrum's measured maximum from 440 nm upward, by up to 12.5 times.
 7. **Hold is recommended.** It is simple, always physically possible and consistent across X, Y and Z.
@@ -1014,14 +948,13 @@ Hold sits at the upper end of the plausible range. If future measurements show t
 ## 8 Limitations and open questions
 
 - **No ground truth.** No method can be proven correct without a reference measurement of the same screen below 440 nm, for example with a spectroradiometer or a spectrophotometer whose range covers 380 nm reliably. Such a measurement would also decide where the truth lies between truncation and hold.
-- **Polarizer or instrument?** The common drop below 437 nm (section 4.2) could be an instrument artefact or a real absorption in the polarizer or the screen protector. If it is real, hold overestimates Z.
+- **Polarizer or instrument?** The common drop below 437 nm (section 4.1) could be an instrument artefact or a real absorption in the polarizer or the screen protector. If it is real, hold overestimates Z.
 - **Screen protector.** It was not removed. Its transmission below 440 nm is unknown and is included in every measurement.
 - **Orientation dependence.** The per-orientation results in sections 3 and 5 differ. It is still open which acquisition geometry, if any, represents how the screen is seen in normal use.
 - **Repeatability reference.** The five-reading patch blocks come from May greyscale measurements, not the November colour ramps. Their pooled p95 of 0.22 describes repeatability after section 3 cleaning, not the variability of the raw exports. It is an empirical reference, not a verified noise floor for every patch, a significance test or an accuracy estimate (see [section 2.3](#23-noise-floor)).
-- **Zone thresholds.** The 5 %, 10 % and 25 % leak thresholds are judgement calls. The 5 % threshold is anchored to the background level of the estimate. The other two only separate degrees of contamination and do not affect the cutoff.
 - **Gaussian method.** Y was not reconstructed. This does not change the verdict, because it accounts for only 0.1 % of Y.
 - **Above 700 nm.** The instability was not corrected, because its effect on XYZ is negligible (Table 1). It would matter for observers or illuminants with more weight in the deep red.
-- **One console.** The analysis covers a single Game Boy Color. Other handhelds measured with the same instrument share the 440 nm limit, but the size of the effect depends on each screen's blue reflectance.
+- **One console.** The analysis covers a single Game Boy Color. The operational cutoff and the size of the reconstruction effect cannot be assumed to apply to every handheld measured with the same instrument.
 
 ## 9 References
 

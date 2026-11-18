@@ -102,7 +102,7 @@ Each script prints its tables and lists the figures it saved.
 | `1_spectrum_to_xyz.py` | 1 | `1a_reflected_light.png`, `1b_light_to_xyz.png`, `1_white_ramp.png`, share of X, Y, Z below the cutoff and above 700 nm |
 | `2_noise_floor.py` | 2.3 | Historical repeated-patch source counts, mean/p95/max pairwise ΔE, per-patch p95 ΔE |
 | `3_band_below_420.py` | 3 | `3_zoom_380_470.png`, negative values per region, baseline statistics |
-| `4_band_420_440.py` | 4 | Baseline leak table, zones table, cutoff candidates table, `4_drop_shape.png`, `4_zones.png` |
+| `4_band_420_440.py` | 4 | Cutoff candidates table (shares of X and Z below each cutoff), `4_drop_shape.png` |
 | `5_evaluate_method.py --method NAME` | 3, 5 | `method_NAME_spectrum.png`, `method_NAME_products.png`, `method_NAME_swatches.png`, reading 31 tables, ramp tables, implied reflectance table |
 | `6_compare_methods.py` | 6 | Comparison tables, `6_delta_e.png`, `6_xy.png` |
 
