@@ -5,7 +5,6 @@ from common import REPEAT_DATA, md_table, noise_floor, repeatability
 differences = repeatability()
 print(f"\nSources: {REPEAT_DATA}\n")
 print("Five readings per greyscale patch; ten within-patch pairs; section 3 cleaning before D50, CIE 1931 2° integration.")
-print("Bands through 423.333 nm inclusive and all negative reflectance values are set to zero.")
 rows = []
 for filename, values in differences.items():
     rows.append([filename, values.shape[0], values.shape[0] * 5, values.size,

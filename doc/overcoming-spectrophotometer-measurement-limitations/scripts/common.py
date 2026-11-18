@@ -95,7 +95,7 @@ def orientation_metrics():
 
 
 def clean(wl, R):
-    """Bands through 423.333 nm inclusive and all negative values set to 0."""
+    """Zero all bands through 423.3 nm and any remaining negative values."""
     return np.clip(np.where(wl <= wl[band(wl, CLEAN_END)], 0.0, R), 0.0, None)
 
 
