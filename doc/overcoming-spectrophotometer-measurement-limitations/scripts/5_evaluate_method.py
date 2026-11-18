@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from common import (
-    CUTOFF, FULL, ORIENTATIONS, RAMP_COLOURS, RAMP_HEADER, RAMPS, clean, cmfs, integrands, load, md_table, metrics,
-    IMG, noise_floor, plot_swatches, ramp_summary_row, save, signed, weights,
+    CUTOFF, FULL, ORIENTATIONS, RAMP_COLOURS, RAMPS, clean, cmfs, integrands, load, md_table, metrics,
+    IMG, noise_floor, plot_swatches, save, signed, weights,
 )
 from methods import METHODS
 
@@ -95,37 +95,22 @@ if name == "cleaning":
             plt.close(figure)
             print(f"saved img/{filename}")
 
-    for orientation, label in ORIENTATIONS.items():
-        differences = res[orientation][2]
-        rows = []
-        for ramp in ("Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White"):
-            ramp_index = RAMPS.index(ramp)
-            values = differences["dE"][ramp_index]
-            rows.append([
-                ramp, *(signed(differences[metric][ramp_index, FULL]) for metric in ("dX", "dY", "dZ")),
-                f"{differences['dxy'][ramp_index, FULL]:.4f}",
-                f"{values.mean():.2f}", f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}",
-            ])
-        values = differences["dE"]
-        rows.append(["All ramps", *(["N/A"] * 4), f"{values.mean():.2f}",
-                     f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}"])
-        print(f"\n{name}, {label}\n")
-        print(md_table(["Colour", "ΔX", "ΔY", "ΔZ", "Δxy", "Mean ΔE", "p95 ΔE", "Max ΔE"], rows))
-else:
-    for o, label in ORIENTATIONS.items():
-        raw, new, m = res[o]
-        rows = []
-        for k, ramp in enumerate(RAMPS):
-            X, Y, Z = new[k, FULL].sum(-1)
-            rows.append([ramp, f"{X:.4f}", f"{Y:.4f}", f"{Z:.4f}", *(signed(m[d][k, FULL]) for d in ("dX", "dY", "dZ")),
-                         f"{m['dxy'][k, FULL]:.4f}", f"{m['dE'][k, FULL]:.2f}"])
-        print(f"\n{name}, reading {FULL}, {label}\n")
-        print(md_table(["Ramp", "X", "Y", "Z", "ΔX", "ΔY", "ΔZ", "Δxy", "ΔE"], rows))
-
-    for k, ramp in enumerate(RAMPS):
-        rows = [ramp_summary_row(label, {d: v[k] for d, v in res[o][2].items()}) for o, label in ORIENTATIONS.items()]
-        print(f"\n{name}, {ramp} ramp, readings 0–{FULL}\n")
-        print(md_table(RAMP_HEADER, rows))
+for orientation, label in ORIENTATIONS.items():
+    differences = res[orientation][2]
+    rows = []
+    for ramp in ("Red", "Green", "Blue", "Yellow", "Cyan", "Magenta", "White"):
+        ramp_index = RAMPS.index(ramp)
+        values = differences["dE"][ramp_index]
+        rows.append([
+            ramp, *(signed(differences[metric][ramp_index, FULL]) for metric in ("dX", "dY", "dZ")),
+            f"{differences['dxy'][ramp_index, FULL]:.4f}",
+            f"{values.mean():.2f}", f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}",
+        ])
+    values = differences["dE"]
+    rows.append(["All ramps", *(["N/A"] * 4), f"{values.mean():.2f}",
+                 f"{np.percentile(values, 95):.2f}", f"{values.max():.2f}"])
+    print(f"\n{name}, {label}\n")
+    print(md_table(["Colour", "ΔX", "ΔY", "ΔZ", "Δxy", "Mean ΔE", "p95 ΔE", "Max ΔE"], rows))
 
 dE = np.stack([res[o][2]["dE"] for o in ORIENTATIONS])
 _, floor95 = noise_floor()
@@ -134,14 +119,13 @@ print(f"\n{name}, all spectra: mean ΔE = {np.nanmean(dE):.2f}, max ΔE = {np.na
 
 below = wl < CUTOFF - 1e-3
 measured = np.stack([clean(wl, load(o)[1])[..., ~below].max(-1) for o in ORIENTATIONS])
-rows = []
+print(f"\n{name}, reflectance implied below {CUTOFF:g} nm\n")
 for ch, label in ((0, "R·x̄"), (2, "R·z̄")):
     implied = np.stack([res[o][1][..., ch, below] / weights(wl)[ch, below] for o in ORIENTATIONS]).max(-1)
-    rows.append([label, f"{implied.max():.2f} %", f"{(implied > 100).sum()} / {implied.size}",
-                 f"{(implied > measured + 1e-9).sum()} / {implied.size}", f"{(implied / measured).max():.2f}"])
-print(f"\n{name}, reflectance implied below {CUTOFF:g} nm\n")
-print(md_table(["From", "Max", "Spectra above 100 %", f"Spectra above own max ≥ {CUTOFF:g} nm",
-                f"Max ratio to own max ≥ {CUTOFF:g} nm"], rows))
+    print(f"{label}: max reflectance {implied.max():.2f} %; "
+          f"{(implied > 100).sum()}/{implied.size} spectra above 100 %; "
+          f"{(implied > measured + 1e-9).sum()}/{implied.size} above their own measured maximum "
+          f"at or above {CUTOFF:g} nm (largest ratio {np.max(implied / measured):.2f}).")
 
 cases = []
 for k, ramp in enumerate(RAMPS):

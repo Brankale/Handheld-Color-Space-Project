@@ -103,7 +103,7 @@ Each script prints its tables and lists the figures it saved.
 | `2_noise_floor.py` | 2.3 | Historical repeated-patch source counts, mean/p95/max pairwise ΔE, per-patch p95 ΔE |
 | `3_band_below_420.py` | 3 | `3_zoom_380_470.png`, negative values per region, baseline statistics |
 | `4_band_420_440.py` | 4 | Cutoff candidates table (shares of X and Z below each cutoff), `4_drop_shape.png` |
-| `5_evaluate_method.py --method NAME` | 3, 5 | `method_NAME_spectrum.png`, `method_NAME_products.png`, `method_NAME_swatches.png`, reading 31 tables, ramp tables, implied reflectance table |
+| `5_evaluate_method.py --method NAME` | 3, 5 | `method_NAME_spectrum.png`, `method_NAME_products.png`, `method_NAME_swatches.png`, three orientation tables (patch #31 deltas and mean/p95/max ΔE over all readings), implied-reflectance diagnostics as text |
 | `6_compare_methods.py` | 6 | Comparison tables, `6_delta_e.png`, `6_xy.png` |
 
 The cutoff used by sections 5 and 6 is `CUTOFF` in `common.py`.

@@ -182,10 +182,11 @@ Every method changes the spectrum, so it also changes XYZ. We compare the XYZ of
 - **The raw data are not the truth.** They are just the common reference. ΔE tells us how much a method changes the colour. It does not tell us whether the change is correct. We judge correctness separately, with physical plausibility checks.
 - **Swatches.** XYZ values calculated under D50 are converted to sRGB. For display only, a fixed exposure maps $Y = 1$ (1 % reflectance) to sRGB white; otherwise every swatch would be almost black. Colours outside sRGB are clipped and marked with `*`.
 
-For each method we report:
+For every method, one table per orientation uses the same columns:
 
-- one table per orientation for reading 31, the full-intensity colour;
-- one table per ramp summarising all 32 readings.
+- **ΔX, ΔY, ΔZ and Δxy:** method versus raw for the full-intensity patch (reading #31), not ramp averages. Values are rounded to four decimals; 0.0000 need not mean exactly zero.
+- **Mean, p95 and max ΔE:** all 32 readings of each colour ramp. p95 describes the distribution of method-induced changes, not repeatability.
+- **All ramps:** ΔE statistics pooled over the 224 measurements at that orientation. Patch-specific deltas are N/A because there is no single patch representing all ramps.
 
 ### 2.3 Noise floor
 
@@ -442,107 +443,6 @@ Assume the screen reflects nothing below 440 nm.
 
 *Figure 11. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and truncation. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
-#### Reading 31
-
-*Table 9. Truncation, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5591 | 0.6206 | 0.4485 | -0.0123 | -0.0006 | -0.0604 | 0.0178 | 1.98 |
-| Red | 0.3667 | 0.3113 | 0.1853 | -0.0042 | -0.0002 | -0.0208 | 0.0124 | 1.01 |
-| Green | 0.3420 | 0.4328 | 0.2582 | -0.0029 | -0.0002 | -0.0146 | 0.0074 | 0.57 |
-| Blue | 0.2240 | 0.2718 | 0.3030 | -0.0063 | -0.0003 | -0.0310 | 0.0157 | 1.61 |
-| Yellow | 0.5085 | 0.5294 | 0.2908 | -0.0067 | -0.0003 | -0.0333 | 0.0131 | 1.19 |
-| Cyan | 0.3817 | 0.5016 | 0.4073 | -0.0097 | -0.0005 | -0.0476 | 0.0172 | 1.68 |
-| Magenta | 0.3986 | 0.3828 | 0.3303 | -0.0096 | -0.0005 | -0.0474 | 0.0190 | 2.08 |
-
-*Table 10. Truncation, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.8999 | 1.0050 | 0.7125 | -0.0203 | -0.0009 | -0.0997 | 0.0183 | 2.25 |
-| Red | 0.5192 | 0.4193 | 0.2415 | -0.0079 | -0.0004 | -0.0389 | 0.0170 | 1.49 |
-| Green | 0.4718 | 0.6127 | 0.3464 | -0.0064 | -0.0003 | -0.0317 | 0.0118 | 0.96 |
-| Blue | 0.2913 | 0.3668 | 0.4420 | -0.0133 | -0.0006 | -0.0652 | 0.0228 | 2.46 |
-| Yellow | 0.8088 | 0.8398 | 0.4291 | -0.0113 | -0.0005 | -0.0554 | 0.0142 | 1.44 |
-| Cyan | 0.5643 | 0.7793 | 0.6273 | -0.0162 | -0.0007 | -0.0796 | 0.0189 | 1.96 |
-| Magenta | 0.6123 | 0.5798 | 0.5233 | -0.0175 | -0.0008 | -0.0857 | 0.0217 | 2.58 |
-
-*Table 11. Truncation, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5478 | 0.6051 | 0.4389 | -0.0117 | -0.0006 | -0.0577 | 0.0174 | 1.93 |
-| Red | 0.3188 | 0.2655 | 0.1559 | -0.0030 | -0.0002 | -0.0151 | 0.0106 | 0.81 |
-| Green | 0.3133 | 0.3889 | 0.2313 | -0.0038 | -0.0002 | -0.0187 | 0.0104 | 0.79 |
-| Blue | 0.2106 | 0.2486 | 0.2724 | -0.0060 | -0.0003 | -0.0296 | 0.0165 | 1.69 |
-| Yellow | 0.4912 | 0.5093 | 0.2771 | -0.0059 | -0.0003 | -0.0293 | 0.0121 | 1.08 |
-| Cyan | 0.3644 | 0.4808 | 0.3894 | -0.0095 | -0.0004 | -0.0467 | 0.0177 | 1.70 |
-| Magenta | 0.3938 | 0.3735 | 0.3267 | -0.0105 | -0.0005 | -0.0517 | 0.0209 | 2.22 |
-
-#### All readings
-
-<details>
-<summary>Truncation: one table per ramp, readings 0–31 (produced by <code>scripts/5_evaluate_method.py --method truncation</code>)</summary>
-
-**White**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0125 … -0.0009 | -0.0006 … -0.0001 | -0.0613 … -0.0047 | 0.0144 ± 0.0038 | 1.40 ± 0.47 | 1.99 (#30) |
-| 90° | -0.0203 … -0.0036 | -0.0009 … -0.0002 | -0.0997 … -0.0178 | 0.0164 ± 0.0015 | 1.77 ± 0.32 | 2.26 (#29) |
-| 180° | -0.0117 … -0.0015 | -0.0006 … -0.0001 | -0.0577 … -0.0078 | 0.0123 ± 0.0026 | 1.08 ± 0.37 | 1.94 (#30) |
-
-**Red**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0044 … -0.0001 | -0.0002 … -0.0001 | -0.0219 … -0.0008 | 0.0085 ± 0.0028 | 0.66 ± 0.24 | 1.06 (#29) |
-| 90° | -0.0084 … -0.0024 | -0.0004 … -0.0002 | -0.0413 … -0.0119 | 0.0155 ± 0.0026 | 1.34 ± 0.21 | 1.60 (#24) |
-| 180° | -0.0031 … -0.0007 | -0.0002 … -0.0001 | -0.0154 … -0.0037 | 0.0070 ± 0.0022 | 0.49 ± 0.17 | 0.84 (#30) |
-
-**Green**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0035 … -0.0005 | -0.0002 … -0.0001 | -0.0177 … -0.0028 | 0.0062 ± 0.0023 | 0.46 ± 0.18 | 0.71 (#24) |
-| 90° | -0.0069 … -0.0028 | -0.0003 … -0.0002 | -0.0338 … -0.0140 | 0.0121 ± 0.0007 | 0.98 ± 0.10 | 1.31 (#0) |
-| 180° | -0.0038 … +0.0003 | -0.0002 … 0.0000 | -0.0187 … +0.0013 | 0.0061 ± 0.0025 | 0.43 ± 0.19 | 0.79 (#31) |
-
-**Blue**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0068 … -0.0003 | -0.0003 … -0.0001 | -0.0335 … -0.0018 | 0.0118 ± 0.0051 | 1.22 ± 0.54 | 1.73 (#30) |
-| 90° | -0.0137 … -0.0032 | -0.0006 … -0.0002 | -0.0674 … -0.0160 | 0.0185 ± 0.0032 | 2.02 ± 0.31 | 2.51 (#29) |
-| 180° | -0.0063 … -0.0003 | -0.0003 … -0.0001 | -0.0311 … -0.0019 | 0.0112 ± 0.0043 | 1.18 ± 0.52 | 1.82 (#30) |
-
-**Yellow**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0067 … -0.0015 | -0.0003 … -0.0001 | -0.0333 … -0.0075 | 0.0116 ± 0.0013 | 0.97 ± 0.16 | 1.19 (#31) |
-| 90° | -0.0114 … -0.0043 | -0.0005 … -0.0002 | -0.0558 … -0.0213 | 0.0148 ± 0.0009 | 1.39 ± 0.16 | 1.85 (#0) |
-| 180° | -0.0059 … -0.0003 | -0.0003 … -0.0001 | -0.0293 … -0.0019 | 0.0078 ± 0.0025 | 0.60 ± 0.22 | 1.08 (#31) |
-
-**Cyan**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0101 … -0.0016 | -0.0005 … -0.0001 | -0.0494 … -0.0084 | 0.0134 ± 0.0031 | 1.23 ± 0.35 | 1.74 (#30) |
-| 90° | -0.0165 … -0.0030 | -0.0007 … -0.0002 | -0.0809 … -0.0150 | 0.0162 ± 0.0022 | 1.61 ± 0.24 | 1.98 (#30) |
-| 180° | -0.0095 … -0.0011 | -0.0004 … -0.0001 | -0.0467 … -0.0056 | 0.0103 ± 0.0033 | 0.88 ± 0.37 | 1.70 (#31) |
-
-**Magenta**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | -0.0101 … -0.0025 | -0.0005 … -0.0001 | -0.0496 … -0.0125 | 0.0160 ± 0.0025 | 1.67 ± 0.35 | 2.16 (#29) |
-| 90° | -0.0176 … -0.0040 | -0.0008 … -0.0002 | -0.0864 … -0.0199 | 0.0192 ± 0.0021 | 2.22 ± 0.30 | 2.61 (#28) |
-| 180° | -0.0105 … -0.0013 | -0.0005 … -0.0001 | -0.0517 … -0.0065 | 0.0115 ± 0.0048 | 1.07 ± 0.58 | 2.22 (#31) |
-
-</details>
-
 #### Swatches
 
 ![Truncation: swatches](img/method_truncation_swatches.png)
@@ -551,12 +451,44 @@ Assume the screen reflects nothing below 440 nm.
 
 #### Observations and verdict
 
-*Table 12. Truncation, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+*Table 9. Truncation, 0°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
 
-| From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
-|---|---:|---:|---:|---:|
-| R·x̄ | 0.00 % | 0 / 672 | 0 / 672 | 0.00 |
-| R·z̄ | 0.00 % | 0 / 672 | 0 / 672 | 0.00 |
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | -0.0042 | -0.0002 | -0.0208 | 0.0124 | 0.66 | 1.03 | 1.06 |
+| Green | -0.0029 | -0.0002 | -0.0146 | 0.0074 | 0.46 | 0.70 | 0.71 |
+| Blue | -0.0063 | -0.0003 | -0.0310 | 0.0157 | 1.22 | 1.70 | 1.73 |
+| Yellow | -0.0067 | -0.0003 | -0.0333 | 0.0131 | 0.97 | 1.17 | 1.19 |
+| Cyan | -0.0097 | -0.0005 | -0.0476 | 0.0172 | 1.23 | 1.69 | 1.74 |
+| Magenta | -0.0096 | -0.0005 | -0.0474 | 0.0190 | 1.67 | 2.11 | 2.16 |
+| White | -0.0123 | -0.0006 | -0.0604 | 0.0178 | 1.40 | 1.95 | 1.99 |
+| All ramps | N/A | N/A | N/A | N/A | 1.09 | 1.96 | 2.16 |
+
+*Table 10. Truncation, 90°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | -0.0079 | -0.0004 | -0.0389 | 0.0170 | 1.34 | 1.58 | 1.60 |
+| Green | -0.0064 | -0.0003 | -0.0317 | 0.0118 | 0.98 | 1.13 | 1.31 |
+| Blue | -0.0133 | -0.0006 | -0.0652 | 0.0228 | 2.02 | 2.48 | 2.51 |
+| Yellow | -0.0113 | -0.0005 | -0.0554 | 0.0142 | 1.39 | 1.79 | 1.85 |
+| Cyan | -0.0162 | -0.0007 | -0.0796 | 0.0189 | 1.61 | 1.97 | 1.98 |
+| Magenta | -0.0175 | -0.0008 | -0.0857 | 0.0217 | 2.22 | 2.59 | 2.61 |
+| White | -0.0203 | -0.0009 | -0.0997 | 0.0183 | 1.77 | 2.25 | 2.26 |
+| All ramps | N/A | N/A | N/A | N/A | 1.62 | 2.46 | 2.61 |
+
+*Table 11. Truncation, 180°. Produced by `scripts/5_evaluate_method.py --method truncation`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | -0.0030 | -0.0002 | -0.0151 | 0.0106 | 0.49 | 0.80 | 0.84 |
+| Green | -0.0038 | -0.0002 | -0.0187 | 0.0104 | 0.43 | 0.74 | 0.79 |
+| Blue | -0.0060 | -0.0003 | -0.0296 | 0.0165 | 1.18 | 1.72 | 1.82 |
+| Yellow | -0.0059 | -0.0003 | -0.0293 | 0.0121 | 0.60 | 0.99 | 1.08 |
+| Cyan | -0.0095 | -0.0004 | -0.0467 | 0.0177 | 0.88 | 1.60 | 1.70 |
+| Magenta | -0.0105 | -0.0005 | -0.0517 | 0.0209 | 1.07 | 2.17 | 2.22 |
+| White | -0.0117 | -0.0006 | -0.0577 | 0.0174 | 1.08 | 1.82 | 1.94 |
+| All ramps | N/A | N/A | N/A | N/A | 0.82 | 1.70 | 2.22 |
 
 - **Z always drops.** ΔZ is negative in almost every spectrum, down to −0.0997 (White #31, 90°). X drops about five times less, and Y barely moves.
 - **Colours shift towards yellow.** Less Z means a higher x and y on the chromaticity diagram (see Figure 20).
@@ -602,107 +534,6 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 *Figure 14. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and Gaussian extrapolation. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
-#### Reading 31
-
-*Table 13. Gaussian, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5822 | 0.6206 | 0.5747 | +0.0108 | -0.0006 | +0.0658 | 0.0180 | 2.71 |
-| Red | 0.3781 | 0.3113 | 0.2465 | +0.0072 | -0.0002 | +0.0404 | 0.0224 | 1.87 |
-| Green | 0.3551 | 0.4328 | 0.3335 | +0.0102 | -0.0002 | +0.0608 | 0.0287 | 2.40 |
-| Blue | 0.2387 | 0.2718 | 0.3816 | +0.0084 | -0.0003 | +0.0476 | 0.0221 | 2.19 |
-| Yellow | 0.5258 | 0.5294 | 0.3876 | +0.0105 | -0.0003 | +0.0635 | 0.0233 | 2.12 |
-| Cyan | 0.4009 | 0.5016 | 0.5117 | +0.0095 | -0.0005 | +0.0568 | 0.0189 | 2.01 |
-| Magenta | 0.4153 | 0.3828 | 0.4190 | +0.0071 | -0.0005 | +0.0413 | 0.0155 | 1.58 |
-
-*Table 14. Gaussian, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.9325 | 1.0050 | 0.8906 | +0.0123 | -0.0009 | +0.0785 | 0.0136 | 2.20 |
-| Red | 0.5338 | 0.4193 | 0.3178 | +0.0067 | -0.0004 | +0.0374 | 0.0154 | 1.36 |
-| Green | 0.4895 | 0.6127 | 0.4482 | +0.0113 | -0.0003 | +0.0701 | 0.0241 | 2.12 |
-| Blue | 0.3111 | 0.3668 | 0.5466 | +0.0065 | -0.0006 | +0.0393 | 0.0127 | 1.31 |
-| Yellow | 0.8323 | 0.8398 | 0.5624 | +0.0122 | -0.0005 | +0.0779 | 0.0187 | 1.88 |
-| Cyan | 0.5909 | 0.7793 | 0.7722 | +0.0104 | -0.0007 | +0.0652 | 0.0144 | 1.60 |
-| Magenta | 0.6382 | 0.5798 | 0.6592 | +0.0084 | -0.0008 | +0.0502 | 0.0120 | 1.31 |
-
-*Table 15. Gaussian, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5708 | 0.6051 | 0.5644 | +0.0112 | -0.0006 | +0.0677 | 0.0189 | 2.87 |
-| Red | 0.3285 | 0.2655 | 0.2072 | +0.0067 | -0.0002 | +0.0362 | 0.0237 | 1.88 |
-| Green | 0.3253 | 0.3889 | 0.2997 | +0.0082 | -0.0002 | +0.0498 | 0.0258 | 2.13 |
-| Blue | 0.2243 | 0.2486 | 0.3451 | +0.0077 | -0.0003 | +0.0430 | 0.0219 | 2.13 |
-| Yellow | 0.5075 | 0.5093 | 0.3689 | +0.0104 | -0.0003 | +0.0624 | 0.0239 | 2.14 |
-| Cyan | 0.3834 | 0.4808 | 0.4946 | +0.0095 | -0.0004 | +0.0585 | 0.0203 | 2.12 |
-| Magenta | 0.4113 | 0.3735 | 0.4188 | +0.0070 | -0.0005 | +0.0403 | 0.0151 | 1.50 |
-
-#### All readings
-
-<details>
-<summary>Gaussian: one table per ramp, readings 0–31 (produced by <code>scripts/5_evaluate_method.py --method gaussian</code>)</summary>
-
-**White**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0059 … +0.0109 | -0.0006 … -0.0001 | +0.0331 … +0.0666 | 0.0206 ± 0.0040 | 2.66 ± 0.20 | 3.02 (#6) |
-| 90° | +0.0057 … +0.0131 | -0.0009 … -0.0002 | +0.0322 … +0.0822 | 0.0170 ± 0.0034 | 2.26 ± 0.20 | 2.76 (#5) |
-| 180° | +0.0050 … +0.0112 | -0.0006 … -0.0001 | +0.0272 … +0.0677 | 0.0224 ± 0.0027 | 2.59 ± 0.16 | 2.92 (#16) |
-
-**Red**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0063 … +0.0077 | -0.0002 … -0.0001 | +0.0350 … +0.0416 | 0.0266 ± 0.0043 | 2.27 ± 0.47 | 3.51 (#0) |
-| 90° | +0.0057 … +0.0071 | -0.0004 … -0.0002 | +0.0311 … +0.0386 | 0.0189 ± 0.0046 | 1.73 ± 0.51 | 2.92 (#0) |
-| 180° | +0.0045 … +0.0067 | -0.0002 … -0.0001 | +0.0250 … +0.0362 | 0.0265 ± 0.0018 | 2.13 ± 0.21 | 2.79 (#0) |
-
-**Green**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0069 … +0.0103 | -0.0002 … -0.0001 | +0.0400 … +0.0612 | 0.0311 ± 0.0033 | 2.69 ± 0.50 | 3.82 (#3) |
-| 90° | +0.0063 … +0.0115 | -0.0003 … -0.0002 | +0.0353 … +0.0716 | 0.0250 ± 0.0017 | 2.29 ± 0.36 | 3.14 (#3) |
-| 180° | +0.0054 … +0.0086 | -0.0002 … 0.0000 | +0.0298 … +0.0501 | 0.0306 ± 0.0026 | 2.60 ± 0.26 | 3.15 (#2) |
-
-**Blue**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0065 … +0.0084 | -0.0003 … -0.0001 | +0.0369 … +0.0476 | 0.0247 ± 0.0044 | 2.53 ± 0.50 | 3.59 (#4) |
-| 90° | +0.0058 … +0.0069 | -0.0006 … -0.0002 | +0.0334 … +0.0404 | 0.0179 ± 0.0052 | 1.83 ± 0.49 | 2.79 (#1) |
-| 180° | +0.0053 … +0.0077 | -0.0003 … -0.0001 | +0.0297 … +0.0430 | 0.0265 ± 0.0045 | 2.51 ± 0.35 | 3.23 (#3) |
-
-**Yellow**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0056 … +0.0106 | -0.0003 … -0.0001 | +0.0327 … +0.0642 | 0.0242 ± 0.0030 | 2.15 ± 0.36 | 3.15 (#0) |
-| 90° | +0.0059 … +0.0126 | -0.0005 … -0.0002 | +0.0339 … +0.0812 | 0.0206 ± 0.0021 | 2.01 ± 0.27 | 2.66 (#4) |
-| 180° | +0.0045 … +0.0104 | -0.0003 … -0.0001 | +0.0248 … +0.0624 | 0.0264 ± 0.0022 | 2.21 ± 0.16 | 2.88 (#0) |
-
-**Cyan**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0061 … +0.0097 | -0.0005 … -0.0001 | +0.0353 … +0.0579 | 0.0227 ± 0.0038 | 2.36 ± 0.40 | 3.32 (#3) |
-| 90° | +0.0064 … +0.0107 | -0.0007 … -0.0002 | +0.0368 … +0.0667 | 0.0186 ± 0.0042 | 1.99 ± 0.44 | 2.95 (#3) |
-| 180° | +0.0050 … +0.0095 | -0.0004 … -0.0001 | +0.0272 … +0.0585 | 0.0252 ± 0.0031 | 2.49 ± 0.27 | 3.06 (#9) |
-
-**Magenta**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0054 … +0.0077 | -0.0005 … -0.0001 | +0.0307 … +0.0438 | 0.0198 ± 0.0035 | 1.99 ± 0.33 | 2.68 (#1) |
-| 90° | +0.0058 … +0.0085 | -0.0008 … -0.0002 | +0.0324 … +0.0504 | 0.0154 ± 0.0040 | 1.60 ± 0.34 | 2.32 (#3) |
-| 180° | +0.0056 … +0.0071 | -0.0005 … -0.0001 | +0.0313 … +0.0403 | 0.0245 ± 0.0059 | 2.31 ± 0.49 | 2.89 (#8) |
-
-</details>
-
 #### Swatches
 
 ![Gaussian: swatches](img/method_gaussian_swatches.png)
@@ -711,12 +542,44 @@ Just above the cutoff, $R\bar{x}$ and $R\bar{z}$ look like the right half of a b
 
 #### Observations and verdict
 
-*Table 16. Gaussian, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+*Table 12. Gaussian, 0°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
 
-| From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
-|---|---:|---:|---:|---:|
-| R·x̄ | 3.19 % | 0 / 672 | 632 / 672 | 4.29 |
-| R·z̄ | 9.30 % | 0 / 672 | 672 / 672 | 12.52 |
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0072 | -0.0002 | +0.0404 | 0.0224 | 2.27 | 3.24 | 3.51 |
+| Green | +0.0102 | -0.0002 | +0.0608 | 0.0287 | 2.69 | 3.64 | 3.82 |
+| Blue | +0.0084 | -0.0003 | +0.0476 | 0.0221 | 2.53 | 3.54 | 3.59 |
+| Yellow | +0.0105 | -0.0003 | +0.0635 | 0.0233 | 2.15 | 2.90 | 3.15 |
+| Cyan | +0.0095 | -0.0005 | +0.0568 | 0.0189 | 2.36 | 3.19 | 3.32 |
+| Magenta | +0.0071 | -0.0005 | +0.0413 | 0.0155 | 1.99 | 2.56 | 2.68 |
+| White | +0.0108 | -0.0006 | +0.0658 | 0.0180 | 2.66 | 2.99 | 3.02 |
+| All ramps | N/A | N/A | N/A | N/A | 2.38 | 3.32 | 3.82 |
+
+*Table 13. Gaussian, 90°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0067 | -0.0004 | +0.0374 | 0.0154 | 1.73 | 2.80 | 2.92 |
+| Green | +0.0113 | -0.0003 | +0.0701 | 0.0241 | 2.29 | 3.04 | 3.14 |
+| Blue | +0.0065 | -0.0006 | +0.0393 | 0.0127 | 1.83 | 2.74 | 2.79 |
+| Yellow | +0.0122 | -0.0005 | +0.0779 | 0.0187 | 2.01 | 2.54 | 2.66 |
+| Cyan | +0.0104 | -0.0007 | +0.0652 | 0.0144 | 1.99 | 2.81 | 2.95 |
+| Magenta | +0.0084 | -0.0008 | +0.0502 | 0.0120 | 1.60 | 2.22 | 2.32 |
+| White | +0.0123 | -0.0009 | +0.0785 | 0.0136 | 2.26 | 2.69 | 2.76 |
+| All ramps | N/A | N/A | N/A | N/A | 1.96 | 2.78 | 3.14 |
+
+*Table 14. Gaussian, 180°. Produced by `scripts/5_evaluate_method.py --method gaussian`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0067 | -0.0002 | +0.0362 | 0.0237 | 2.13 | 2.40 | 2.79 |
+| Green | +0.0082 | -0.0002 | +0.0498 | 0.0258 | 2.60 | 2.97 | 3.15 |
+| Blue | +0.0077 | -0.0003 | +0.0430 | 0.0219 | 2.51 | 3.12 | 3.23 |
+| Yellow | +0.0104 | -0.0003 | +0.0624 | 0.0239 | 2.21 | 2.39 | 2.88 |
+| Cyan | +0.0095 | -0.0004 | +0.0585 | 0.0203 | 2.49 | 2.96 | 3.06 |
+| Magenta | +0.0070 | -0.0005 | +0.0403 | 0.0151 | 2.31 | 2.82 | 2.89 |
+| White | +0.0112 | -0.0006 | +0.0677 | 0.0189 | 2.59 | 2.84 | 2.92 |
+| All ramps | N/A | N/A | N/A | N/A | 2.41 | 2.95 | 3.23 |
 
 - **The implied reflectance is implausible.** It never exceeds 100 % (maximum 9.30 %), so it is not physically impossible. However, the $\bar{z}$ fit implies more reflectance below 440 nm than the highest value measured from 440 nm upward in every spectrum (672 of 672), by up to 12.5 times; the $\bar{x}$ fit does so in 632 of 672. Figure 13 shows the White patch climbing above 4 % near 380 nm, while its measured spectrum never exceeds 0.8 %. Nothing in the reliable bands points to such a violet peak.
 - **The two fits disagree.** The $\bar{x}$ fit implies much less reflectance than the $\bar{z}$ fit (maximum 3.19 % against 9.30 %).
@@ -754,107 +617,6 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 *Figure 17. $R\bar{x}$ and $R\bar{z}$ for White, Red and Blue at reading 31, 0°: raw data and hold. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
-#### Reading 31
-
-*Table 17. Hold, reading 31, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5797 | 0.6215 | 0.5485 | +0.0082 | +0.0003 | +0.0397 | 0.0109 | 1.64 |
-| Red | 0.3775 | 0.3117 | 0.2377 | +0.0066 | +0.0002 | +0.0316 | 0.0175 | 1.49 |
-| Green | 0.3524 | 0.4332 | 0.3090 | +0.0075 | +0.0002 | +0.0363 | 0.0176 | 1.43 |
-| Blue | 0.2388 | 0.2724 | 0.3749 | +0.0085 | +0.0003 | +0.0409 | 0.0189 | 1.95 |
-| Yellow | 0.5221 | 0.5300 | 0.3572 | +0.0069 | +0.0002 | +0.0331 | 0.0124 | 1.15 |
-| Cyan | 0.3989 | 0.5023 | 0.4912 | +0.0075 | +0.0003 | +0.0363 | 0.0122 | 1.30 |
-| Magenta | 0.4158 | 0.3835 | 0.4140 | +0.0075 | +0.0002 | +0.0363 | 0.0134 | 1.39 |
-
-*Table 18. Hold, reading 31, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.9313 | 1.0063 | 0.8654 | +0.0110 | +0.0004 | +0.0533 | 0.0092 | 1.46 |
-| Red | 0.5336 | 0.4199 | 0.3118 | +0.0065 | +0.0002 | +0.0314 | 0.0128 | 1.15 |
-| Green | 0.4853 | 0.6132 | 0.4123 | +0.0071 | +0.0002 | +0.0343 | 0.0121 | 1.04 |
-| Blue | 0.3121 | 0.3676 | 0.5432 | +0.0075 | +0.0002 | +0.0360 | 0.0114 | 1.24 |
-| Yellow | 0.8280 | 0.8405 | 0.5224 | +0.0079 | +0.0003 | +0.0379 | 0.0092 | 0.96 |
-| Cyan | 0.5899 | 0.7803 | 0.7521 | +0.0094 | +0.0003 | +0.0451 | 0.0100 | 1.12 |
-| Magenta | 0.6391 | 0.5809 | 0.6540 | +0.0093 | +0.0003 | +0.0449 | 0.0105 | 1.17 |
-
-*Table 19. Hold, reading 31, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
-
-| Ramp | X | Y | Z | ΔX | ΔY | ΔZ | Δxy | ΔE |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| White | 0.5681 | 0.6059 | 0.5378 | +0.0085 | +0.0003 | +0.0412 | 0.0116 | 1.77 |
-| Red | 0.3284 | 0.2659 | 0.2028 | +0.0066 | +0.0002 | +0.0318 | 0.0207 | 1.66 |
-| Green | 0.3230 | 0.3893 | 0.2784 | +0.0059 | +0.0002 | +0.0284 | 0.0151 | 1.21 |
-| Blue | 0.2242 | 0.2492 | 0.3384 | +0.0076 | +0.0002 | +0.0364 | 0.0184 | 1.87 |
-| Yellow | 0.5041 | 0.5098 | 0.3398 | +0.0069 | +0.0002 | +0.0334 | 0.0130 | 1.19 |
-| Cyan | 0.3811 | 0.4815 | 0.4709 | +0.0072 | +0.0002 | +0.0348 | 0.0122 | 1.28 |
-| Magenta | 0.4111 | 0.3742 | 0.4111 | +0.0068 | +0.0002 | +0.0326 | 0.0121 | 1.22 |
-
-#### All readings
-
-<details>
-<summary>Hold: one table per ramp, readings 0–31 (produced by <code>scripts/5_evaluate_method.py --method hold</code>)</summary>
-
-**White**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0054 … +0.0084 | +0.0002 … +0.0003 | +0.0260 … +0.0404 | 0.0147 ± 0.0045 | 1.87 ± 0.33 | 2.64 (#0) |
-| 90° | +0.0050 … +0.0117 | +0.0002 … +0.0004 | +0.0239 … +0.0564 | 0.0124 ± 0.0029 | 1.63 ± 0.22 | 2.27 (#5) |
-| 180° | +0.0048 … +0.0085 | +0.0002 … +0.0003 | +0.0231 … +0.0412 | 0.0171 ± 0.0032 | 1.96 ± 0.10 | 2.13 (#2) |
-
-**Red**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0058 … +0.0074 | +0.0002 … +0.0002 | +0.0281 … +0.0358 | 0.0223 ± 0.0036 | 1.92 ± 0.40 | 3.04 (#0) |
-| 90° | +0.0055 … +0.0065 | +0.0002 … +0.0002 | +0.0267 … +0.0314 | 0.0158 ± 0.0039 | 1.47 ± 0.44 | 2.46 (#1) |
-| 180° | +0.0044 … +0.0068 | +0.0001 … +0.0002 | +0.0213 … +0.0329 | 0.0250 ± 0.0022 | 2.03 ± 0.17 | 2.43 (#0) |
-
-**Green**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0057 … +0.0080 | +0.0002 … +0.0003 | +0.0273 … +0.0384 | 0.0210 ± 0.0038 | 1.79 ± 0.46 | 2.80 (#3) |
-| 90° | +0.0057 … +0.0071 | +0.0002 … +0.0002 | +0.0276 … +0.0343 | 0.0153 ± 0.0036 | 1.41 ± 0.50 | 2.54 (#3) |
-| 180° | +0.0053 … +0.0066 | +0.0002 … +0.0002 | +0.0254 … +0.0316 | 0.0232 ± 0.0050 | 1.92 ± 0.47 | 2.93 (#2) |
-
-**Blue**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0066 … +0.0086 | +0.0002 … +0.0003 | +0.0317 … +0.0414 | 0.0215 ± 0.0042 | 2.27 ± 0.48 | 3.33 (#4) |
-| 90° | +0.0053 … +0.0077 | +0.0002 … +0.0003 | +0.0256 … +0.0370 | 0.0150 ± 0.0029 | 1.62 ± 0.29 | 2.19 (#4) |
-| 180° | +0.0049 … +0.0076 | +0.0002 … +0.0002 | +0.0237 … +0.0364 | 0.0215 ± 0.0035 | 2.12 ± 0.26 | 2.70 (#3) |
-
-**Yellow**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0050 … +0.0070 | +0.0002 … +0.0002 | +0.0238 … +0.0337 | 0.0155 ± 0.0032 | 1.41 ± 0.34 | 2.40 (#0) |
-| 90° | +0.0045 … +0.0080 | +0.0001 … +0.0003 | +0.0217 … +0.0388 | 0.0119 ± 0.0023 | 1.19 ± 0.25 | 1.84 (#4) |
-| 180° | +0.0045 … +0.0075 | +0.0001 … +0.0002 | +0.0218 … +0.0359 | 0.0206 ± 0.0037 | 1.73 ± 0.29 | 2.60 (#0) |
-
-**Cyan**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0054 … +0.0081 | +0.0002 … +0.0003 | +0.0261 … +0.0389 | 0.0165 ± 0.0035 | 1.74 ± 0.39 | 2.58 (#3) |
-| 90° | +0.0054 … +0.0095 | +0.0002 … +0.0003 | +0.0261 … +0.0459 | 0.0135 ± 0.0032 | 1.47 ± 0.37 | 2.34 (#3) |
-| 180° | +0.0047 … +0.0076 | +0.0002 … +0.0002 | +0.0228 … +0.0367 | 0.0202 ± 0.0039 | 2.00 ± 0.34 | 2.48 (#9) |
-
-**Magenta**
-
-| Orientation | ΔX range | ΔY range | ΔZ range | Δxy mean ± sd | ΔE mean ± sd | ΔE max (reading) |
-|---|---:|---:|---:|---:|---:|---:|
-| 0° | +0.0046 … +0.0076 | +0.0001 … +0.0002 | +0.0221 … +0.0367 | 0.0158 ± 0.0019 | 1.63 ± 0.20 | 2.08 (#1) |
-| 90° | +0.0047 … +0.0094 | +0.0001 … +0.0003 | +0.0227 … +0.0454 | 0.0127 ± 0.0022 | 1.36 ± 0.18 | 1.80 (#3) |
-| 180° | +0.0050 … +0.0068 | +0.0002 … +0.0002 | +0.0242 … +0.0326 | 0.0200 ± 0.0042 | 1.92 ± 0.35 | 2.32 (#8) |
-
-</details>
-
 #### Swatches
 
 ![Hold: swatches](img/method_hold_swatches.png)
@@ -863,12 +625,44 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 #### Observations and verdict
 
-*Table 20. Hold, reflectance implied below 440 nm, over all 672 spectra. Produced by `scripts/5_evaluate_method.py --method hold`.*
+*Table 15. Hold, 0°. Produced by `scripts/5_evaluate_method.py --method hold`.*
 
-| From | Max | Spectra above 100 % | Spectra above own max ≥ 440 nm | Max ratio to own max ≥ 440 nm |
-|---|---:|---:|---:|---:|
-| R·x̄ | 0.91 % | 0 / 672 | 0 / 672 | 0.97 |
-| R·z̄ | 0.91 % | 0 / 672 | 0 / 672 | 0.97 |
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0066 | +0.0002 | +0.0316 | 0.0175 | 1.92 | 2.71 | 3.04 |
+| Green | +0.0075 | +0.0002 | +0.0363 | 0.0176 | 1.79 | 2.67 | 2.80 |
+| Blue | +0.0085 | +0.0003 | +0.0409 | 0.0189 | 2.27 | 3.25 | 3.33 |
+| Yellow | +0.0069 | +0.0002 | +0.0331 | 0.0124 | 1.41 | 2.16 | 2.40 |
+| Cyan | +0.0075 | +0.0003 | +0.0363 | 0.0122 | 1.74 | 2.47 | 2.58 |
+| Magenta | +0.0075 | +0.0002 | +0.0363 | 0.0134 | 1.63 | 1.97 | 2.08 |
+| White | +0.0082 | +0.0003 | +0.0397 | 0.0109 | 1.87 | 2.51 | 2.64 |
+| All ramps | N/A | N/A | N/A | N/A | 1.81 | 2.65 | 3.33 |
+
+*Table 16. Hold, 90°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0065 | +0.0002 | +0.0314 | 0.0128 | 1.47 | 2.38 | 2.46 |
+| Green | +0.0071 | +0.0002 | +0.0343 | 0.0121 | 1.41 | 2.43 | 2.54 |
+| Blue | +0.0075 | +0.0002 | +0.0360 | 0.0114 | 1.62 | 2.04 | 2.19 |
+| Yellow | +0.0079 | +0.0003 | +0.0379 | 0.0092 | 1.19 | 1.68 | 1.84 |
+| Cyan | +0.0094 | +0.0003 | +0.0451 | 0.0100 | 1.47 | 2.15 | 2.34 |
+| Magenta | +0.0093 | +0.0003 | +0.0449 | 0.0105 | 1.36 | 1.65 | 1.80 |
+| White | +0.0110 | +0.0004 | +0.0533 | 0.0092 | 1.63 | 2.11 | 2.27 |
+| All ramps | N/A | N/A | N/A | N/A | 1.45 | 2.22 | 2.54 |
+
+*Table 17. Hold, 180°. Produced by `scripts/5_evaluate_method.py --method hold`.*
+
+| Colour | ΔX | ΔY | ΔZ | Δxy | Mean ΔE | p95 ΔE | Max ΔE |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Red | +0.0066 | +0.0002 | +0.0318 | 0.0207 | 2.03 | 2.20 | 2.43 |
+| Green | +0.0059 | +0.0002 | +0.0284 | 0.0151 | 1.92 | 2.73 | 2.93 |
+| Blue | +0.0076 | +0.0002 | +0.0364 | 0.0184 | 2.12 | 2.57 | 2.70 |
+| Yellow | +0.0069 | +0.0002 | +0.0334 | 0.0130 | 1.73 | 2.17 | 2.60 |
+| Cyan | +0.0072 | +0.0002 | +0.0348 | 0.0122 | 2.00 | 2.44 | 2.48 |
+| Magenta | +0.0068 | +0.0002 | +0.0326 | 0.0121 | 1.92 | 2.29 | 2.32 |
+| White | +0.0085 | +0.0003 | +0.0412 | 0.0116 | 1.96 | 2.11 | 2.13 |
+| All ramps | N/A | N/A | N/A | N/A | 1.95 | 2.47 | 2.93 |
 
 - **Always physically possible.** The implied reflectance never exceeds 0.91 %, the highest value measured at 440 nm, and never exceeds the spectrum's own maximum from 440 nm upward.
 - **Z rises in every spectrum,** between +0.0213 and +0.0564. X rises about five times less and Y by at most 0.0004.
@@ -880,7 +674,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 
 > **In short:** truncation and hold bracket the plausible answer, and the gap between them is the real uncertainty. Hold is the recommended method.
 
-*Table 21. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
+*Table 18. All methods compared with the raw data: 3 orientations × 7 ramps × 32 readings. "mean ΔE #31" is the mean over reading 31 only. Produced by `scripts/6_compare_methods.py`.*
 
 | Method | mean ΔX | mean ΔY | mean ΔZ | mean Δxy | mean ΔE | p95 ΔE | max ΔE | mean ΔE #31 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -889,7 +683,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | gaussian | +0.0074 | -0.0003 | +0.0429 | 0.0231 | 2.25 | 3.02 | 3.82 | 1.97 |
 | hold | +0.0066 | +0.0002 | +0.0319 | 0.0177 | 1.74 | 2.47 | 3.33 | 1.37 |
 
-*Table 22. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
+*Table 19. Methods compared with each other, all spectra. ΔZ is the second method minus the first. Produced by `scripts/6_compare_methods.py`.*
 
 | Pair | mean ΔZ | mean ΔE | max ΔE |
 |---|---:|---:|---:|
@@ -900,7 +694,7 @@ Assume the reflectance stays at its 440 nm value all the way down to 380 nm.
 | truncation vs hold | +0.0580 | 2.91 | 3.77 |
 | gaussian vs hold | -0.0111 | 0.52 | 1.19 |
 
-*Table 23. Summary of the plausibility checks, compiled from Tables 12, 16 and 20 and the cleaning diagnostics printed by `scripts/5_evaluate_method.py --method cleaning`. Shares above the historical repeatability reference after cleaning (ΔE 0.22, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
+*Table 20. Summary of the plausibility checks, compiled from the implied-reflectance diagnostics printed by `scripts/5_evaluate_method.py --method cleaning`. Shares above the historical repeatability reference after cleaning (ΔE 0.22, section 2.3) are produced by `scripts/6_compare_methods.py` and also printed by `scripts/5_evaluate_method.py`.*
 
 | Method | Treats the 423–437 nm region | Implied reflectance below 440 nm | Share of spectra changed beyond the historical repeatability reference |
 |---|---|---|---:|
