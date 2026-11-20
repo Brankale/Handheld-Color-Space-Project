@@ -16,5 +16,3 @@
 
 ## Screen state
 - `screen protector / touchscreen overlay`: yes
-
-# Notes

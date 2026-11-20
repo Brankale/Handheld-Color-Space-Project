@@ -4,9 +4,6 @@
 - `date`: 2025/10/22
 - `handheld`: GBA SP AGS-001
 
-## Screen
-  - `screen location`: n.a.
-
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer

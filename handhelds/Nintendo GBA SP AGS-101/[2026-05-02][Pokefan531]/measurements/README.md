@@ -4,9 +4,6 @@
 - `date`: 2026/05/02
 - `handheld`: Nintendo GBA SP AGS-101
 
-## Screen
-- `screen location`: n.a.
-
 ## Meters
 - `name`: X-Rite ColorMunki Display
 - `type`: colorimeter

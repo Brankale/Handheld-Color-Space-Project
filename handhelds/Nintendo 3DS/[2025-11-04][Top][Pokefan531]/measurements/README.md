@@ -17,5 +17,3 @@
 
 ## Screen state
 - `brightness level`: max (brightness set to level 5, 80 nits)
-
-# Notes

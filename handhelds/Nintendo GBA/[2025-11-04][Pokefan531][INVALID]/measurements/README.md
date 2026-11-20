@@ -4,9 +4,6 @@
 - `date`: 2025/11/04
 - `handheld`: GBA
 
-## Screen
-  - `screen location`: n.a.
-
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer

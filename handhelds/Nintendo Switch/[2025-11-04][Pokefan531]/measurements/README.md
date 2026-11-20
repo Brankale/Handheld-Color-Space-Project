@@ -21,5 +21,3 @@
 - `brightness level`: custom - middle (auto-brightness set to OFF)
 - `charger connected`: no
 - `screen protector / touchscreen overlay`: yes
-
-# Notes

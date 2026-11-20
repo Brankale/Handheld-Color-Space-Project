@@ -7,6 +7,7 @@
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer
+- `instrument warm-up`: yes (approximately 30 minutes)
 - `instrument calibrated`: yes
 
 ## Software

@@ -17,5 +17,3 @@
 ## Screen state
 - `brightness level`: max
 - `screen protector / touchscreen overlay`: yes
-
-# Notes

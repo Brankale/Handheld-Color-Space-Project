@@ -16,6 +16,8 @@ Omit any field whose value is unknown.
 ## Meters
 - `name`: name of the meter used
 - `type`: colorimeter / spectroradiometer / spectrophotometer
+- `instrument warm-up`: yes / no
+  <br>Indicates whether the instrument was powered on for a sufficient amount of time before the measurements, allowing its readings to stabilize. If yes, include the approximate duration (e.g., yes, approximately 30 minutes).
 
 ## Software (list all software used)
 - `software name`: the name of the software used to perform the measurements (e.g., HCFR)

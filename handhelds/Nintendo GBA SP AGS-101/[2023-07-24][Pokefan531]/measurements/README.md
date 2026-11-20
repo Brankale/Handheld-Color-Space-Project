@@ -4,9 +4,6 @@
 - `date`: 2023/07/24
 - `handheld`: Nintendo GBA SP AGS-101
 
-## Screen
-- `screen location`: n.a.
-
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer
@@ -16,5 +13,3 @@
 
 ## Screen state
 - `screen protector / touchscreen overlay`: yes
-
-# Notes
