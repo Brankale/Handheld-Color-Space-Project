@@ -88,7 +88,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>Transmissive</td>
       </tr>
       <tr>
-         <td align="center">🟡🕐</td>
+         <td align="center">🔵🕐</td>
          <td align="left"><code>Game Boy Color</code></td>
          <td><code>CGB-001</code></td>
          <td>Reflective</td>
@@ -104,7 +104,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td>?</td>
       </tr>
       <tr>
-         <td align="center">🟡🕐</td>
+         <td align="center">🔵🕐</td>
          <td rowspan="2" align="left"><code>Game Boy Advance SP</code></td>
          <td><code>AGS-001</code></td>
          <td>Reflective</td>
