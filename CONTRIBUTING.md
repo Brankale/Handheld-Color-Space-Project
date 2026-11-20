@@ -10,7 +10,7 @@
 - [Do the measurements](#do-the-measurements)
    - [Introduction](#introduction)
    - [Measurements guide for emissive displays](#measurements-guide-for-emissive-displays)
-   - [Measurements guide for reflective displays (Work in Progress)](#measurements-guide-for-reflective-displays-work-in-progress)
+  - [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays)
    - [Measurements report (template)](#measurements-report-template)
 - [Measurements Validation](#measurements-validation)
 - [Technical notes for reflective displays](#technical-notes-for-reflective-displays)
@@ -77,7 +77,7 @@ A spectroradiometer is an optical spectrometer without its own light source. It 
 **Reflective displays:** a spectroradiometer has no built-in light source, so the display must be lit by a separate, stable lamp with a well-known illuminant. Reflectance can be calculated by comparing the display and a white reference measured under the same lighting and geometry. **This method has not been tested by this project and requires extra equipment and careful control of the illumination**. 
 
 > [!NOTE]
-> A spectroradiometer with external illumination may allow a measurement geometry closer to real use, but this method has not been tested by the project and requires extra equipment and careful control of the lighting. See [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays-work-in-progress).
+> A spectroradiometer with external illumination may allow a measurement geometry closer to real use, but this method has not been tested by the project and requires extra equipment and careful control of the lighting. See [Measurements guide for reflective displays](#measurements-guide-for-reflective-displays).
 
 ### Functional names and measurement modes
 
