@@ -191,12 +191,11 @@ Greyscale chromaticity coordinates (expressed as CIE xyY coordinates in this exa
 
 ## Measurements guide for reflective displays
 
-### Introduction
 Unlike emissive screens, reflective displays are seen using light from their surroundings that reflects off the screen. As a result, measured colors depend on the lighting and viewing setup.
 
 ### Required Equipment
 - **Spectrophotometer:** A device capable of reflective measurements (e.g., X-Rite ColorMunki Photo).
-- **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended. Other software may also be used. XYZ-only output can report the measured color, but it limits some measurement checks and cannot simulate how the screen would look under different ambient lighting; use software that saves the full spectrum for these analyses.
+- **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended. Other software may also be used, provided it can record and save the spectral reflectance for each reading. XYZ-only output is technically enough to report measured colors, but retaining the spectrum is necessary to check for measurement artifacts, which have been observed with consumer-grade instruments (e.g. X-Rite Colormunki Photo), and to simulate how the screen appears under different ambient lighting.
 
 ### Setup and Environment
 - **Lighting:** **all external sources of ambient light must be eliminated**. Take these measurements in a completely dark room to prevent external light from altering the sensor readings.
