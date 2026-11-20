@@ -189,28 +189,24 @@ R, G, B, Y, C, M, Black, White chromaticity coordinates (expressed as CIE xyY co
 Greyscale chromaticity coordinates (expressed as CIE xyY coordinates in this example):
 <img width="640" height="360" alt="Screenshot From 2025-09-03 16-44-50" src="https://github.com/user-attachments/assets/1f97ca9c-6f21-4f67-966b-7b58643b0e8f" />
 
-## Measurements guide for reflective displays (Work in Progress)
-
-> [!WARNING]  
-> This section is currently a work in progress and may undergo revisions as calibration methods and measurement techniques are further tested and validated.
+## Measurements guide for reflective displays
 
 ### Introduction
-Measuring reflective displays requires a fundamentally different approach compared to emissive screens. Instead of generating their own light, these displays rely exclusively on reflected light. Due to their physical composition (such as liquid crystal alignment and polarizers), the behavior of reflected color and gamma changes significantly based on how the display is illuminated and observed.
+Unlike emissive screens, reflective displays are seen using light from their surroundings that reflects off the screen. As a result, measured colors depend on the lighting and viewing setup.
 
 ### Required Equipment
-- **Spectrophotometer:** A device capable of reflective measurements (e.g., ColorMunki Photo).
-- **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended, though any software capable of accurately measuring and logging spectral reflectance will work.
+- **Spectrophotometer:** A device capable of reflective measurements (e.g., X-Rite ColorMunki Photo).
+- **Measurement Software:** **spotread** ([documentation](https://www.argyllcms.com/doc/spotread.html)) is recommended. Other software may also be used. XYZ-only output can report the measured color, but it limits some measurement checks and cannot simulate how the screen would look under different ambient lighting; use software that saves the full spectrum for these analyses.
 
 ### Setup and Environment
 - **Lighting:** **all external sources of ambient light must be eliminated**. Take these measurements in a completely dark room to prevent external light from altering the sensor readings.
 - **Instrument stabilization/warm-up:** Spectrophotometers require a warm-up period to ensure sensor stability before measuring. This can take up to 30 minutes depending on the model (e.g., ColorMunki Photo). Always refer to your instrument's specific manual.
-- **Instrument calibration (WIP):** This step is probably a critical one, however it is still under investigation. In `spotread`, arguments like `-Y W:fname.sp` (Save instrument white tile ref. spectrum) or `-Y S:fname.cmf` (Save instrument raw & XYZ spectral sensitivities) are available, but standardized best practices are not firmly established yet.
+- **Instrument calibration:** Calibration is essential for reliable measurements. Follow the calibration procedure in your instrument's manual before measuring. For example, the X-Rite ColorMunki Photo can be calibrated by turning its calibration wheel to the calibration position and taking a measurement.
 
 ### Instrument Orientation
-The physical orientation of the spectrophotometer against the display is critical. If you measure the screen with different spectrophotometer orientations, the measured reflectance will completely change due to the display's internal polarizers and reflective layers scattering light asymmetrically. NB: This step has great implications on the resulting gamma.
+The direction of the light illuminating the screen matters: changing it can substantially change the measured spectrum and, in turn, the measured contrast.
 
-- **How to find the representative orientation:** Align the instrument with the direction from which the console is normally viewed, and document the display and instrument rotation so that the setup can be reproduced. As a validation step, export the measured luminance (Y) data from the XYZ coordinates and plot it in a spreadsheet tool such as LibreOffice Calc, Excel or Google Sheets.
-  - For the consoles tested so far, the normal viewing orientation produces an exponential response. A logarithmic-looking or unusually flat response indicates that the instrument is probably rotated relative to the intended viewing direction.
+- **How to find a representative orientation:** Set up the console as you would normally view it, with light coming from its usual direction (for example, from above the screen, not below). Rotate the instrument so its built-in light illuminates the screen from that direction, and record its position. As a basic check, export the measured luminance (Y) data from the XYZ coordinates and plot it in a spreadsheet tool such as LibreOffice Calc, Excel or Google Sheets.
 
 | Orientation | Measurements | Output |
 | :-------------: | :-------------: | :-------------: |
