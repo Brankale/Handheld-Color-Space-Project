@@ -47,6 +47,16 @@ Each display measurement is translated into a dedicated **RetroArch shader**, de
 
 Detailed notes about individual consoles and their screen measurements are available in [handhelds/README.md](handhelds/README.md).
 
+**Screen data status legend**:
+- 🔴: No screen data available
+- 🟡: Measurement data incomplete or potentially unreliable
+- 🔵: Screen data available
+- 🟢: Screen data available and verified by two or more screen reports from different consoles
+- 🕐: Screen measurement data validation in progress
+
+> [!IMPORTANT]
+> Status assessments are not definitive and may change over time as new knowledge is gained.
+
 <table>
    <thead align="center">
       <tr>
@@ -277,16 +287,7 @@ Detailed notes about individual consoles and their screen measurements are avail
 > [!NOTE]
 > **Bit depth notation**: Values refer to the bit depth of each RGB channel, except for Game Boy models, where they refer to bits per pixel.
 
-**Screen data status legend**:
-- 🔴: No screen data available
-- 🟡: Measurement data incomplete or potentially unreliable
-- 🔵: Screen data available
-- 🟢: Screen data available and verified by two or more screen reports from different consoles
-- 🕐: Screen measurement data validation in progress
-
 > [!NOTE]
-> Status assessments are not definitive and may change over time as new knowledge is gained.
->
 > The 🟡 status means that either the **measurement was not performed correctly** and may not be representative of the display, or it was **performed correctly but did not capture enough information to reproduce the display faithfully**. Shaders based on such measurements may therefore be inaccurate.
 >
 > Even when a measurement is correct, the information extracted from it may be limited by the mathematical procedures currently used in this project and may therefore be inaccurate. In general, **mathematical inference should be avoided whenever possible**, since it can introduce unnecessary errors that could be avoided by measuring all the required data, as described in [CONTRIBUTING.md](CONTRIBUTING.md).
