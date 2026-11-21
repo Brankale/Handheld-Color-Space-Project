@@ -2,12 +2,15 @@
 """
 reflectance_to_xyz.py
 
-Convert a single-column spectral reflectance file to CIE XYZ tristimulus
-values using the colour-science library.
+Convert spectral reflectance data to CIE XYZ tristimulus values using the
+colour-science library.
 
-The input file must contain one reflectance value per line (0–1 range).
-Lines starting with '#' are treated as comments and skipped.
---range-start, --range-end and --step define the wavelength axis.
+Each non-comment row in the input file must contain one spectrum as comma-
+separated reflectance values, using a period as the decimal separator. Lines
+starting with '#' are treated as comments and skipped. --range defines the
+first and last wavelengths; the step is inferred from the number of values in
+each row. The integration method is used automatically when the inferred step
+is not supported by ASTM E308.
 
 If --illuminant is omitted, XYZ is computed for every illuminant available
 in colour.SDS_ILLUMINANTS.
@@ -15,18 +18,19 @@ in colour.SDS_ILLUMINANTS.
 Examples
 --------
 # Single illuminant, print to stdout:
-    python reflectance_to_xyz.py data.csv --range-start 380 --range-end 780 --step 5 --illuminant D65
+    python reflectance_to_xyz.py data.csv --range 380:780 --illuminant D65
 
 # All illuminants, save to CSV:
-    python reflectance_to_xyz.py data.csv --range-start 380 --range-end 780 --step 5 --output results.csv
+    python reflectance_to_xyz.py data.csv --range 380:780 --output results.csv
 
 # With ignored ranges set to zero:
-    python reflectance_to_xyz.py data.csv --range-start 380 --range-end 780 --step 5 \\
+    python reflectance_to_xyz.py data.csv --range 380:780 \\
         --illuminant D50 --ignore 380:400 750:780
 """
 
 import argparse
 import csv
+import math
 import sys
 from typing import Optional
 
@@ -41,6 +45,25 @@ CMF_NAME = "CIE 1931 2 Degree Standard Observer"
 # CLI
 # ---------------------------------------------------------------------------
 
+def parse_wavelength_range(value: str) -> tuple:
+    parts = value.split(":")
+    if len(parts) != 2:
+        raise argparse.ArgumentTypeError(
+            "Expected format START:END (e.g. 380:730)."
+        )
+    try:
+        start, end = (float(part) for part in parts)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "Wavelengths must be numeric (e.g. 380:730)."
+        ) from exc
+    if not math.isfinite(start) or not math.isfinite(end) or start >= end:
+        raise argparse.ArgumentTypeError(
+            "START and END must be finite wavelengths, with START less than END."
+        )
+    return start, end
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Convert spectral reflectance data to CIE XYZ tristimulus values.",
@@ -50,30 +73,21 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "input_file",
-        help="Path to a text/CSV file with a single column of reflectance values (0–1).",
+        help=(
+            "Path to a comma-separated CSV with one spectrum per row. "
+            "Use a period as the decimal separator."
+        ),
     )
     parser.add_argument(
-        "--range-start",
-        type=float,
+        "--range",
+        type=parse_wavelength_range,
         required=True,
-        metavar="NM",
-        dest="range_start",
-        help="Starting wavelength in nm.",
-    )
-    parser.add_argument(
-        "--range-end",
-        type=float,
-        required=True,
-        metavar="NM",
-        dest="range_end",
-        help="Ending wavelength in nm.",
-    )
-    parser.add_argument(
-        "--step",
-        type=float,
-        required=True,
-        metavar="NM",
-        help="Wavelength step in nm.",
+        metavar="START:END",
+        dest="wavelength_range",
+        help=(
+            "Wavelength range in nm, e.g. 380:730. Step is inferred from the "
+            "number of values per row."
+        ),
     )
     parser.add_argument(
         "--illuminant",
@@ -97,13 +111,6 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
-        "--delimiter",
-        type=str,
-        default=None,
-        metavar="CHAR",
-        help="Column delimiter of the input file. Auto-detected if omitted.",
-    )
-    parser.add_argument(
         "--output",
         type=str,
         default=None,
@@ -118,21 +125,12 @@ def parse_args() -> argparse.Namespace:
 # File reading
 # ---------------------------------------------------------------------------
 
-def _detect_delimiter(line: str) -> str:
-    for delim in (",", "\t", ";"):
-        if delim in line:
-            return delim
-    return " "
-
-
-def read_reflectance(path: str, delimiter: Optional[str]) -> list:
+def read_reflectance(path: str) -> list:
     """
     Read a reflectance file and return a list of 1-D numpy arrays.
 
-    Each non-comment line is parsed separately into a numpy array of floats
-    (so a file with multiple data rows will produce multiple datasets). The
-    delimiter is auto-detected from the first non-comment line if not
-    provided.
+    Each non-comment CSV row is parsed separately into a numpy array of floats,
+    so a file with multiple rows will produce multiple datasets.
     """
     samples = []
     with open(path, "r", encoding="utf-8") as fh:
@@ -143,18 +141,19 @@ def read_reflectance(path: str, delimiter: Optional[str]) -> list:
     if not non_comment:
         raise ValueError("Input file contains no data rows.")
 
-    delim = delimiter if delimiter is not None else _detect_delimiter(non_comment[0])
-
-    for line in non_comment:
-        if delim == " ":
-            tokens = line.split()
-        else:
-            tokens = line.split(delim)
+    for row_index, tokens in enumerate(csv.reader(non_comment), start=1):
         floats = []
-        for token in tokens:
+        for column_index, token in enumerate(tokens, start=1):
             tok = token.strip()
             if tok:
-                floats.append(float(tok))
+                try:
+                    floats.append(float(tok))
+                except ValueError as exc:
+                    raise ValueError(
+                        f"Invalid numeric value '{tok}' at data row {row_index}, "
+                        f"column {column_index}; expected comma-separated values "
+                        "with a period as the decimal separator."
+                    ) from exc
         samples.append(np.array(floats, dtype=float))
 
     return samples
@@ -230,10 +229,22 @@ def resolve_illuminants(name: Optional[str]) -> list:
 # Output
 # ---------------------------------------------------------------------------
 
-def _header_lines(args: argparse.Namespace, ignore_ranges: list) -> list:
+def _xyz_conversion_method(step: float) -> str:
+    if any(math.isclose(step, interval, rel_tol=1e-9) for interval in (1, 5, 10, 20)):
+        return "ASTM E308"
+    return "Integration"
+
+
+def _header_lines(
+    args: argparse.Namespace,
+    ignore_ranges: list,
+    step: float,
+) -> list:
+    range_start, range_end = args.wavelength_range
     lines = [
-        f"Range     : {args.range_start} – {args.range_end} nm, step {args.step} nm",
+        f"Range     : {range_start} – {range_end} nm, step {step} nm",
         f"CMF       : {CMF_NAME}",
+        f"XYZ method: {_xyz_conversion_method(step)}",
     ]
     if ignore_ranges:
         ranges_str = ", ".join(f"{s}–{e} nm" for s, e in ignore_ranges)
@@ -245,8 +256,9 @@ def write_stdout(
     results: list,
     args: argparse.Namespace,
     ignore_ranges: list,
+    step: float,
 ) -> None:
-    for line in _header_lines(args, ignore_ranges):
+    for line in _header_lines(args, ignore_ranges, step):
         print(line)
     print()
     print(f"  {'Illuminant':<32s}  {'X':>12}  {'Y':>12}  {'Z':>12}")
@@ -273,17 +285,13 @@ def write_csv(
 
 def main() -> None:
     args = parse_args()
+    range_start, range_end = args.wavelength_range
     # Use fixed CMF
     cmfs = colour.MSDS_CMFS[CMF_NAME]
 
-    # Build spectral shape and wavelength axis
-    shape = colour.SpectralShape(args.range_start, args.range_end, args.step)
-    wavelengths = shape.wavelengths
-    expected_count = len(wavelengths)
-
     # Read reflectance file (may contain multiple datasets, one per line)
     try:
-        samples = read_reflectance(args.input_file, args.delimiter)
+        samples = read_reflectance(args.input_file)
     except (OSError, ValueError) as exc:
         print(f"ERROR reading input file: {exc}", file=sys.stderr)
         sys.exit(1)
@@ -291,6 +299,19 @@ def main() -> None:
     if not samples:
         print("ERROR: No data rows found in input file.", file=sys.stderr)
         sys.exit(1)
+
+    expected_count = len(samples[0])
+    if expected_count < 2:
+        print(
+            "ERROR: Each spectrum must contain at least two reflectance values "
+            "to infer the wavelength step.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    step = (range_end - range_start) / (expected_count - 1)
+    wavelengths = np.linspace(range_start, range_end, expected_count)
+    xyz_method = _xyz_conversion_method(step)
 
     # Handle ignored ranges (parsed once, applied per-sample)
     ignore_ranges = []
@@ -324,8 +345,8 @@ def main() -> None:
         if len(sample_vals) != expected_count:
             print(
                 f"ERROR: Line {i} contains {len(sample_vals)} values, but the spectral range "
-                f"{args.range_start}–{args.range_end} nm at step {args.step} nm "
-                f"expects {expected_count} values. Skipping.",
+                f"{range_start}–{range_end} nm expects {expected_count} values "
+                f"(step inferred as {step} nm from the first row). Skipping.",
                 file=sys.stderr,
             )
             continue
@@ -344,7 +365,12 @@ def main() -> None:
         results_i = []
         for ill_name, ill_sd in illuminants:
             try:
-                xyz = colour.sd_to_XYZ(sd, cmfs=cmfs, illuminant=ill_sd)
+                xyz = colour.sd_to_XYZ(
+                    sd,
+                    cmfs=cmfs,
+                    illuminant=ill_sd,
+                    method=xyz_method,
+                )
                 results_i.append((ill_name, xyz))
             except Exception as exc:
                 print(
@@ -375,12 +401,12 @@ def main() -> None:
             filled = zeroed_map[sample_idx]
             print(f"Sample {sample_idx} (wavelength_nm, reflectance):")
             for wl, val in zip(wavelengths, filled):
-                print(f"{int(wl):d}\t{val:.6f}")
+                print(f"{wl:g}\t{val:.6f}")
             print()
 
     # Output to stdout grouped by illuminant
     if args.output is None:
-        for line in _header_lines(args, ignore_ranges):
+        for line in _header_lines(args, ignore_ranges, step):
             print(line)
         print()
         for ill_name in illum_names:
@@ -402,6 +428,7 @@ def main() -> None:
                 entries = illum_map.get(ill_name, [])
                 for sample_idx, xyz in sorted(entries, key=lambda x: x[0]):
                     writer.writerow([sample_idx, ill_name, f"{xyz[0]:.6f}", f"{xyz[1]:.6f}", f"{xyz[2]:.6f}"])
+        print(f"XYZ method: {xyz_method}")
         print(f"Results written to: {args.output}")
 
 
