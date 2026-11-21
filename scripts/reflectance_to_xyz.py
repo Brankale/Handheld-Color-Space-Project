@@ -20,9 +20,9 @@ Examples
 # All illuminants, save to CSV:
     python reflectance_to_xyz.py data.csv --range-start 380 --range-end 780 --step 5 --output results.csv
 
-# With ignored range reconstructed by spline:
+# With ignored ranges set to zero:
     python reflectance_to_xyz.py data.csv --range-start 380 --range-end 780 --step 5 \\
-        --illuminant D50 --ignore 380:400 750:780 --reconstruction-method spline
+        --illuminant D50 --ignore 380:400 750:780
 """
 
 import argparse
@@ -93,29 +93,8 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help=(
             "Wavelength ranges to ignore, e.g. --ignore 380:400 750:780. "
-            "Values in these ranges are filled/reconstructed according to "
-            "--reconstruction-method."
+            "Values in these ranges are set to 0."
         ),
-    )
-    parser.add_argument(
-        "--reconstruction-method",
-        choices=["none", "poly"],
-        default="none",
-        dest="reconstruction_method",
-        help=(
-            "How to fill ignored wavelength ranges. "
-            "'none': linear interpolation between the nearest valid values. "
-            "'poly': polynomial regression fitted on valid points. "
-            "(default: none)"
-        ),
-    )
-    parser.add_argument(
-        "--regression-degree",
-        type=int,
-        default=3,
-        dest="regression_degree",
-        metavar="DEG",
-        help="Polynomial / spline degree for reconstruction (default: 3).",
     )
     parser.add_argument(
         "--delimiter",
@@ -214,61 +193,17 @@ def build_valid_mask(wavelengths: np.ndarray, ignore_ranges: list) -> np.ndarray
 
 
 # ---------------------------------------------------------------------------
-# Reconstruction
+# Ignore-range processing
 # ---------------------------------------------------------------------------
 
-def reconstruct_none(
-    wavelengths: np.ndarray,
+def zero_ignored_ranges(
     values: np.ndarray,
     valid_mask: np.ndarray,
 ) -> np.ndarray:
-    """Linear interpolation from valid neighbours into ignored positions."""
+    """Set values in ignored wavelength ranges to zero."""
     filled = values.copy()
-    ignored_idx = np.where(~valid_mask)[0]
-    filled[ignored_idx] = np.interp(
-        wavelengths[ignored_idx],
-        wavelengths[valid_mask],
-        values[valid_mask],
-    )
+    filled[~valid_mask] = 0.0
     return filled
-
-
-def reconstruct_poly(
-    wavelengths: np.ndarray,
-    values: np.ndarray,
-    valid_mask: np.ndarray,
-    degree: int,
-) -> np.ndarray:
-    """Polynomial regression on valid points; predict ignored positions."""
-    valid_wl = wavelengths[valid_mask]
-    valid_val = values[valid_mask]
-
-    if len(valid_wl) <= degree:
-        raise ValueError(
-            f"Not enough valid data points ({len(valid_wl)}) "
-            f"for polynomial degree {degree}. "
-            "Reduce --regression-degree or shrink the ignored range."
-        )
-
-    coeffs = np.polyfit(valid_wl, valid_val, degree)
-    filled = values.copy()
-    ignored_idx = np.where(~valid_mask)[0]
-    filled[ignored_idx] = np.clip(np.polyval(coeffs, wavelengths[ignored_idx]), 0.0, 1.0)
-    return filled
-
-
-def apply_reconstruction(
-    wavelengths: np.ndarray,
-    values: np.ndarray,
-    valid_mask: np.ndarray,
-    method: str,
-    degree: int,
-) -> np.ndarray:
-    if method == "none":
-        return reconstruct_none(wavelengths, values, valid_mask)
-    if method == "poly":
-        return reconstruct_poly(wavelengths, values, valid_mask, degree)
-    raise ValueError(f"Unknown reconstruction method: '{method}'")
 
 
 # ---------------------------------------------------------------------------
@@ -302,7 +237,7 @@ def _header_lines(args: argparse.Namespace, ignore_ranges: list) -> list:
     ]
     if ignore_ranges:
         ranges_str = ", ".join(f"{s}–{e} nm" for s, e in ignore_ranges)
-        lines.append(f"Ignored   : {ranges_str}  (reconstruction: {args.reconstruction_method})")
+        lines.append(f"Ignored   : {ranges_str}  (set to 0)")
     return lines
 
 
@@ -372,15 +307,9 @@ def main() -> None:
         if np.all(valid_mask):
             print(
                 "WARNING: --ignore ranges do not overlap with any wavelength in the data. "
-                "No reconstruction will be applied.",
+                "No wavelengths will be set to zero.",
                 file=sys.stderr,
             )
-    elif args.reconstruction_method != "none":
-        print(
-            "WARNING: --reconstruction-method has no effect without --ignore.",
-            file=sys.stderr,
-        )
-
     # Resolve illuminants once
     try:
         illuminants = resolve_illuminants(args.illuminant)
@@ -390,7 +319,7 @@ def main() -> None:
 
     # Process each sample line independently
     samples_results = []  # list of (sample_index, [(illuminant, xyz), ...])
-    reconstructed_map = {}  # sample_index -> reconstructed reflectance array
+    zeroed_map = {}  # sample_index -> reflectance array with ignored ranges set to zero
     for i, sample_vals in enumerate(samples, start=1):
         if len(sample_vals) != expected_count:
             print(
@@ -401,18 +330,10 @@ def main() -> None:
             )
             continue
 
-        # Apply reconstruction if applicable
+        # Set ignored wavelengths to zero when applicable
         if args.ignore and not np.all(valid_mask):
-            try:
-                filled = apply_reconstruction(
-                    wavelengths, sample_vals, valid_mask,
-                    args.reconstruction_method, args.regression_degree,
-                )
-                # store reconstructed full-spectrum reflectance for later printing
-                reconstructed_map[i] = np.array(filled, dtype=float)
-            except (ValueError, ImportError) as exc:
-                print(f"ERROR during reconstruction for line {i}: {exc}", file=sys.stderr)
-                continue
+            filled = zero_ignored_ranges(sample_vals, valid_mask)
+            zeroed_map[i] = np.array(filled, dtype=float)
         else:
             filled = sample_vals.copy()
 
@@ -447,11 +368,11 @@ def main() -> None:
 
     illum_names = [name for (name, _) in illuminants]
 
-    # If reconstruction was applied, print reconstructed reflectances first
-    if reconstructed_map:
-        print("Reconstructed reflectances (full spectrum) for samples:")
-        for sample_idx in sorted(reconstructed_map.keys()):
-            filled = reconstructed_map[sample_idx]
+    # If ignored ranges were set to zero, print the resulting reflectances first
+    if zeroed_map:
+        print("Reflectances with ignored ranges set to zero (full spectrum):")
+        for sample_idx in sorted(zeroed_map.keys()):
+            filled = zeroed_map[sample_idx]
             print(f"Sample {sample_idx} (wavelength_nm, reflectance):")
             for wl, val in zip(wavelengths, filled):
                 print(f"{int(wl):d}\t{val:.6f}")
