@@ -18,14 +18,14 @@ in colour.SDS_ILLUMINANTS.
 Examples
 --------
 # Single illuminant, print to stdout:
-    python reflectance_to_xyz.py data.csv --range 380:780 --illuminant D65
+    python reflectance_to_xyz.py data.csv --range 380:730 --illuminant D65
 
 # All illuminants, save to CSV:
-    python reflectance_to_xyz.py data.csv --range 380:780 --output results.csv
+    python reflectance_to_xyz.py data.csv --range 380:730 --output results.csv
 
 # With ignored ranges set to zero:
-    python reflectance_to_xyz.py data.csv --range 380:780 \\
-        --illuminant D50 --ignore 380:400 750:780
+    python reflectance_to_xyz.py data.csv --range 380:730 \\
+        --illuminant D50 --ignore 380:400 700:730
 """
 
 import argparse
@@ -106,7 +106,7 @@ def parse_args() -> argparse.Namespace:
         metavar="START:END",
         default=None,
         help=(
-            "Wavelength ranges to ignore, e.g. --ignore 380:400 750:780. "
+            "Wavelength ranges to ignore, e.g. --ignore 380:400 700:730. "
             "Values in these ranges are set to 0."
         ),
     )
@@ -165,7 +165,7 @@ def read_reflectance(path: str) -> list:
 
 def parse_ignore_ranges(tokens: list) -> list:
     """
-    Parse ['380:400', '750:780'] → [(380.0, 400.0), (750.0, 780.0)].
+    Parse ['380:400', '700:730'] → [(380.0, 400.0), (700.0, 730.0)].
     """
     ranges = []
     for token in tokens:
