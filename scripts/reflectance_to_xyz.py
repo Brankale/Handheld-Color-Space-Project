@@ -5,12 +5,11 @@ reflectance_to_xyz.py
 Convert spectral reflectance data to CIE XYZ tristimulus values using the
 colour-science library.
 
-Each non-comment row in the input file must contain one spectrum as comma-
-separated reflectance values, using a period as the decimal separator. Lines
-starting with '#' are treated as comments and skipped. --range defines the
-first and last wavelengths; the step is inferred from the number of values in
-each row. The integration method is used automatically when the inferred step
-is not supported by ASTM E308.
+Each non-empty row in the input file must contain one spectrum as comma-
+separated reflectance values, using a period as the decimal separator. --range
+defines the first and last wavelengths; the step is inferred from the number
+of values in each row. The integration method is used automatically when the
+inferred step is not supported by ASTM E308.
 
 If --illuminant is omitted, XYZ is computed for every illuminant available
 in colour.SDS_ILLUMINANTS.
@@ -129,19 +128,19 @@ def read_reflectance(path: str) -> list:
     """
     Read a reflectance file and return a list of 1-D numpy arrays.
 
-    Each non-comment CSV row is parsed separately into a numpy array of floats,
+    Each non-empty CSV row is parsed separately into a numpy array of floats,
     so a file with multiple rows will produce multiple datasets.
     """
     samples = []
     with open(path, "r", encoding="utf-8") as fh:
         raw_lines = fh.readlines()
 
-    non_comment = [ln.strip() for ln in raw_lines if ln.strip() and not ln.strip().startswith("#")]
+    data_lines = [ln.strip() for ln in raw_lines if ln.strip()]
 
-    if not non_comment:
+    if not data_lines:
         raise ValueError("Input file contains no data rows.")
 
-    for row_index, tokens in enumerate(csv.reader(non_comment), start=1):
+    for row_index, tokens in enumerate(csv.reader(data_lines), start=1):
         floats = []
         for column_index, token in enumerate(tokens, start=1):
             tok = token.strip()
