@@ -111,7 +111,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td><code>AGB-001</code><br>40 pin revision<br><a href="https://consolemods.org/wiki/GBA:Game_Boy_Advance_Model_Differences" target="_blank" rel="noopener noreferrer">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/" target="_blank" rel="noopener noreferrer">[2]</a></td>
          <td rowspan="2">Reflective</td>
          <td rowspan="2">5-bit</td>
-         <td rowspan="2">?</td>
+         <td rowspan="2">Sharp, Panasonic <a href="https://www.nintendoworldreport.com/news/6284/panasonic-begins-gba-screen-production" target="_blank" rel="noopener noreferrer">[3]</a></td>
       </tr>
       <tr>
          <td align="center">🔴</td>
@@ -353,6 +353,7 @@ This diagnostic option highlights in red colors that must be approximated becaus
 
 - [1] [Game Boy Advance Model Differences](https://consolemods.org/wiki/GBA:Game_Boy_Advance_Model_Differences)
 - [2] [GBA vs GBA color difference - follow up post](https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/)
+- [3] [Panasonic begins GBA screen production](https://www.nintendoworldreport.com/news/6284/panasonic-begins-gba-screen-production)
 
 > [!NOTE]
 > AI was used as a supporting tool during the development of this guide. All technical content, decisions, and AI-assisted output were carefully reviewed before inclusion.
