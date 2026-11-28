@@ -57,8 +57,6 @@ Detailed notes about individual consoles and their screen measurements are avail
 > [!IMPORTANT]
 > Status assessments are not definitive and may change over time as new knowledge is gained.
 
-The Game Boy Advance (`AGB-001`) has two revisions. All measurements in this project refer to the older 40 pin revision; the newer 32 pin revision has not been measured. References: [Nintendo hardware history](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html) and [Reddit discussion](https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/).
-
 <table>
    <thead align="center">
       <tr>
@@ -110,14 +108,14 @@ The Game Boy Advance (`AGB-001`) has two revisions. All measurements in this pro
       <tr>
          <td align="center">🟡🕐</td>
          <td rowspan="2" align="left"><code>Game Boy Advance</code></td>
-         <td><code>AGB-001</code><br>40 pin revision</td>
+         <td><code>AGB-001</code> <a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a><br>40 pin revision</td>
          <td rowspan="2">Reflective</td>
          <td rowspan="2">5-bit</td>
          <td rowspan="2">?</td>
       </tr>
       <tr>
          <td align="center">🔴</td>
-         <td><code>AGB-001</code><br>32 pin revision</td>
+         <td><code>AGB-001</code> <a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a><br>32 pin revision</td>
       </tr>
       <tr>
          <td align="center">🔵🕐</td>
@@ -350,6 +348,11 @@ This diagnostic option highlights in red colors that must be approximated becaus
 - **Anikom15** for helping me fix some issues with the shader code and and OS/program-specific color space management.
 - **Libretro Forum**
    - forum thread: https://forums.libretro.com/t/real-gba-and-ds-phat-colors/1540
+
+## References
+
+- [1] [Game Boy Advance Model Differences](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)
+- [2] [GBA vs GBA color difference - follow up post](https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/)
 
 > [!NOTE]
 > AI was used as a supporting tool during the development of this guide. All technical content, decisions, and AI-assisted output were carefully reviewed before inclusion.
