@@ -1,8 +1,8 @@
 # Measurements report
 
-- `author`: Pokéfan531
+- `author`: Pokefan531
 - `date`: 2025/10/22
-- `handheld`: GBA
+- `handheld`: GBA AGB-001 (40 pin revision)
 
 ## Meters
 - `name`: X-Rite ColorMunki Photo

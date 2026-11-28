@@ -57,6 +57,8 @@ Detailed notes about individual consoles and their screen measurements are avail
 > [!IMPORTANT]
 > Status assessments are not definitive and may change over time as new knowledge is gained.
 
+The Game Boy Advance (`AGB-001`) has two revisions. All measurements in this project refer to the older 40 pin revision; the newer 32 pin revision has not been measured. References: [Nintendo hardware history](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html) and [Reddit discussion](https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/).
+
 <table>
    <thead align="center">
       <tr>
@@ -107,11 +109,15 @@ Detailed notes about individual consoles and their screen measurements are avail
       </tr>
       <tr>
          <td align="center">🟡🕐</td>
-         <td align="left"><code>Game Boy Advance</code></td>
-         <td><code>AGB-001</code></td>
-         <td>Reflective</td>
-         <td>5-bit</td>
-         <td>?</td>
+         <td rowspan="2" align="left"><code>Game Boy Advance</code></td>
+         <td><code>AGB-001</code><br>40 pin revision</td>
+         <td rowspan="2">Reflective</td>
+         <td rowspan="2">5-bit</td>
+         <td rowspan="2">?</td>
+      </tr>
+      <tr>
+         <td align="center">🔴</td>
+         <td><code>AGB-001</code><br>32 pin revision</td>
       </tr>
       <tr>
          <td align="center">🔵🕐</td>

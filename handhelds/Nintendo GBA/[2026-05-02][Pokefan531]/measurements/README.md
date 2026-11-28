@@ -1,3 +1,9 @@
+# Measurements report
+
+- `author`: Pokefan531
+- `date`: 2026/05/02
+- `handheld`: GBA AGB-001 (40 pin revision)
+
 ## Meters
 - `name`: X-Rite ColorMunki Photo
 - `type`: spectrophotometer

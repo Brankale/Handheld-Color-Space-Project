@@ -2,7 +2,7 @@
 
 - `author`: Pokefan531
 - `date`: 2026/11/16
-- `handheld`: GBA
+- `handheld`: GBA AGB-001 (40 pin revision)
 
 ## Screen
 - `screen protector / touchscreen overlay`: yes (not removed)
