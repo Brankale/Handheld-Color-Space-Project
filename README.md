@@ -103,19 +103,19 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td><code>CGB-001</code></td>
          <td>Reflective</td>
          <td>5-bit</td>
-         <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">link</a>)</td>
+         <td>Sharp (<a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html" target="_blank" rel="noopener noreferrer">link</a>)</td>
       </tr>
       <tr>
          <td align="center">🟡🕐</td>
          <td rowspan="2" align="left"><code>Game Boy Advance</code></td>
-         <td><code>AGB-001</code><br>40 pin revision<br><a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a></td>
+         <td><code>AGB-001</code><br>40 pin revision<br><a href="https://consolemods.org/wiki/GBA:Game_Boy_Advance_Model_Differences" target="_blank" rel="noopener noreferrer">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/" target="_blank" rel="noopener noreferrer">[2]</a></td>
          <td rowspan="2">Reflective</td>
          <td rowspan="2">5-bit</td>
          <td rowspan="2">?</td>
       </tr>
       <tr>
          <td align="center">🔴</td>
-         <td><code>AGB-001</code><br>32 pin revision<br><a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a></td>
+         <td><code>AGB-001</code><br>32 pin revision<br><a href="https://consolemods.org/wiki/GBA:Game_Boy_Advance_Model_Differences" target="_blank" rel="noopener noreferrer">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/" target="_blank" rel="noopener noreferrer">[2]</a></td>
       </tr>
       <tr>
          <td align="center">🔵🕐</td>
@@ -130,7 +130,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td><code>AGS-101</code></td>
          <td>Transmissive</td>
          <td>5-bit</td>
-         <td>likely Sharp, based on the <a href="https://iceboy.a-singer.de/db/ags_iceboy_2.html">"LQ" panel code prefix</a></td>
+         <td>likely Sharp, based on the <a href="https://iceboy.a-singer.de/db/ags_iceboy_2.html" target="_blank" rel="noopener noreferrer">"LQ" panel code prefix</a></td>
       </tr>
       <tr>
          <td align="center">🔵</td>
@@ -144,7 +144,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td align="center">🔴</td>
          <td rowspan="2" align="left"><code>DS Phat</code></td>
          <td rowspan="2"><code>NTR-001</code></td>
-         <td>Reflective (<a href="https://www.youtube.com/shorts/QxCrDdIadwU">link</a>)</td>
+         <td>Reflective (<a href="https://www.youtube.com/shorts/QxCrDdIadwU" target="_blank" rel="noopener noreferrer">link</a>)</td>
          <td rowspan="2">6-bit</td>
          <td rowspan="2">?</td>
       </tr>
@@ -158,7 +158,7 @@ Detailed notes about individual consoles and their screen measurements are avail
          <td><code>USG-001</code></td>
          <td>Transmissive</td>
          <td>6-bit</td>
-         <td>Hitachi, Sharp (<a href="https://www.wired.com/2008/02/sharp-hitachi-s">link</a>)</td>
+         <td>Hitachi, Sharp (<a href="https://www.wired.com/2008/02/sharp-hitachi-s" target="_blank" rel="noopener noreferrer">link</a>)</td>
       </tr>
       <tr>
          <td align="center">🔴</td>
@@ -351,7 +351,7 @@ This diagnostic option highlights in red colors that must be approximated becaus
 
 ## References
 
-- [1] [Game Boy Advance Model Differences](https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html)
+- [1] [Game Boy Advance Model Differences](https://consolemods.org/wiki/GBA:Game_Boy_Advance_Model_Differences)
 - [2] [GBA vs GBA color difference - follow up post](https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/)
 
 > [!NOTE]
