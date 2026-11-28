@@ -108,14 +108,14 @@ Detailed notes about individual consoles and their screen measurements are avail
       <tr>
          <td align="center">🟡🕐</td>
          <td rowspan="2" align="left"><code>Game Boy Advance</code></td>
-         <td><code>AGB-001</code> <a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a><br>40 pin revision</td>
+         <td><code>AGB-001</code><br>40 pin revision<br><a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a></td>
          <td rowspan="2">Reflective</td>
          <td rowspan="2">5-bit</td>
          <td rowspan="2">?</td>
       </tr>
       <tr>
          <td align="center">🔴</td>
-         <td><code>AGB-001</code> <a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a><br>32 pin revision</td>
+         <td><code>AGB-001</code><br>32 pin revision<br><a href="https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Game-Boy-Color/Game-Boy-Color-627137.html">[1]</a> <a href="https://www.reddit.com/r/GameboyAdvance/comments/1gwz8kj/gba_vs_gba_color_difference_follow_up_post/">[2]</a></td>
       </tr>
       <tr>
          <td align="center">🔵🕐</td>
